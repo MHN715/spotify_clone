@@ -2,11 +2,11 @@
 import { css } from "@emotion/react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-
 // Import Swiper styles
 import "swiper/css";
 
 export default function Carousel_component({ tracks }) {
+  // console.log(tracks);
   return (
     <div>
       {" "}
@@ -17,16 +17,15 @@ export default function Carousel_component({ tracks }) {
         onSwiper={(swiper) => console.log(swiper)}
         css={css`
           border: 2px solid black;
-          width: 98vw;
+          width: 100vw;
           height: 10rem;
-          margin: 0;
-          padding: 0;
         `}
       >
-        <SwiperSlide>Slide 1</SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
+        {tracks.map((item) => {
+          console.log(item.track);
+          const { id } = item.track;
+          return <SwiperSlide>lol</SwiperSlide>;
+        })}
       </Swiper>
     </div>
   );
