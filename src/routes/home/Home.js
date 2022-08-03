@@ -52,11 +52,6 @@ export default function Home() {
           height: 100vh;
         `}
       >
-        {/* {recentTracks.map((recentTrack) => {
-          const { id, uri, href, name } = recentTrack.track.album;
-          const image = recentTrack.track.album.images[2];
-          console.log(id, name, image);
-        })} */}
         <Carousel tracks={recentTracks} title="Recently Played" />
       </main>
 
