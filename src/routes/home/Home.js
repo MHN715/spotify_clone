@@ -28,7 +28,7 @@ export default function Home() {
       .then(
         function (recentTracks) {
           setRecentTracks(recentTracks.body.items);
-          console.log(recentTracks);
+          // console.log(recentTracks);
         },
         function (err) {
           console.log("Something went wrong!", err);
