@@ -8,12 +8,9 @@ import "swiper/css";
 
 export default function Carousel_component({ tracks }) {
   const [sortedTracks, setSortedTracks] = useState([]);
-  // console.log("unsorted", tracks);
 
   useEffect(() => {
-    if (tracks.length < 1) return;
-
-    const result = tracks.reduce((sortedArray, currentObj) => {
+    const result = tracks?.reduce((sortedArray, currentObj) => {
       let dublicateObj = sortedArray.find(
         (item) => item.track.id === currentObj.track.id
       );
@@ -29,20 +26,44 @@ export default function Carousel_component({ tracks }) {
     <div>
       {" "}
       <Swiper
-        spaceBetween={50}
+        spaceBetween={13}
         slidesPerView={3}
         onSlideChange={() => console.log("slide change")}
         onSwiper={(swiper) => console.log(swiper)}
         css={css`
           border: 2px solid black;
           width: 100vw;
-          height: 10rem;
+          height: 9.2rem;
+          padding: 0 0.3rem;
         `}
       >
-        {sortedTracks.map((item) => {
-          // console.log(item.track);
-          const { id } = item.track;
-          return <SwiperSlide key={id}>lol</SwiperSlide>;
+        {sortedTracks?.map((item) => {
+          console.log(item.track);
+          const { id, name } = item.track;
+          const image = item.track.album.images[1];
+          return (
+            <SwiperSlide key={id}>
+              <div
+                css={css`
+                  height: 100%;
+                  width: 100%;
+                  display: grid;
+                  grid-template-rows: 1fr 1fr;
+                `}
+              >
+                <img src={image.url} alt={name} width="100%" height="width" />
+                <h2
+                  css={css`
+                    border: 1px solid black;
+                    font-size: 0.8rem;
+                    color: white;
+                  `}
+                >
+                  {name}
+                </h2>
+              </div>
+            </SwiperSlide>
+          );
         })}
       </Swiper>
     </div>
