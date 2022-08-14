@@ -18,7 +18,7 @@ export default function Home() {
   const carouselEndReached = useContext(CarouselEndReachedContext)[0];
   console.log(
     "Home: CarouselEndReached:",
-    CarouselEndReachedContext._currentValue
+    CarouselEndReachedContext._currentValue[0]
   );
 
   useEffect(() => {

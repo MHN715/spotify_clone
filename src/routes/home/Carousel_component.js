@@ -12,13 +12,15 @@ import CarouselEndReachedContext from "../../Context/CarouselEndReachedContext";
 
 export default function Carousel_component({ tracks, title }) {
   const [sortedTracks, setSortedTracks] = useState([]);
-  const CarouselEndReached = useContext(CarouselEndReachedContext)[0];
+  const setCarouselEndReached = useContext(CarouselEndReachedContext)[1];
 
   // console.log("CarouselEndReached:", CarouselEndReached);
   // console.log(
   //   "CarouselEndReachedContext:",
   //   CarouselEndReachedContext._currentValue
   // );
+
+  // console.log("set", setCarouselEndReached);
 
   useEffect(() => {
     const result = tracks?.reduce((sortedArray, currentObj) => {
@@ -33,8 +35,8 @@ export default function Carousel_component({ tracks, title }) {
     setSortedTracks(result);
   }, [tracks]);
 
-  function testFunc() {
-    console.log("testfunc fired");
+  function CarouselEndReached() {
+    setCarouselEndReached(true);
   }
 
   return (
@@ -49,7 +51,7 @@ export default function Carousel_component({ tracks, title }) {
         onSlideChange={() => console.log("slide change")}
         // onSwiper={(swiper) => console.log(swiper)}
         onReachEnd={(e) =>
-          e.progress > 0 && e.isEnd === true ? testFunc() : null
+          e.progress > 0 && e.isEnd === true ? CarouselEndReached() : null
         }
         css={css`
           width: 100vw;

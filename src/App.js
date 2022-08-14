@@ -7,31 +7,31 @@ import Home from "./routes/home/Home";
 import Search from "./routes/Search";
 
 import AccessTokenContext from "./api/AccessTokenContext";
-// import CarouselEndReachedContext from "./Context/CarouselEndReachedContext";
+import CarouselEndReachedContext from "./Context/CarouselEndReachedContext";
 
 const code = new URLSearchParams(window.location.search).get("code");
 
 function App() {
   var accessTokenState = useState(null);
-  // var carouselEndReached = useState(false);
+  var carouselEndReached = useState(false);
 
   return (
     <AccessTokenContext.Provider value={accessTokenState}>
-      <Routes>
-        {(() => {
-          if (accessTokenState[0])
-            return (
-              <>
-                {/* <CarouselEndReachedContext.Provider value={carouselEndReached}> */}
-                <Route path="/" element={<Home />} />
-                {/* </CarouselEndReachedContext.Provider> */}
-                <Route path="search" element={<Search />} />
-              </>
-            );
-        })()}
-        <Route path="*" element={<Login />} />
-        <Route path="/callback" element={<Callback code={code} />} />;
-      </Routes>
+      <CarouselEndReachedContext.Provider value={carouselEndReached}>
+        <Routes>
+          {(() => {
+            if (accessTokenState[0])
+              return (
+                <>
+                  <Route path="/" element={<Home />} />
+                  <Route path="search" element={<Search />} />
+                </>
+              );
+          })()}
+          <Route path="*" element={<Login />} />
+          <Route path="/callback" element={<Callback code={code} />} />;
+        </Routes>
+      </CarouselEndReachedContext.Provider>
     </AccessTokenContext.Provider>
   );
 }

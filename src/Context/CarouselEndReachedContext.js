@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-var CarouselEndReachedContext = createContext(false);
+var CarouselEndReachedContext = createContext(null);
 
 export default CarouselEndReachedContext;
