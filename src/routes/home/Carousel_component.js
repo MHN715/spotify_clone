@@ -1,13 +1,24 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/lazy";
+import { FreeMode, Lazy } from "swiper";
+import CarouselEndReachedContext from "../../Context/CarouselEndReachedContext";
 
-export default function Carousel_component({ tracks }) {
+export default function Carousel_component({ tracks, title }) {
   const [sortedTracks, setSortedTracks] = useState([]);
+  const CarouselEndReached = useContext(CarouselEndReachedContext)[0];
+
+  // console.log("CarouselEndReached:", CarouselEndReached);
+  // console.log(
+  //   "CarouselEndReachedContext:",
+  //   CarouselEndReachedContext._currentValue
+  // );
 
   useEffect(() => {
     const result = tracks?.reduce((sortedArray, currentObj) => {
@@ -22,23 +33,32 @@ export default function Carousel_component({ tracks }) {
     setSortedTracks(result);
   }, [tracks]);
 
+  function testFunc() {
+    console.log("testfunc fired");
+  }
+
   return (
     <div>
       {" "}
       <Swiper
         spaceBetween={13}
         slidesPerView={3}
+        freeMode={true}
+        lazy={true}
+        modules={[Lazy, FreeMode]}
         onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log(swiper)}
+        // onSwiper={(swiper) => console.log(swiper)}
+        onReachEnd={(e) =>
+          e.progress > 0 && e.isEnd === true ? testFunc() : null
+        }
         css={css`
-          border: 2px solid black;
           width: 100vw;
           height: 9.2rem;
           padding: 0 0.3rem;
         `}
       >
         {sortedTracks?.map((item) => {
-          console.log(item.track);
+          // console.log(item.track);
           const { id, name } = item.track;
           const image = item.track.album.images[1];
           return (
@@ -51,12 +71,24 @@ export default function Carousel_component({ tracks }) {
                   grid-template-rows: 1fr 1fr;
                 `}
               >
-                <img src={image.url} alt={name} width="100%" height="width" />
+                <img
+                  src={image.url}
+                  alt={name}
+                  width="100%"
+                  height="width"
+                  css={css`
+                    border-radius: 20px;
+                  `}
+                />
                 <h2
                   css={css`
-                    border: 1px solid black;
-                    font-size: 0.8rem;
+                    font-size: 0.9rem;
                     color: white;
+                    text-align: center;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    padding-top: 0.2rem;
                   `}
                 >
                   {name}

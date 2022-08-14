@@ -7,11 +7,14 @@ import Home from "./routes/home/Home";
 import Search from "./routes/Search";
 
 import AccessTokenContext from "./api/AccessTokenContext";
+// import CarouselEndReachedContext from "./Context/CarouselEndReachedContext";
 
 const code = new URLSearchParams(window.location.search).get("code");
 
 function App() {
   var accessTokenState = useState(null);
+  // var carouselEndReached = useState(false);
+
   return (
     <AccessTokenContext.Provider value={accessTokenState}>
       <Routes>
@@ -19,7 +22,9 @@ function App() {
           if (accessTokenState[0])
             return (
               <>
+                {/* <CarouselEndReachedContext.Provider value={carouselEndReached}> */}
                 <Route path="/" element={<Home />} />
+                {/* </CarouselEndReachedContext.Provider> */}
                 <Route path="search" element={<Search />} />
               </>
             );

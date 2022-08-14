@@ -2,6 +2,7 @@
 import { css } from "@emotion/react";
 import { useContext, useEffect, useState } from "react";
 import AccessTokenContext from "../../api/AccessTokenContext";
+import CarouselEndReachedContext from "../../Context/CarouselEndReachedContext";
 import Nav from "../../components/Nav";
 import SpotifyWebApi from "spotify-web-api-node";
 import Carousel from "./Carousel_component";
@@ -13,6 +14,12 @@ const spotifyApi = new SpotifyWebApi({
 export default function Home() {
   const accessToken = useContext(AccessTokenContext)[0];
   const [recentTracks, setRecentTracks] = useState([]);
+  const [savedTracks, setSavedTracks] = useState([]);
+  const carouselEndReached = useContext(CarouselEndReachedContext)[0];
+  console.log(
+    "Home: CarouselEndReached:",
+    CarouselEndReachedContext._currentValue
+  );
 
   useEffect(() => {
     if (!accessToken) return;
@@ -23,7 +30,7 @@ export default function Home() {
     if (!accessToken) return;
     spotifyApi
       .getMyRecentlyPlayedTracks({
-        limit: 10,
+        limit: 20,
       })
       .then(
         function (recentTracks) {
@@ -36,10 +43,26 @@ export default function Home() {
       );
   }, [accessToken]);
 
+  useEffect(() => {
+    if (!accessToken) return;
+    spotifyApi
+      .getMySavedTracks({
+        limit: 20,
+      })
+      .then(
+        function (savedTracks) {
+          setSavedTracks(savedTracks.body.items);
+          console.log(savedTracks);
+        },
+        function (err) {
+          console.log("Something went wrong!", err);
+        }
+      );
+  }, [accessToken]);
+
   return (
     <div
       css={css`
-        background: lime;
         height: 100vh;
         display: grid;
         grid-template-rows: repeat(12, 1fr);
@@ -48,11 +71,23 @@ export default function Home() {
     >
       <main
         css={css`
-          background: lightblue;
+          background: #000000ad;
           height: 100vh;
+          display: flex;
+          flex-direction: column;
         `}
       >
+        <h1
+          css={css`
+            color: white;
+            font-size: 2rem;
+            text-align: center;
+          `}
+        >
+          Spotify decluttered
+        </h1>
         <Carousel tracks={recentTracks} title="Recently Played" />
+        <Carousel tracks={savedTracks} title="Saved Tracks" />
       </main>
 
       <Nav />
