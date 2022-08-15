@@ -6,6 +6,7 @@ import CarouselEndReachedContext from "../../Context/CarouselEndReachedContext";
 import Nav from "../../components/Nav";
 import SpotifyWebApi from "spotify-web-api-node";
 import Carousel from "./Carousel_component";
+import axios from "axios";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "84a9b541a3dc46038b865300f1d671e4",
@@ -13,41 +14,48 @@ const spotifyApi = new SpotifyWebApi({
 
 export default function Home() {
   const accessToken = useContext(AccessTokenContext)[0];
+  const [carouselEndReached, setCarouselEndReached] = useContext(
+    CarouselEndReachedContext
+  );
   const [recentTracks, setRecentTracks] = useState([]);
   const [savedTracks, setSavedTracks] = useState([]);
-  const carouselEndReached = useContext(CarouselEndReachedContext)[0];
-  console.log(
-    "Home: CarouselEndReached:",
-    CarouselEndReachedContext._currentValue[0]
-  );
+  const [newLimit, setNewLimit] = useState(0);
+
+  // console.log("carouselEndReached:", carouselEndReached);
 
   useEffect(() => {
     if (!accessToken) return;
     spotifyApi.setAccessToken(accessToken);
   }, [accessToken]);
 
-  useEffect(() => {
-    if (!accessToken) return;
+  function recentTracksFunc(limit, offset) {
     spotifyApi
       .getMyRecentlyPlayedTracks({
-        limit: 20,
+        limit: limit,
+        offset: offset,
       })
       .then(
         function (recentTracks) {
           setRecentTracks(recentTracks.body.items);
-          // console.log(recentTracks);
         },
         function (err) {
           console.log("Something went wrong!", err);
         }
       );
-  }, [accessToken]);
+  }
 
-  useEffect(() => {
-    if (!accessToken) return;
+  function savedTracksFunc(limit, offset) {
+    if (carouselEndReached) {
+      setNewLimit(newLimit + 10);
+      console.log("newLimit:", typeof newLimit, newLimit);
+      setCarouselEndReached(false);
+    }
+    console.log("new value of newLimit:", newLimit);
     spotifyApi
       .getMySavedTracks({
-        limit: 20,
+        limit: limit + newLimit,
+        // limit: limit,
+        offset: offset,
       })
       .then(
         function (savedTracks) {
@@ -58,7 +66,14 @@ export default function Home() {
           console.log("Something went wrong!", err);
         }
       );
-  }, [accessToken]);
+  }
+
+  useEffect(() => {
+    if (!accessToken) return;
+
+    savedTracksFunc(10, 0);
+    // recentTracksFunc(10, 0);
+  }, [accessToken, carouselEndReached]);
 
   return (
     <div
