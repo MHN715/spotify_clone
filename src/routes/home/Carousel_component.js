@@ -41,7 +41,7 @@ export default function Carousel_component({ tracks, title }) {
 
   return (
     <div>
-      {" "}
+      <h2>{title}</h2>{" "}
       <Swiper
         spaceBetween={13}
         slidesPerView={3}
@@ -80,7 +80,11 @@ export default function Carousel_component({ tracks, title }) {
                   height="width"
                   css={css`
                     border-radius: 20px;
+                    box-shadow: 1px 3px 7px 3px #00000045;
                   `}
+                  onClick={() => {
+                    console.log("clicked");
+                  }}
                 />
                 <h2
                   css={css`

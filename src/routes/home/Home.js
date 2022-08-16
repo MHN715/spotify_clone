@@ -19,7 +19,7 @@ export default function Home() {
   );
   const [recentTracks, setRecentTracks] = useState([]);
   const [savedTracks, setSavedTracks] = useState([]);
-  const [newLimit, setNewLimit] = useState(0);
+  // const [newLimit, setNewLimit] = useState(0);
 
   // console.log("carouselEndReached:", carouselEndReached);
 
@@ -29,33 +29,26 @@ export default function Home() {
   }, [accessToken]);
 
   function recentTracksFunc(limit, offset) {
-    spotifyApi
-      .getMyRecentlyPlayedTracks({
-        limit: limit,
-        offset: offset,
-      })
-      .then(
-        function (recentTracks) {
-          setRecentTracks(recentTracks.body.items);
-        },
-        function (err) {
-          console.log("Something went wrong!", err);
-        }
-      );
+    spotifyApi.getMyRecentlyPlayedTracks({}).then(
+      function (recentTracks) {
+        setRecentTracks(recentTracks.body.items);
+      },
+      function (err) {
+        console.log("Something went wrong!", err);
+      }
+    );
   }
 
   function savedTracksFunc(limit, offset) {
-    if (carouselEndReached) {
-      setNewLimit(newLimit + 10);
-      console.log("newLimit:", typeof newLimit, newLimit);
-      setCarouselEndReached(false);
-    }
-    console.log("new value of newLimit:", newLimit);
+    // if (carouselEndReached) {
+    //   setNewLimit(newLimit + 10);
+    //   console.log("newLimit:", typeof newLimit, newLimit);
+    //   setCarouselEndReached(false);
+    // }
+    // console.log("new value of newLimit:", newLimit);
     spotifyApi
       .getMySavedTracks({
-        limit: limit + newLimit,
-        // limit: limit,
-        offset: offset,
+        // limit: limit + newLimit,
       })
       .then(
         function (savedTracks) {
@@ -71,8 +64,8 @@ export default function Home() {
   useEffect(() => {
     if (!accessToken) return;
 
-    savedTracksFunc(10, 0);
-    // recentTracksFunc(10, 0);
+    savedTracksFunc(50, 0);
+    recentTracksFunc(50, 0);
   }, [accessToken, carouselEndReached]);
 
   return (
