@@ -29,14 +29,19 @@ export default function Home() {
   }, [accessToken]);
 
   function recentTracksFunc(limit, offset) {
-    spotifyApi.getMyRecentlyPlayedTracks({}).then(
-      function (recentTracks) {
-        setRecentTracks(recentTracks.body.items);
-      },
-      function (err) {
-        console.log("Something went wrong!", err);
-      }
-    );
+    spotifyApi
+      .getMyRecentlyPlayedTracks({
+        limit: limit,
+        offset: offset,
+      })
+      .then(
+        function (recentTracks) {
+          setRecentTracks(recentTracks.body.items);
+        },
+        function (err) {
+          console.log("Something went wrong!", err);
+        }
+      );
   }
 
   function savedTracksFunc(limit, offset) {
@@ -48,7 +53,8 @@ export default function Home() {
     // console.log("new value of newLimit:", newLimit);
     spotifyApi
       .getMySavedTracks({
-        // limit: limit + newLimit,
+        limit: limit,
+        offset: offset,
       })
       .then(
         function (savedTracks) {
