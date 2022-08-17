@@ -12,9 +12,14 @@ import CarouselEndReachedContext from "../../Context/CarouselEndReachedContext";
 
 export default function Carousel_component({ tracks, title }) {
   const [sortedTracks, setSortedTracks] = useState([]);
-  const setCarouselEndReached = useContext(CarouselEndReachedContext)[1];
+  const {
+    carouselEndReached1,
+    setCarouselEndReached1,
+    carouselEndReached2,
+    setCarouselEndReached2,
+  } = useContext(CarouselEndReachedContext);
 
-  // console.log("CarouselEndReached:", CarouselEndReached);
+  console.log("carouselEndReached1:", carouselEndReached1);
   // console.log(
   //   "CarouselEndReachedContext:",
   //   CarouselEndReachedContext._currentValue
@@ -36,7 +41,8 @@ export default function Carousel_component({ tracks, title }) {
   }, [tracks]);
 
   function CarouselEndReached() {
-    setCarouselEndReached(true);
+    setCarouselEndReached1(true);
+    return;
   }
 
   return (

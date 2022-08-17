@@ -13,11 +13,19 @@ const code = new URLSearchParams(window.location.search).get("code");
 
 function App() {
   var accessTokenState = useState(null);
-  var carouselEndReached = useState(false);
+  var [carouselEndReached1, setCarouselEndReached1] = useState(false);
+  var [carouselEndReached2, setCarouselEndReached2] = useState(false);
 
   return (
     <AccessTokenContext.Provider value={accessTokenState}>
-      <CarouselEndReachedContext.Provider value={carouselEndReached}>
+      <CarouselEndReachedContext.Provider
+        value={{
+          carouselEndReached1,
+          setCarouselEndReached1,
+          carouselEndReached2,
+          setCarouselEndReached2,
+        }}
+      >
         <Routes>
           {(() => {
             if (accessTokenState[0])

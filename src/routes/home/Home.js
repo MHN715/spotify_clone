@@ -14,14 +14,23 @@ const spotifyApi = new SpotifyWebApi({
 
 export default function Home() {
   const accessToken = useContext(AccessTokenContext)[0];
-  const [carouselEndReached, setCarouselEndReached] = useContext(
-    CarouselEndReachedContext
-  );
+  const {
+    carouselEndReached1,
+    setCarouselEndReached1,
+    carouselEndReached2,
+    setCarouselEndReached2,
+  } = useContext(CarouselEndReachedContext);
   const [recentTracks, setRecentTracks] = useState([]);
   const [savedTracks, setSavedTracks] = useState([]);
-  // const [newLimit, setNewLimit] = useState(0);
+  const [newLimit, setNewLimit] = useState(0);
 
   // console.log("carouselEndReached:", carouselEndReached);
+  console.log(
+    "carouselEndReached1",
+    carouselEndReached1,
+    "carouselEndReached2",
+    carouselEndReached2
+  );
 
   useEffect(() => {
     if (!accessToken) return;
@@ -45,21 +54,21 @@ export default function Home() {
   }
 
   function savedTracksFunc(limit, offset) {
-    // if (carouselEndReached) {
-    //   setNewLimit(newLimit + 10);
-    //   console.log("newLimit:", typeof newLimit, newLimit);
-    //   setCarouselEndReached(false);
-    // }
-    // console.log("new value of newLimit:", newLimit);
+    if (carouselEndReached1) {
+      setNewLimit(newLimit + 10);
+      console.log("newLimit:", typeof newLimit, newLimit);
+      setCarouselEndReached1(false);
+    }
+    console.log("new value of newLimit:", newLimit);
     spotifyApi
       .getMySavedTracks({
-        limit: limit,
+        limit: newLimit + limit,
         offset: offset,
       })
       .then(
         function (savedTracks) {
           setSavedTracks(savedTracks.body.items);
-          console.log(savedTracks);
+          // console.log(savedTracks);
         },
         function (err) {
           console.log("Something went wrong!", err);
@@ -70,9 +79,9 @@ export default function Home() {
   useEffect(() => {
     if (!accessToken) return;
 
-    savedTracksFunc(50, 0);
-    recentTracksFunc(50, 0);
-  }, [accessToken, carouselEndReached]);
+    recentTracksFunc(10, 0);
+    savedTracksFunc(5, 0);
+  }, [accessToken, carouselEndReached1]);
 
   return (
     <div
