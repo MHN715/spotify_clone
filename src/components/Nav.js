@@ -21,7 +21,7 @@ export default function Nav() {
     >
       <ul
         css={css`
-          border: 1px solid red;
+          /* border: 1px solid red; */
           display: flex;
           justify-content: space-around;
           list-style: none;
@@ -63,7 +63,7 @@ const liCss = css`
 const fontAweSomeCss = css`
   width: 100%;
   font-size: 1.8rem;
-  color: #000000a6;
+  color: #f9f9f9a6;
 `;
 const linkCss = css`
   align-items: center;

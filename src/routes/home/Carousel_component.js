@@ -47,7 +47,13 @@ export default function Carousel_component({ tracks, title }) {
 
   return (
     <div>
-      <h2>{title}</h2>{" "}
+      <h2
+        css={css`
+          color: white;
+        `}
+      >
+        {title}
+      </h2>{" "}
       <Swiper
         spaceBetween={13}
         slidesPerView={3}

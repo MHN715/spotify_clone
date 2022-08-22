@@ -7,6 +7,7 @@ import Nav from "../../components/Nav";
 import SpotifyWebApi from "spotify-web-api-node";
 import Carousel from "./Carousel_component";
 import axios from "axios";
+import Search_component from "../../components/Search_component";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "84a9b541a3dc46038b865300f1d671e4",
@@ -53,34 +54,34 @@ export default function Home() {
       );
   }
 
-  function savedTracksFunc(limit, offset) {
-    if (carouselEndReached1) {
-      setNewLimit(newLimit + 10);
-      console.log("newLimit:", typeof newLimit, newLimit);
-      setCarouselEndReached1(false);
-    }
-    console.log("new value of newLimit:", newLimit);
-    spotifyApi
-      .getMySavedTracks({
-        limit: newLimit + limit,
-        offset: offset,
-      })
-      .then(
-        function (savedTracks) {
-          setSavedTracks(savedTracks.body.items);
-          // console.log(savedTracks);
-        },
-        function (err) {
-          console.log("Something went wrong!", err);
-        }
-      );
-  }
+  // function savedTracksFunc(limit, offset) {
+  //   if (carouselEndReached1) {
+  //     setNewLimit(newLimit + 10);
+  //     console.log("newLimit:", typeof newLimit, newLimit);
+  //     setCarouselEndReached1(false);
+  //   }
+  //   console.log("new value of newLimit:", newLimit);
+  //   spotifyApi
+  //     .getMySavedTracks({
+  //       limit: newLimit + limit,
+  //       offset: offset,
+  //     })
+  //     .then(
+  //       function (savedTracks) {
+  //         setSavedTracks(savedTracks.body.items);
+  //         // console.log(savedTracks);
+  //       },
+  //       function (err) {
+  //         console.log("Something went wrong!", err);
+  //       }
+  //     );
+  // }
 
   useEffect(() => {
     if (!accessToken) return;
 
     recentTracksFunc(10, 0);
-    savedTracksFunc(5, 0);
+    // savedTracksFunc(5, 0);
   }, [accessToken, carouselEndReached1]);
 
   return (
@@ -94,7 +95,7 @@ export default function Home() {
     >
       <main
         css={css`
-          background: #000000ad;
+          background: #000000;
           height: 100vh;
           display: flex;
           flex-direction: column;
@@ -110,7 +111,8 @@ export default function Home() {
           Spotify decluttered
         </h1>
         <Carousel tracks={recentTracks} title="Recently Played" />
-        <Carousel tracks={savedTracks} title="Saved Tracks" />
+        {/* <Carousel tracks={savedTracks} title="Saved Tracks" /> */}
+        <Search_component />
       </main>
 
       <Nav />
