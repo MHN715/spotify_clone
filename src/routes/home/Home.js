@@ -26,6 +26,7 @@ export default function Home() {
   const [newLimit, setNewLimit] = useState(0);
 
   // console.log("carouselEndReached:", carouselEndReached);
+  recentTracks.forEach((lol) => console.log(lol.track.name));
   console.log(
     "carouselEndReached1",
     carouselEndReached1,
@@ -54,34 +55,34 @@ export default function Home() {
       );
   }
 
-  // function savedTracksFunc(limit, offset) {
-  //   if (carouselEndReached1) {
-  //     setNewLimit(newLimit + 10);
-  //     console.log("newLimit:", typeof newLimit, newLimit);
-  //     setCarouselEndReached1(false);
-  //   }
-  //   console.log("new value of newLimit:", newLimit);
-  //   spotifyApi
-  //     .getMySavedTracks({
-  //       limit: newLimit + limit,
-  //       offset: offset,
-  //     })
-  //     .then(
-  //       function (savedTracks) {
-  //         setSavedTracks(savedTracks.body.items);
-  //         // console.log(savedTracks);
-  //       },
-  //       function (err) {
-  //         console.log("Something went wrong!", err);
-  //       }
-  //     );
-  // }
+  function savedTracksFunc(limit, offset) {
+    // if (carouselEndReached1) {
+    //   setNewLimit(newLimit + 10);
+    //   console.log("newLimit:", typeof newLimit, newLimit);
+    //   setCarouselEndReached1(false);
+    // }
+    // console.log("new value of newLimit:", newLimit);
+    spotifyApi
+      .getMySavedTracks({
+        limit: newLimit + limit,
+        offset: offset,
+      })
+      .then(
+        function (savedTracks) {
+          setSavedTracks(savedTracks.body.items);
+          // console.log(savedTracks);
+        },
+        function (err) {
+          console.log("Something went wrong!", err);
+        }
+      );
+  }
 
   useEffect(() => {
     if (!accessToken) return;
 
     recentTracksFunc(10, 0);
-    // savedTracksFunc(5, 0);
+    savedTracksFunc(5, 0);
   }, [accessToken, carouselEndReached1]);
 
   return (
@@ -111,7 +112,7 @@ export default function Home() {
           Spotify decluttered
         </h1>
         <Carousel tracks={recentTracks} title="Recently Played" />
-        {/* <Carousel tracks={savedTracks} title="Saved Tracks" /> */}
+        <Carousel tracks={savedTracks} title="Saved Tracks" />
         <Search_component />
       </main>
 

@@ -45,6 +45,39 @@ export default function Carousel_component({ tracks, title }) {
     return;
   }
 
+  console.log(sortedTracks);
+
+  let newObject = {
+    track: {
+      id: "randomId",
+      name: "randomName",
+      album: {
+        images: [
+          {},
+          {
+            url: "https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=200&fit=max",
+          },
+          {},
+        ],
+      },
+    },
+  };
+  // newArray.map((test) => {
+  //   console.log("newArray:", test);
+  //   sortedTracks.concat(newArray);
+  // });
+  // newArray.map((item) => {
+  //   const { id, name } = item.track;
+  //   const image = item.track.album.images[1];
+  //   console.log(id, name, image);
+  // });
+
+  useEffect(() => {
+    // sortedTracks.concat([newArray]);
+    sortedTracks.push(newObject);
+    console.log(sortedTracks);
+  }, [sortedTracks]);
+
   return (
     <div>
       <h2
