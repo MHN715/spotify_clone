@@ -2,9 +2,11 @@
 import { css } from "@emotion/react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { faHouse } from "@fortawesome/free-solid-svg-icons";
-import { faBook } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMagnifyingGlass,
+  faHouse,
+  faBook,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Nav() {
   return (
@@ -21,7 +23,7 @@ export default function Nav() {
     >
       <ul
         css={css`
-          /* border: 1px solid red; */
+          border: 1px solid red;
           display: flex;
           justify-content: space-around;
           list-style: none;

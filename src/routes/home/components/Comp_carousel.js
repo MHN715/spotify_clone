@@ -1,23 +1,27 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import { useEffect, useState, useContext } from "react";
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/lazy";
 import { FreeMode, Lazy } from "swiper";
-import CarouselEndReachedContext from "../../Context/CarouselEndReachedContext";
+import ContextCarouselEndReached from "../../../Context/ContextCarouselEndReached";
+import {
+  cssWrapper,
+  cssImg,
+  cssHeading2_1,
+  cssHeading2_2,
+  cssCostumSwiper,
+} from "../styles/cssCarousel_component";
 
-export default function Carousel_component({ tracks, title }) {
+export default function Comp_carousel({ tracks, title }) {
   const [sortedTracks, setSortedTracks] = useState([]);
   const {
     carouselEndReached1,
     setCarouselEndReached1,
     carouselEndReached2,
     setCarouselEndReached2,
-  } = useContext(CarouselEndReachedContext);
+  } = useContext(ContextCarouselEndReached);
 
   console.log("carouselEndReached1:", carouselEndReached1);
   // console.log(
@@ -26,6 +30,12 @@ export default function Carousel_component({ tracks, title }) {
   // );
 
   // console.log("set", setCarouselEndReached);
+
+  // useEffect(() => {
+  //   // sortedTracks.concat([newArray]);
+  //   sortedTracks.push(newObject);
+  //   console.log(sortedTracks);
+  // }, [sortedTracks]);
 
   useEffect(() => {
     const result = tracks?.reduce((sortedArray, currentObj) => {
@@ -62,31 +72,10 @@ export default function Carousel_component({ tracks, title }) {
       },
     },
   };
-  // newArray.map((test) => {
-  //   console.log("newArray:", test);
-  //   sortedTracks.concat(newArray);
-  // });
-  // newArray.map((item) => {
-  //   const { id, name } = item.track;
-  //   const image = item.track.album.images[1];
-  //   console.log(id, name, image);
-  // });
-
-  useEffect(() => {
-    // sortedTracks.concat([newArray]);
-    sortedTracks.push(newObject);
-    console.log(sortedTracks);
-  }, [sortedTracks]);
 
   return (
     <div>
-      <h2
-        css={css`
-          color: white;
-        `}
-      >
-        {title}
-      </h2>{" "}
+      <h2 css={cssHeading2_1}>{title}</h2>{" "}
       <Swiper
         spaceBetween={13}
         slidesPerView={3}
@@ -98,11 +87,7 @@ export default function Carousel_component({ tracks, title }) {
         onReachEnd={(e) =>
           e.progress > 0 && e.isEnd === true ? CarouselEndReached() : null
         }
-        css={css`
-          width: 100vw;
-          height: 9.2rem;
-          padding: 0 0.3rem;
-        `}
+        css={cssCostumSwiper}
       >
         {sortedTracks?.map((item) => {
           // console.log(item.track);
@@ -110,40 +95,18 @@ export default function Carousel_component({ tracks, title }) {
           const image = item.track.album.images[1];
           return (
             <SwiperSlide key={id}>
-              <div
-                css={css`
-                  height: 100%;
-                  width: 100%;
-                  display: grid;
-                  grid-template-rows: 1fr 1fr;
-                `}
-              >
+              <div css={cssWrapper}>
                 <img
                   src={image.url}
                   alt={name}
                   width="100%"
                   height="width"
-                  css={css`
-                    border-radius: 20px;
-                    box-shadow: 1px 3px 7px 3px #00000045;
-                  `}
+                  css={cssImg}
                   onClick={() => {
                     console.log("clicked");
                   }}
                 />
-                <h2
-                  css={css`
-                    font-size: 0.9rem;
-                    color: white;
-                    text-align: center;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    padding-top: 0.2rem;
-                  `}
-                >
-                  {name}
-                </h2>
+                <h2 css={cssHeading2_2}>{name}</h2>
               </div>
             </SwiperSlide>
           );

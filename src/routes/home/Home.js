@@ -2,12 +2,13 @@
 import { css } from "@emotion/react";
 import { useContext, useEffect, useState } from "react";
 import AccessTokenContext from "../../api/AccessTokenContext";
-import CarouselEndReachedContext from "../../Context/CarouselEndReachedContext";
-import Nav from "../../components/Nav";
+import ContextCarouselEndReached from "../../Context/ContextCarouselEndReached";
+import Nav from "../../components/Nav/Nav";
 import SpotifyWebApi from "spotify-web-api-node";
-import Carousel from "./Carousel_component";
+import Comp_carousel from "./components/Comp_carousel";
+import Player from "../../components/Player/Player";
 import axios from "axios";
-import Search_component from "../../components/Search_component";
+import { cssWrapper, cssMain, cssHeading1 } from "./styles/cssMain";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "84a9b541a3dc46038b865300f1d671e4",
@@ -20,24 +21,55 @@ export default function Home() {
     setCarouselEndReached1,
     carouselEndReached2,
     setCarouselEndReached2,
-  } = useContext(CarouselEndReachedContext);
+  } = useContext(ContextCarouselEndReached);
   const [recentTracks, setRecentTracks] = useState([]);
   const [savedTracks, setSavedTracks] = useState([]);
   const [newLimit, setNewLimit] = useState(0);
 
   // console.log("carouselEndReached:", carouselEndReached);
-  recentTracks.forEach((lol) => console.log(lol.track.name));
-  console.log(
-    "carouselEndReached1",
-    carouselEndReached1,
-    "carouselEndReached2",
-    carouselEndReached2
-  );
+  // recentTracks.forEach((lol) => console.log(lol.track.name));
+  // console.log(
+  //   "carouselEndReached1",
+  //   carouselEndReached1,
+  //   "carouselEndReached2",
+  //   carouselEndReached2
+  // );
 
   useEffect(() => {
     if (!accessToken) return;
     spotifyApi.setAccessToken(accessToken);
   }, [accessToken]);
+
+  useEffect(() => {
+    if (!accessToken) return;
+
+    recentTracksFunc(10, 0);
+    savedTracksFunc(5, 0);
+  }, [accessToken, carouselEndReached1]);
+
+  useEffect(() => {
+    spotifyApi.getMyDevices().then(
+      function (data) {
+        let availableDevices = data.body.devices;
+        console.log("availableDevices:", availableDevices);
+      },
+      function (err) {
+        console.log("Something went wrong!", err);
+      }
+    );
+  }, [accessToken]);
+
+  return (
+    <div css={cssWrapper}>
+      <main css={cssMain}>
+        <h1 css={cssHeading1}>Spotify decluttered</h1>
+        <Comp_carousel tracks={recentTracks} title="Recently Played" />
+        <Comp_carousel tracks={savedTracks} title="Saved Tracks" />
+      </main>
+      <Player spotifyApi={spotifyApi} />
+      <Nav />
+    </div>
+  );
 
   function recentTracksFunc(limit, offset) {
     spotifyApi
@@ -77,46 +109,4 @@ export default function Home() {
         }
       );
   }
-
-  useEffect(() => {
-    if (!accessToken) return;
-
-    recentTracksFunc(10, 0);
-    savedTracksFunc(5, 0);
-  }, [accessToken, carouselEndReached1]);
-
-  return (
-    <div
-      css={css`
-        height: 100vh;
-        display: grid;
-        grid-template-rows: repeat(12, 1fr);
-        position: relative;
-      `}
-    >
-      <main
-        css={css`
-          background: #000000;
-          height: 100vh;
-          display: flex;
-          flex-direction: column;
-        `}
-      >
-        <h1
-          css={css`
-            color: white;
-            font-size: 2rem;
-            text-align: center;
-          `}
-        >
-          Spotify decluttered
-        </h1>
-        <Carousel tracks={recentTracks} title="Recently Played" />
-        <Carousel tracks={savedTracks} title="Saved Tracks" />
-        <Search_component />
-      </main>
-
-      <Nav />
-    </div>
-  );
 }

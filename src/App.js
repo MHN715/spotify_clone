@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
-import Login from "./routes/Login";
-import Callback from "./routes/Callback";
+import Login from "./routes/login/Login";
+import Callback from "./routes/callback/Callback";
 import Home from "./routes/home/Home";
-import Search from "./routes/Search";
+import Search from "./routes/search/Search";
 
 import AccessTokenContext from "./api/AccessTokenContext";
-import CarouselEndReachedContext from "./Context/CarouselEndReachedContext";
+import ContextCarouselEndReached from "./Context/ContextCarouselEndReached";
 
 const code = new URLSearchParams(window.location.search).get("code");
 
@@ -18,7 +18,7 @@ function App() {
 
   return (
     <AccessTokenContext.Provider value={accessTokenState}>
-      <CarouselEndReachedContext.Provider
+      <ContextCarouselEndReached.Provider
         value={{
           carouselEndReached1,
           setCarouselEndReached1,
@@ -39,7 +39,7 @@ function App() {
           <Route path="*" element={<Login />} />
           <Route path="/callback" element={<Callback code={code} />} />;
         </Routes>
-      </CarouselEndReachedContext.Provider>
+      </ContextCarouselEndReached.Provider>
     </AccessTokenContext.Provider>
   );
 }

@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import AccessTokenContext from "../api/AccessTokenContext";
-import useAuth from "../api/useAuth";
+import AccessTokenContext from "../../api/AccessTokenContext";
+import useAuth from "../../api/useAuth";
 
 export default function Callback({ code }) {
   const accessToken = useAuth(code);
