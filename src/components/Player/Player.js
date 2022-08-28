@@ -7,7 +7,10 @@ import {
   faArrowAltCircleLeft,
   faArrowAltCircleRight,
   faPauseCircle,
+  faHeart,
+  faDisplay,
 } from "@fortawesome/free-solid-svg-icons";
+import PlayPauseButton from "./components/PlayPauseButton";
 
 export default function Player({ spotifyApi }) {
   const [playing, setPlaying] = useState(false);
@@ -84,7 +87,8 @@ export default function Player({ spotifyApi }) {
           /* border: 1px solid white; */
         `}
       >
-        <FontAwesomeIcon icon={faArrowAltCircleLeft} css={cssIcons} />
+        <FontAwesomeIcon icon={faDisplay} css={cssIcons} />
+        <FontAwesomeIcon icon={faHeart} css={cssIcons} />
         {(() => {
           return playing ? (
             <FontAwesomeIcon
@@ -100,8 +104,7 @@ export default function Player({ spotifyApi }) {
             />
           );
         })()}
-
-        <FontAwesomeIcon icon={faArrowAltCircleRight} css={cssIcons} />
+        <PlayPauseButton />
       </div>
     </div>
   );
