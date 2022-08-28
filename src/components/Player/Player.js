@@ -9,11 +9,13 @@ import {
   faPauseCircle,
   faHeart,
   faDisplay,
+  faHeartCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import PlayPauseButton from "./components/PlayPauseButton";
 
 export default function Player({ spotifyApi }) {
   const [playing, setPlaying] = useState(false);
+  const [devices, setDevices] = useState([]);
+  const [currentlyPlaying, setCurrentlyPlaying] = useState("");
 
   function Play() {
     console.log("clicked play");
@@ -23,7 +25,6 @@ export default function Player({ spotifyApi }) {
         console.log("Playback started");
       },
       function (err) {
-        //if the user making the request is non-premium, a 403 FORBIDDEN response code will be returned
         console.log("Something went wrong!", err);
       }
     );
@@ -36,23 +37,50 @@ export default function Player({ spotifyApi }) {
         console.log("Playback paused");
       },
       function (err) {
-        //if the user making the request is non-premium, a 403 FORBIDDEN response code will be returned
         console.log("Something went wrong!", err);
       }
     );
   }
-
+  console.log(devices);
   useEffect(() => {
     spotifyApi.getMyDevices().then(
       function (data) {
         let availableDevices = data.body.devices;
         console.log("availableDevices:", availableDevices);
+        setDevices(availableDevices);
       },
       function (err) {
         console.log("Something went wrong!", err);
       }
     );
   }, [spotifyApi]);
+
+  useEffect(() => {
+    spotifyApi.getMyCurrentPlaybackState().then(
+      function (data) {
+        // Output items
+        if (data.body && data.body.is_playing) {
+          setPlaying(true);
+        } else {
+          setPlaying(false);
+        }
+      },
+      function (err) {
+        console.log("Something went wrong!", err);
+      }
+    );
+    spotifyApi.getMyCurrentPlayingTrack().then(
+      function (data) {
+        console.log("Now playing:", data.body.item);
+        setCurrentlyPlaying(
+          data.body?.item.name + " " + data.body?.item.artists[0].name
+        );
+      },
+      function (err) {
+        console.log("Something went wrong!", err);
+      }
+    );
+  }, [spotifyApi, playing]);
 
   return (
     <div
@@ -76,7 +104,7 @@ export default function Player({ spotifyApi }) {
           justify-content: center;
         `}
       >
-        text
+        {currentlyPlaying}
       </p>
       <div
         css={css`
@@ -104,7 +132,6 @@ export default function Player({ spotifyApi }) {
             />
           );
         })()}
-        <PlayPauseButton />
       </div>
     </div>
   );
