@@ -43,8 +43,8 @@ export default function Home() {
   useEffect(() => {
     if (!accessToken) return;
 
-    recentTracksFunc(10, 0);
-    savedTracksFunc(5, 0);
+    recentTracksFunc(20, 0);
+    savedTracksFunc(20, 0);
   }, [accessToken, carouselEndReached1]);
 
   useEffect(() => {
@@ -66,7 +66,7 @@ export default function Home() {
         <Comp_carousel tracks={recentTracks} title="Recently Played" />
         <Comp_carousel tracks={savedTracks} title="Saved Tracks" />
       </main>
-      <Player spotifyApi={spotifyApi} />
+      <Player spotifyApi={spotifyApi} accessToken={accessToken} />
       <Nav />
     </div>
   );

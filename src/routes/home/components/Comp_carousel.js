@@ -23,7 +23,7 @@ export default function Comp_carousel({ tracks, title }) {
     setCarouselEndReached2,
   } = useContext(ContextCarouselEndReached);
 
-  console.log("carouselEndReached1:", carouselEndReached1);
+  // console.log("carouselEndReached1:", carouselEndReached1);
   // console.log(
   //   "CarouselEndReachedContext:",
   //   CarouselEndReachedContext._currentValue
@@ -55,7 +55,7 @@ export default function Comp_carousel({ tracks, title }) {
     return;
   }
 
-  console.log(sortedTracks);
+  // console.log(sortedTracks);
 
   let newObject = {
     track: {
