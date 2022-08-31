@@ -11,6 +11,7 @@ import {
   faDisplay,
   faHeartCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
+import { cssWrapper, cssP, cssBtnWrapper, cssIcons } from "./style/cssPlayer";
 
 export default function Player({ spotifyApi, accessToken }) {
   const [playing, setPlaying] = useState(false);
@@ -29,12 +30,12 @@ export default function Player({ spotifyApi, accessToken }) {
       : null;
   }
 
-  console.log("devices:", devices);
+  // console.log("devices:", devices);
   useEffect(() => {
     spotifyApi.getMyDevices().then(
       function (data) {
         let availableDevices = data.body.devices;
-        console.log("availableDevices:", availableDevices);
+        // console.log("availableDevices:", availableDevices);
         setDevices(availableDevices);
       },
       function (err) {
@@ -62,7 +63,7 @@ export default function Player({ spotifyApi, accessToken }) {
   useEffect(() => {
     spotifyApi.getMyCurrentPlayingTrack().then(
       function (data) {
-        console.log("Now playing:", data.body.item);
+        // console.log("Now playing:", data.body.item);
         setCurrentlyPlaying(
           data.body?.item.name + " " + data.body?.item.artists[0].name
         );
@@ -94,10 +95,11 @@ export default function Player({ spotifyApi, accessToken }) {
             `}
           >
             {devices?.map((item) => {
-              const { name } = item;
-              console.log(item);
+              const { id, name } = item;
+              // console.log(item);
               return (
                 <button
+                  key={id}
                   css={css`
                     color: black;
                   `}
@@ -129,33 +131,3 @@ export default function Player({ spotifyApi, accessToken }) {
     </div>
   );
 }
-
-const cssWrapper = css`
-  background: #ffffff7b;
-  height: 4.3rem;
-  width: 100vw;
-  position: sticky;
-  position: fixed;
-  bottom: 4rem;
-  z-index: 300;
-  display: grid;
-  grid-template-columns: 3fr 2fr;
-`;
-const cssP = css`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-const cssBtnWrapper = css`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-right: 1rem;
-  border: 1px solid white;
-  position: relative;
-`;
-const cssIcons = css`
-  color: #a12727;
-  font-size: 1.6rem;
-  border: 1px solid black;
-`;

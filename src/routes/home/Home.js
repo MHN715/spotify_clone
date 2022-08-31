@@ -51,7 +51,7 @@ export default function Home() {
     spotifyApi.getMyDevices().then(
       function (data) {
         let availableDevices = data.body.devices;
-        console.log("availableDevices:", availableDevices);
+        // console.log("availableDevices:", availableDevices);
       },
       function (err) {
         console.log("Something went wrong!", err);
