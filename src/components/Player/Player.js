@@ -13,9 +13,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { cssWrapper, cssP, cssBtnWrapper, cssIcons } from "./style/cssPlayer";
 
-export default function Player({ spotifyApi, accessToken }) {
+export default function Player({ spotifyApi }) {
   const [playing, setPlaying] = useState(false);
-  const [devices, setDevices] = useState([]);
+  const [songSkip, setSongSkip] = useState(false);
   const [currentlyPlaying, setCurrentlyPlaying] = useState("");
 
   function playPause(arg) {
@@ -30,19 +30,18 @@ export default function Player({ spotifyApi, accessToken }) {
       : null;
   }
 
-  // console.log("devices:", devices);
-  useEffect(() => {
-    spotifyApi.getMyDevices().then(
-      function (data) {
-        let availableDevices = data.body.devices;
-        // console.log("availableDevices:", availableDevices);
-        setDevices(availableDevices);
-      },
-      function (err) {
-        console.log("Something went wrong!", err);
-      }
-    );
-  }, [spotifyApi, accessToken]);
+  function skipSong(arg) {
+    spotifyApi.getMyCurrentPlayingTrack().then((data) => {
+      setCurrentlyPlaying(
+        data.body?.item.name + " " + data.body?.item.artists[0].name
+      );
+    });
+    return arg === "next"
+      ? spotifyApi.skipToNext()
+      : arg === "prev"
+      ? spotifyApi.skipToPrevious()
+      : null;
+  }
 
   useEffect(() => {
     spotifyApi.getMyCurrentPlaybackState().then(
@@ -58,12 +57,12 @@ export default function Player({ spotifyApi, accessToken }) {
         console.log("Something went wrong!", err);
       }
     );
-  }, [spotifyApi, playing, accessToken]);
+  }, [spotifyApi, playing]);
 
   useEffect(() => {
     spotifyApi.getMyCurrentPlayingTrack().then(
       function (data) {
-        // console.log("Now playing:", data.body.item);
+        console.log("Now playing:", data.body.item);
         setCurrentlyPlaying(
           data.body?.item.name + " " + data.body?.item.artists[0].name
         );
@@ -72,46 +71,18 @@ export default function Player({ spotifyApi, accessToken }) {
         console.log("Something went wrong!", err);
       }
     );
-  }, [spotifyApi, accessToken, playing]);
+  }, [spotifyApi, playing]);
 
   return (
     <div css={cssWrapper}>
       <p css={cssP}>{currentlyPlaying}</p>
       <div css={cssBtnWrapper}>
-        <div
-          css={css`
-            position: relative;
-            border: 1px solid pink;
-          `}
-        >
-          <div
-            css={css`
-              border: 1px solid yellow;
-              position: absolute;
-              bottom: 5rem;
-              height: 11rem;
-              width: 10rem;
-              right: -3.1rem;
-            `}
-          >
-            {devices?.map((item) => {
-              const { id, name } = item;
-              // console.log(item);
-              return (
-                <button
-                  key={id}
-                  css={css`
-                    color: black;
-                  `}
-                >
-                  {name}{" "}
-                </button>
-              );
-            })}
-          </div>
-          <FontAwesomeIcon icon={faDisplay} css={cssIcons} />
-        </div>
-        <FontAwesomeIcon icon={faHeart} css={cssIcons} />
+        <FontAwesomeIcon
+          icon={faArrowAltCircleLeft}
+          css={cssIcons}
+          onClick={() => skipSong("prev")}
+        />
+
         {(() => {
           return playing ? (
             <FontAwesomeIcon
@@ -127,6 +98,11 @@ export default function Player({ spotifyApi, accessToken }) {
             />
           );
         })()}
+        <FontAwesomeIcon
+          icon={faArrowAltCircleRight}
+          css={cssIcons}
+          onClick={() => skipSong("next")}
+        />
       </div>
     </div>
   );

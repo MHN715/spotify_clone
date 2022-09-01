@@ -8,7 +8,7 @@ const cssWrapper = css`
   bottom: 4rem;
   z-index: 300;
   display: grid;
-  grid-template-columns: 3fr 2fr;
+  grid-template-columns: 5fr 4fr;
 `;
 const cssP = css`
   display: flex;
@@ -17,9 +17,8 @@ const cssP = css`
 `;
 const cssBtnWrapper = css`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  padding-right: 1rem;
   border: 1px solid white;
   position: relative;
 `;

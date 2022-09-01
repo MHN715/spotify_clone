@@ -55,24 +55,6 @@ export default function Comp_carousel({ tracks, title }) {
     return;
   }
 
-  // console.log(sortedTracks);
-
-  let newObject = {
-    track: {
-      id: "randomId",
-      name: "randomName",
-      album: {
-        images: [
-          {},
-          {
-            url: "https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=200&fit=max",
-          },
-          {},
-        ],
-      },
-    },
-  };
-
   return (
     <div>
       <h2 css={cssHeading2_1}>{title}</h2>{" "}
