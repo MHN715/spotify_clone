@@ -18,6 +18,9 @@ export default function Player({ spotifyApi }) {
   const [songSkip, setSongSkip] = useState(false);
   const [currentlyPlaying, setCurrentlyPlaying] = useState("");
 
+  console.log("playing:", playing);
+  console.log("currentlyPlaying", currentlyPlaying);
+
   function playPause(arg) {
     const btnPressedOnOtherDevice = (err) => setPlaying(!playing);
 
@@ -31,21 +34,47 @@ export default function Player({ spotifyApi }) {
   }
 
   function skipSong(arg) {
-    spotifyApi.getMyCurrentPlayingTrack().then((data) => {
-      setCurrentlyPlaying(
-        data.body?.item.name + " " + data.body?.item.artists[0].name
-      );
-    });
+    // spotifyApi.getMyCurrentPlayingTrack().then((data) => {
+    //   setCurrentlyPlaying(
+    //     data.body?.item.name + " " + data.body?.item.artists[0].name
+    //   );
+    //   console.log(currentlyPlaying);
+    // });
+
     return arg === "next"
-      ? spotifyApi.skipToNext()
+      ? spotifyApi.skipToNext().then(() => {
+          setSongSkip(true);
+          setPlaying(true);
+        })
       : arg === "prev"
-      ? spotifyApi.skipToPrevious()
+      ? spotifyApi.skipToPrevious().then(() => {
+          setSongSkip(true);
+          setPlaying(true);
+        })
       : null;
   }
 
   useEffect(() => {
+    console.log("song skipped");
+    setTimeout(() => {
+      spotifyApi.getMyCurrentPlayingTrack().then((data) => {
+        console.log("skipsong", data);
+        setCurrentlyPlaying(
+          data.body?.item.name + " " + data.body?.item.artists[0].name
+        );
+        console.log(currentlyPlaying);
+      });
+    }, 100);
+
+    return () => {
+      setSongSkip(false);
+    };
+  }, [spotifyApi, songSkip, playing]);
+
+  useEffect(() => {
     spotifyApi.getMyCurrentPlaybackState().then(
       function (data) {
+        console.log(data.body.item.name);
         // Output items
         if (data.body && data.body.is_playing) {
           setPlaying(true);
