@@ -12,6 +12,7 @@ const cssMain = css`
   height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
 `;
 
 const cssHeading1 = css`
