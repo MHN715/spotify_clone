@@ -18,51 +18,12 @@ export default function Player({ spotifyApi }) {
   const [songSkip, setSongSkip] = useState(false);
   const [currentlyPlaying, setCurrentlyPlaying] = useState("");
 
-  console.log("playing:", playing);
-  console.log("currentlyPlaying", currentlyPlaying);
-
-  function playPause(arg) {
-    const btnPressedOnOtherDevice = (err) => setPlaying(!playing);
-
-    return arg === "play"
-      ? spotifyApi.play().then(() => setPlaying(true), btnPressedOnOtherDevice)
-      : arg === "pause"
-      ? spotifyApi
-          .pause()
-          .then(() => setPlaying(false), btnPressedOnOtherDevice)
-      : null;
-  }
-
-  function skipSong(arg) {
-    // spotifyApi.getMyCurrentPlayingTrack().then((data) => {
-    //   setCurrentlyPlaying(
-    //     data.body?.item.name + " " + data.body?.item.artists[0].name
-    //   );
-    //   console.log(currentlyPlaying);
-    // });
-
-    return arg === "next"
-      ? spotifyApi.skipToNext().then(() => {
-          setSongSkip(true);
-          setPlaying(true);
-        })
-      : arg === "prev"
-      ? spotifyApi.skipToPrevious().then(() => {
-          setSongSkip(true);
-          setPlaying(true);
-        })
-      : null;
-  }
-
   useEffect(() => {
-    console.log("song skipped");
     setTimeout(() => {
       spotifyApi.getMyCurrentPlayingTrack().then((data) => {
-        console.log("skipsong", data);
         setCurrentlyPlaying(
           data.body?.item.name + " " + data.body?.item.artists[0].name
         );
-        console.log(currentlyPlaying);
       });
     }, 100);
 
@@ -135,4 +96,29 @@ export default function Player({ spotifyApi }) {
       </div>
     </div>
   );
+
+  function playPause(arg) {
+    const btnPressedOnOtherDevice = (err) => setPlaying(!playing);
+    return arg === "play"
+      ? spotifyApi.play().then(() => setPlaying(true), btnPressedOnOtherDevice)
+      : arg === "pause"
+      ? spotifyApi
+          .pause()
+          .then(() => setPlaying(false), btnPressedOnOtherDevice)
+      : null;
+  }
+
+  function skipSong(arg) {
+    return arg === "next"
+      ? spotifyApi.skipToNext().then(() => {
+          setSongSkip(true);
+          setPlaying(true);
+        })
+      : arg === "prev"
+      ? spotifyApi.skipToPrevious().then(() => {
+          setSongSkip(true);
+          setPlaying(true);
+        })
+      : null;
+  }
 }

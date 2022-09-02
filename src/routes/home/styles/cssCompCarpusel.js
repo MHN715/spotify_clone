@@ -5,6 +5,7 @@ const cssWrapper = css`
   width: 100%;
   display: grid;
   grid-template-rows: 1fr 1fr;
+  border: 1px solid blue;
 `;
 
 const cssImg = css`

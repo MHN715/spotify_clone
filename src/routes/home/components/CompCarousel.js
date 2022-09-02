@@ -1,41 +1,20 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/lazy";
 import { FreeMode, Lazy } from "swiper";
-import ContextCarouselEndReached from "../../../Context/ContextCarouselEndReached";
 import {
   cssWrapper,
   cssImg,
   cssHeading2_1,
   cssHeading2_2,
   cssCostumSwiper,
-} from "../styles/cssCarousel_component";
+} from "../styles/cssCompCarpusel";
 
-export default function Comp_carousel({ tracks, title }) {
+export default function CompCarousel({ tracks, title }) {
   const [sortedTracks, setSortedTracks] = useState([]);
-  const {
-    carouselEndReached1,
-    setCarouselEndReached1,
-    carouselEndReached2,
-    setCarouselEndReached2,
-  } = useContext(ContextCarouselEndReached);
-
-  // console.log("carouselEndReached1:", carouselEndReached1);
-  // console.log(
-  //   "CarouselEndReachedContext:",
-  //   CarouselEndReachedContext._currentValue
-  // );
-
-  // console.log("set", setCarouselEndReached);
-
-  // useEffect(() => {
-  //   // sortedTracks.concat([newArray]);
-  //   sortedTracks.push(newObject);
-  //   console.log(sortedTracks);
-  // }, [sortedTracks]);
 
   useEffect(() => {
     const result = tracks?.reduce((sortedArray, currentObj) => {
@@ -50,11 +29,6 @@ export default function Comp_carousel({ tracks, title }) {
     setSortedTracks(result);
   }, [tracks]);
 
-  function CarouselEndReached() {
-    setCarouselEndReached1(true);
-    return;
-  }
-
   return (
     <div>
       <h2 css={cssHeading2_1}>{title}</h2>{" "}
@@ -67,7 +41,9 @@ export default function Comp_carousel({ tracks, title }) {
         onSlideChange={() => console.log("slide change")}
         // onSwiper={(swiper) => console.log(swiper)}
         onReachEnd={(e) =>
-          e.progress > 0 && e.isEnd === true ? CarouselEndReached() : null
+          e.progress > 0 && e.isEnd === true
+            ? console.log("carousel end reached")
+            : null
         }
         css={cssCostumSwiper}
       >
@@ -77,16 +53,18 @@ export default function Comp_carousel({ tracks, title }) {
           const image = item.track.album.images[1];
           return (
             <SwiperSlide key={id}>
-              <div css={cssWrapper}>
+              <div
+                css={cssWrapper}
+                onClick={() => {
+                  console.log("Clicked");
+                }}
+              >
                 <img
                   src={image.url}
                   alt={name}
                   width="100%"
                   height="width"
                   css={cssImg}
-                  onClick={() => {
-                    console.log("clicked");
-                  }}
                 />
                 <h2 css={cssHeading2_2}>{name}</h2>
               </div>
