@@ -38,8 +38,8 @@ export default function Home() {
         <h1 css={cssHeading1}>Spotify decluttered</h1>
         <CompCarousel tracks={recentTracks} title="Recently Played" />
         <CompCarousel tracks={savedTracks} title="Saved Tracks" />
+        <Player spotifyApi={spotifyApi} />
       </main>
-      {/* <Player /> */}
       <div
         css={css`
           /* border: 3px solid blue; */
@@ -48,6 +48,7 @@ export default function Home() {
           bottom: 4rem;
           width: 100vw;
           z-index: 400;
+          /* display: none; */
         `}
       >
         <SpotifyPlayer

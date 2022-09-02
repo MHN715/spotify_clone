@@ -64,7 +64,9 @@ export default function Player({ spotifyApi }) {
   }, [spotifyApi, playing]);
 
   return (
-    <div css={cssWrapper}>
+    <div
+    // css={cssWrapper}
+    >
       <p css={cssP}>{currentlyPlaying}</p>
       <div css={cssBtnWrapper}>
         <FontAwesomeIcon
@@ -72,7 +74,6 @@ export default function Player({ spotifyApi }) {
           css={cssIcons}
           onClick={() => skipSong("prev")}
         />
-
         {(() => {
           return playing ? (
             <FontAwesomeIcon

@@ -6,7 +6,7 @@ const cssWrapper = css`
   position: sticky;
   position: fixed;
   bottom: 4rem;
-  z-index: 300;
+  z-index: 600;
   display: grid;
   grid-template-columns: 5fr 4fr;
 `;
