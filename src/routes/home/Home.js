@@ -9,6 +9,7 @@ import Player from "../../components/Player/Player";
 import SpotifyPlayer from "react-spotify-web-playback";
 import axios from "axios";
 import { cssWrapper, cssMain, cssHeading1 } from "./styles/cssHome";
+import { StylesOptions } from "../../spotifyReactWebPlaybackInterface";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "84a9b541a3dc46038b865300f1d671e4",
@@ -53,17 +54,9 @@ export default function Home() {
       >
         <SpotifyPlayer
           token={accessToken}
-          uris={["spotify:artist:6HQYnRM4OzToCYPpVBInuU"]}
-          styles={{
-            activeColor: "#fff",
-            bgColor: "#333",
-            color: "#fff",
-            loaderColor: "#fff",
-            sliderColor: "#1cb954",
-            trackArtistColor: "#ccc",
-            trackNameColor: "#fff",
-            height: "4rem",
-          }}
+          styles={StylesOptions}
+          callback={(e) => console.log(e)}
+          uris={["spotify:track:0hlIHC4WorijBeU9kGIENe"]}
         />
       </div>
       ; <Nav />

@@ -48,7 +48,7 @@ export default function CompCarousel({ tracks, title }) {
         css={cssCostumSwiper}
       >
         {sortedTracks?.map((item) => {
-          // console.log(item.track);
+          console.log(item.track.uri);
           const { id, name } = item.track;
           const image = item.track.album.images[1];
           return (
