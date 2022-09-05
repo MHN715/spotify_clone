@@ -23,6 +23,8 @@ export default function CompCarousel({ tracks, title }) {
     setChosenPlaylist,
     chosenIndex,
     setChosenIndex,
+    playing,
+    setPlaying,
   } = useContext(WhatsPlayingContext);
 
   useEffect(() => {
@@ -71,6 +73,7 @@ export default function CompCarousel({ tracks, title }) {
                   setChosenTrack(uri);
                   setChosenPlaylist(sortedTracks);
                   setChosenIndex(index);
+                  setPlaying(true);
                 }}
               >
                 <img

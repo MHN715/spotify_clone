@@ -11,14 +11,10 @@ import {
   faDisplay,
   faHeartCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import SpotifyPlayer from "react-spotify-web-playback";
 import { cssWrapper, cssP, cssBtnWrapper, cssIcons } from "./style/cssPlayer";
-import { StylesOptions } from "../../components/Player/spotifyReactWebPlaybackInterface";
 import WhatsPlayingContext from "../../Context/WhatsPlayingContext";
 
 export default function Player({ spotifyApi, accessToken }) {
-  const [playing, setPlaying] = useState(false);
-  const [currentlyPlayingName, setCurrentlyPlayingName] = useState("");
   const {
     chosenTrack,
     setChosenTrack,
@@ -26,38 +22,39 @@ export default function Player({ spotifyApi, accessToken }) {
     setChosenPlaylist,
     chosenIndex,
     setChosenIndex,
+    playing,
+    setPlaying,
+    currentlyPlayingName,
+    setCurrentlyPlayingName,
   } = useContext(WhatsPlayingContext);
 
-  useEffect(() => {
-    spotifyApi.getMyCurrentPlaybackState().then(
-      function (data) {
-        console.log(data.body.item.name);
-        // Output items
-        if (data.body && data.body.is_playing) {
-          // setPlaying(true);
-        } else {
-          // setPlaying(false);
-        }
-      },
-      function (err) {
-        console.log("Something went wrong!", err);
-      }
-    );
-  }, [spotifyApi]);
+  function playPause(arg) {
+    return arg === "play"
+      ? setPlaying(true)
+      : arg === "pause"
+      ? setPlaying(false)
+      : null;
+  }
 
-  useEffect(() => {
-    spotifyApi.getMyCurrentPlayingTrack().then(
-      function (data) {
-        console.log("Now playing:", data.body.item);
+  function skipSong(arg) {
+    return arg === "next"
+      ? (setChosenTrack(chosenPlaylist[chosenIndex + 1].track.uri),
+        setChosenIndex(chosenIndex + 1),
         setCurrentlyPlayingName(
-          data.body?.item.name + " " + data.body?.item.artists[0].name
-        );
-      },
-      function (err) {
-        console.log("Something went wrong!", err);
-      }
-    );
-  }, [spotifyApi]);
+          chosenPlaylist[chosenIndex + 1].track.name +
+            " - " +
+            chosenPlaylist[chosenIndex + 1].track.artists[0].name
+        ))
+      : arg === "prev"
+      ? (setChosenTrack(chosenPlaylist[chosenIndex - 1].track.uri),
+        setChosenIndex(chosenIndex - 1),
+        setCurrentlyPlayingName(
+          chosenPlaylist[chosenIndex - 1].track.name +
+            " - " +
+            chosenPlaylist[chosenIndex - 1].track.artists[0].name
+        ))
+      : null;
+  }
 
   return (
     <div css={cssWrapper}>
@@ -89,55 +86,6 @@ export default function Player({ spotifyApi, accessToken }) {
           onClick={() => skipSong("next")}
         />
       </div>
-      <div
-        css={css`
-          bottom: 4rem;
-          width: 100vw;
-          z-index: 400;
-          position: absolute;
-          bottom: 6rem;
-          /* display: none; */
-        `}
-      >
-        <SpotifyPlayer
-          token={accessToken}
-          styles={StylesOptions}
-          callback={(e) => {
-            console.log(e);
-            e.isPlaying && setPlaying(true);
-            !e.isPlaying && setPlaying(false);
-          }}
-          uris={[chosenTrack]}
-          play={playing}
-        />
-      </div>
     </div>
   );
-
-  function playPause(arg) {
-    // const btnPressedOnOtherDevice = (err) => setPlaying(!playing);
-    return arg === "play"
-      ? setPlaying(true)
-      : arg === "pause"
-      ? setPlaying(false)
-      : null;
-  }
-
-  function skipSong(arg) {
-    return arg === "next"
-      ? // console.log(chosenPlaylist);
-        (setChosenTrack(chosenPlaylist[chosenIndex + 1].track.uri),
-        setChosenIndex(chosenIndex + 1))
-      : // console.log(chosenTrack);
-      // setSongSkip(true);
-      // setPlaying(true);
-
-      arg === "prev"
-      ? (setChosenTrack(chosenPlaylist[chosenIndex - 1].track.uri),
-        setChosenIndex(chosenIndex - 1))
-      : // setSongSkip(true)
-        // setPlaying(true);
-
-        null;
-  }
 }

@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import AccessTokenContext from "../../api/AccessTokenContext";
 import SpotifyWebApi from "spotify-web-api-node";
 import Nav from "../../components/Nav/Nav";
+import Player from "../../components/Player/Player";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "84a9b541a3dc46038b865300f1d671e4",
@@ -60,6 +61,7 @@ export default function Search() {
         onChange={(e) => setSearch(e.target.value)}
       />
       <Nav />
+      <Player spotifyApi={spotifyApi} accessToken={accessToken} />
     </div>
   );
 }
