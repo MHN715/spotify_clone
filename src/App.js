@@ -7,27 +7,42 @@ import Home from "./routes/home/Home";
 import Search from "./routes/search/Search";
 
 import AccessTokenContext from "./api/AccessTokenContext";
+import WhatsPlayingContext from "./Context/WhatsPlayingContext";
 
 const code = new URLSearchParams(window.location.search).get("code");
 
 function App() {
   var accessTokenState = useState(null);
+  var [chosenTrack, setChosenTrack] = useState(null);
+  var [chosenPlaylist, setChosenPlaylist] = useState([]);
+  var [chosenIndex, setChosenIndex] = useState(null);
 
   return (
     <AccessTokenContext.Provider value={accessTokenState}>
-      <Routes>
-        {(() => {
-          if (accessTokenState[0])
-            return (
-              <>
-                <Route path="/" element={<Home />} />
-                <Route path="search" element={<Search />} />
-              </>
-            );
-        })()}
-        <Route path="*" element={<Login />} />
-        <Route path="/callback" element={<Callback code={code} />} />;
-      </Routes>
+      <WhatsPlayingContext.Provider
+        value={{
+          chosenTrack,
+          // setChosenTrack,
+          chosenPlaylist,
+          setChosenPlaylist,
+          chosenIndex,
+          setChosenIndex,
+        }}
+      >
+        <Routes>
+          {(() => {
+            if (accessTokenState[0])
+              return (
+                <>
+                  <Route path="/" element={<Home />} />
+                  <Route path="search" element={<Search />} />
+                </>
+              );
+          })()}
+          <Route path="*" element={<Login />} />
+          <Route path="/callback" element={<Callback code={code} />} />;
+        </Routes>
+      </WhatsPlayingContext.Provider>
     </AccessTokenContext.Provider>
   );
 }

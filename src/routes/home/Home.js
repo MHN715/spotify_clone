@@ -6,10 +6,8 @@ import Nav from "../../components/Nav/Nav";
 import SpotifyWebApi from "spotify-web-api-node";
 import CompCarousel from "./components/CompCarousel";
 import Player from "../../components/Player/Player";
-import SpotifyPlayer from "react-spotify-web-playback";
 import axios from "axios";
 import { cssWrapper, cssMain, cssHeading1 } from "./styles/cssHome";
-import { StylesOptions } from "../../spotifyReactWebPlaybackInterface";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "84a9b541a3dc46038b865300f1d671e4",
@@ -33,32 +31,33 @@ export default function Home() {
     savedTracksFunc(20, 0);
   }, [accessToken]);
 
+  useEffect(() => {
+    spotifyApi.getMe().then(
+      function (data) {
+        console.log("Some information about the authenticated user", data.body);
+      },
+      function (err) {
+        console.log("Something went wrong!", err);
+      }
+    );
+    spotifyApi.getUserPlaylists("thelinmichael").then(
+      function (data) {
+        console.log("Retrieved playlists", data.body);
+      },
+      function (err) {
+        console.log("Something went wrong!", err);
+      }
+    );
+  }, []);
+
   return (
     <div css={cssWrapper}>
       <main css={cssMain}>
         <h1 css={cssHeading1}>Spotify decluttered</h1>
         <CompCarousel tracks={recentTracks} title="Recently Played" />
         <CompCarousel tracks={savedTracks} title="Saved Tracks" />
-        <Player spotifyApi={spotifyApi} />
       </main>
-      <div
-        css={css`
-          /* border: 3px solid blue; */
-          position: sticky;
-          position: fixed;
-          bottom: 4rem;
-          width: 100vw;
-          z-index: 400;
-          /* display: none; */
-        `}
-      >
-        <SpotifyPlayer
-          token={accessToken}
-          styles={StylesOptions}
-          callback={(e) => console.log(e)}
-          uris={["spotify:track:0hlIHC4WorijBeU9kGIENe"]}
-        />
-      </div>
+      <Player spotifyApi={spotifyApi} accessToken={accessToken} />
       ; <Nav />
     </div>
   );
@@ -87,6 +86,7 @@ export default function Home() {
       })
       .then(
         function (savedTracks) {
+          console.log("savedtracks:", savedTracks);
           setSavedTracks(savedTracks.body.items);
         },
         function (err) {

@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -12,9 +12,18 @@ import {
   cssHeading2_2,
   cssCostumSwiper,
 } from "../styles/cssCompCarpusel";
+import WhatsPlayingContext from "../../../Context/WhatsPlayingContext";
 
 export default function CompCarousel({ tracks, title }) {
   const [sortedTracks, setSortedTracks] = useState([]);
+  const {
+    chosenTrack,
+    setChosenTrack,
+    chosenPlaylist,
+    setChosenPlaylist,
+    chosenIndex,
+    setChosenIndex,
+  } = useContext(WhatsPlayingContext);
 
   useEffect(() => {
     const result = tracks?.reduce((sortedArray, currentObj) => {
@@ -47,16 +56,21 @@ export default function CompCarousel({ tracks, title }) {
         }
         css={cssCostumSwiper}
       >
-        {sortedTracks?.map((item) => {
-          console.log(item.track.uri);
-          const { id, name } = item.track;
+        {sortedTracks?.map((item, index) => {
+          // console.log(item.track.uri);
+          const { id, name, uri } = item.track;
           const image = item.track.album.images[1];
           return (
             <SwiperSlide key={id}>
               <div
                 css={cssWrapper}
                 onClick={() => {
-                  console.log("Clicked");
+                  console.log(index, item);
+                  console.log(sortedTracks[index]);
+                  console.log(sortedTracks);
+                  setChosenTrack(uri);
+                  setChosenPlaylist(sortedTracks);
+                  setChosenIndex(index);
                 }}
               >
                 <img

@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlayCircle,
@@ -11,26 +11,22 @@ import {
   faDisplay,
   faHeartCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
+import SpotifyPlayer from "react-spotify-web-playback";
 import { cssWrapper, cssP, cssBtnWrapper, cssIcons } from "./style/cssPlayer";
+import { StylesOptions } from "../../components/Player/spotifyReactWebPlaybackInterface";
+import WhatsPlayingContext from "../../Context/WhatsPlayingContext";
 
-export default function Player({ spotifyApi }) {
+export default function Player({ spotifyApi, accessToken }) {
   const [playing, setPlaying] = useState(false);
-  const [songSkip, setSongSkip] = useState(false);
-  const [currentlyPlaying, setCurrentlyPlaying] = useState("");
-
-  useEffect(() => {
-    setTimeout(() => {
-      spotifyApi.getMyCurrentPlayingTrack().then((data) => {
-        setCurrentlyPlaying(
-          data.body?.item.name + " " + data.body?.item.artists[0].name
-        );
-      });
-    }, 100);
-
-    return () => {
-      setSongSkip(false);
-    };
-  }, [spotifyApi, songSkip, playing]);
+  const [currentlyPlayingName, setCurrentlyPlayingName] = useState("");
+  const {
+    chosenTrack,
+    setChosenTrack,
+    chosenPlaylist,
+    setChosenPlaylist,
+    chosenIndex,
+    setChosenIndex,
+  } = useContext(WhatsPlayingContext);
 
   useEffect(() => {
     spotifyApi.getMyCurrentPlaybackState().then(
@@ -38,22 +34,22 @@ export default function Player({ spotifyApi }) {
         console.log(data.body.item.name);
         // Output items
         if (data.body && data.body.is_playing) {
-          setPlaying(true);
+          // setPlaying(true);
         } else {
-          setPlaying(false);
+          // setPlaying(false);
         }
       },
       function (err) {
         console.log("Something went wrong!", err);
       }
     );
-  }, [spotifyApi, playing]);
+  }, [spotifyApi]);
 
   useEffect(() => {
     spotifyApi.getMyCurrentPlayingTrack().then(
       function (data) {
         console.log("Now playing:", data.body.item);
-        setCurrentlyPlaying(
+        setCurrentlyPlayingName(
           data.body?.item.name + " " + data.body?.item.artists[0].name
         );
       },
@@ -61,13 +57,11 @@ export default function Player({ spotifyApi }) {
         console.log("Something went wrong!", err);
       }
     );
-  }, [spotifyApi, playing]);
+  }, [spotifyApi]);
 
   return (
-    <div
-    // css={cssWrapper}
-    >
-      <p css={cssP}>{currentlyPlaying}</p>
+    <div css={cssWrapper}>
+      <p css={cssP}>{currentlyPlayingName}</p>
       <div css={cssBtnWrapper}>
         <FontAwesomeIcon
           icon={faArrowAltCircleLeft}
@@ -95,31 +89,55 @@ export default function Player({ spotifyApi }) {
           onClick={() => skipSong("next")}
         />
       </div>
+      <div
+        css={css`
+          bottom: 4rem;
+          width: 100vw;
+          z-index: 400;
+          position: absolute;
+          bottom: 6rem;
+          /* display: none; */
+        `}
+      >
+        <SpotifyPlayer
+          token={accessToken}
+          styles={StylesOptions}
+          callback={(e) => {
+            console.log(e);
+            e.isPlaying && setPlaying(true);
+            !e.isPlaying && setPlaying(false);
+          }}
+          uris={[chosenTrack]}
+          play={playing}
+        />
+      </div>
     </div>
   );
 
   function playPause(arg) {
-    const btnPressedOnOtherDevice = (err) => setPlaying(!playing);
+    // const btnPressedOnOtherDevice = (err) => setPlaying(!playing);
     return arg === "play"
-      ? spotifyApi.play().then(() => setPlaying(true), btnPressedOnOtherDevice)
+      ? setPlaying(true)
       : arg === "pause"
-      ? spotifyApi
-          .pause()
-          .then(() => setPlaying(false), btnPressedOnOtherDevice)
+      ? setPlaying(false)
       : null;
   }
 
   function skipSong(arg) {
     return arg === "next"
-      ? spotifyApi.skipToNext().then(() => {
-          setSongSkip(true);
-          setPlaying(true);
-        })
-      : arg === "prev"
-      ? spotifyApi.skipToPrevious().then(() => {
-          setSongSkip(true);
-          setPlaying(true);
-        })
-      : null;
+      ? // console.log(chosenPlaylist);
+        (setChosenTrack(chosenPlaylist[chosenIndex + 1].track.uri),
+        setChosenIndex(chosenIndex + 1))
+      : // console.log(chosenTrack);
+      // setSongSkip(true);
+      // setPlaying(true);
+
+      arg === "prev"
+      ? (setChosenTrack(chosenPlaylist[chosenIndex - 1].track.uri),
+        setChosenIndex(chosenIndex - 1))
+      : // setSongSkip(true)
+        // setPlaying(true);
+
+        null;
   }
 }
