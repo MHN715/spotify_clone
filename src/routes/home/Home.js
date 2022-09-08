@@ -8,6 +8,7 @@ import CompCarousel from "./components/CompCarousel";
 import Player from "../../components/Player/Player";
 import axios from "axios";
 import { cssWrapper, cssMain, cssHeading1 } from "./styles/cssHome";
+import ComponentPlaylsits from "./components/ComponentPlaylists";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "84a9b541a3dc46038b865300f1d671e4",
@@ -17,7 +18,10 @@ export default function Home() {
   const accessToken = useContext(AccessTokenContext)[0];
   const [recentTracks, setRecentTracks] = useState([]);
   const [savedTracks, setSavedTracks] = useState([]);
+  const [featuredPlaylist, setFeaturedPlaylist] = useState([]);
   const [newLimit, setNewLimit] = useState(0);
+
+  console.log(featuredPlaylist);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -29,26 +33,8 @@ export default function Home() {
 
     recentTracksFunc(20, 0);
     savedTracksFunc(20, 0);
+    featuredPlaylistFunc(20, 0);
   }, [accessToken]);
-
-  useEffect(() => {
-    spotifyApi.getMe().then(
-      function (data) {
-        console.log("Some information about the authenticated user", data.body);
-      },
-      function (err) {
-        console.log("Something went wrong!", err);
-      }
-    );
-    spotifyApi.getUserPlaylists("thelinmichael").then(
-      function (data) {
-        console.log("Retrieved playlists", data.body);
-      },
-      function (err) {
-        console.log("Something went wrong!", err);
-      }
-    );
-  }, []);
 
   return (
     <div css={cssWrapper}>
@@ -56,6 +42,11 @@ export default function Home() {
         <h1 css={cssHeading1}>Spotify decluttered</h1>
         <CompCarousel tracks={recentTracks} title="Recently Played" />
         <CompCarousel tracks={savedTracks} title="Saved Tracks" />
+        <ComponentPlaylsits
+          spotifyApi={spotifyApi}
+          playlists={featuredPlaylist}
+          accessToken={accessToken}
+        />
       </main>
       <Player spotifyApi={spotifyApi} accessToken={accessToken} />
       ; <Nav />
@@ -86,8 +77,28 @@ export default function Home() {
       })
       .then(
         function (savedTracks) {
-          console.log("savedtracks:", savedTracks);
+          console.log("savedtracks:", savedTracks.body.items);
           setSavedTracks(savedTracks.body.items);
+        },
+        function (err) {
+          console.log("Something went wrong!", err);
+        }
+      );
+  }
+
+  function featuredPlaylistFunc(limit, offset) {
+    spotifyApi
+      .getFeaturedPlaylists({
+        limit: limit,
+        offset: offset,
+        country: "SE",
+        locale: "sv_SE",
+        timestamp: "2014-10-23T09:00:00",
+      })
+      .then(
+        function (data) {
+          console.log("featured playlist:", data.body.playlists.items);
+          setFeaturedPlaylist(data.body.playlists.items);
         },
         function (err) {
           console.log("Something went wrong!", err);
