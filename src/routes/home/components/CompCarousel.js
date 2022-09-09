@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import { useEffect, useState, useContext } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -28,6 +29,7 @@ export default function CompCarousel({
     setChosenTrack,
     chosenPlaylist,
     setChosenPlaylist,
+    cssImg,
     chosenIndex,
     setChosenIndex,
     playing,
@@ -79,13 +81,13 @@ export default function CompCarousel({
         // loadPrevNextAmount={3}
         modules={[Lazy, FreeMode]}
         onSlideChange={() => console.log("slide change")}
-        // onSwiper={(swiper) => console.log(swiper)}
+        onSwiper={(swiper) => console.log("onSwiper:", swiper)}
         onReachEnd={(e) =>
           e.progress > 0 && e.isEnd === true
             ? console.log("carousel end reached")
             : null
         }
-        css={cssCostumSwiper}
+        // css={cssCostumSwiper}
       >
         {(() => {
           if (!isItPlaylists && !isItAlbums) {
@@ -94,29 +96,34 @@ export default function CompCarousel({
               const { id, name, uri } = item.track;
               const image = item.track.album.images[1].url;
               return (
-                <SwiperSlide key={id}>
-                  <div
-                    css={cssWrapper}
-                    onClick={() => {
-                      console.log(index, item);
-                      console.log(sortedTracks[index]);
-                      console.log(sortedTracks);
-                      setChosenTrack(uri);
-                      setChosenPlaylist(sortedTracks);
-                      setChosenIndex(index);
-                      setPlaying(true);
-                    }}
-                  >
-                    <img
-                      src={image}
-                      alt={name}
-                      width="100%"
-                      height="width"
-                      css={cssImg}
-                    />
-                    <h2 css={cssHeading2_2}>{name}</h2>
-                  </div>
-                </SwiperSlide>
+                <>
+                  <SwiperSlide key={id}>
+                    <div
+                      // css={cssWrapper}
+
+                      onClick={() => {
+                        console.log(index, item);
+                        console.log(sortedTracks[index]);
+                        console.log(sortedTracks);
+                        setChosenTrack(uri);
+                        setChosenPlaylist(sortedTracks);
+                        setChosenIndex(index);
+                        setPlaying(true);
+                      }}
+                    >
+                      <img
+                        className="image swiper-lazy"
+                        data-src={image}
+                        alt={name}
+                        width="100%"
+                        height="width"
+                        css={cssImg}
+                      />
+                      <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                      <h2 css={cssHeading2_2}>{name}</h2>
+                    </div>
+                  </SwiperSlide>
+                </>
               );
             });
           } else if (isItPlaylists && !isItAlbums) {
@@ -127,7 +134,7 @@ export default function CompCarousel({
               return (
                 <SwiperSlide key={id}>
                   <div
-                    css={cssWrapper}
+                    // css={cssWrapper}
                     onClick={() => {
                       console.log("playlists selected");
                       // console.log(index, item);
@@ -155,32 +162,37 @@ export default function CompCarousel({
             });
           } else if (isItAlbums) {
             return items.map((item) => {
-              console.log("newReleases", item);
+              // console.log("newReleases", item);
               const { id, name } = item;
               const image = item.images[2].url;
-              console.log(image);
+              // console.log(image);
               return (
-                <SwiperSlide key={id}>
+                <SwiperSlide
+                  key={id}
+                  onClick={() => {
+                    console.log("playlists selected");
+                    // console.log(index, item);
+                    // console.log(sortedTracks[index]);
+                    // console.log(sortedTracks);
+                    // setChosenTrack(uri);
+                    // setChosenPlaylist(sortedTracks);
+                    // setChosenIndex(index);
+                    // setPlaying(true);
+                  }}
+                >
+                  {" "}
                   <div
-                    css={cssWrapper}
-                    onClick={() => {
-                      console.log("playlists selected");
-                      // console.log(index, item);
-                      // console.log(sortedTracks[index]);
-                      // console.log(sortedTracks);
-                      // setChosenTrack(uri);
-                      // setChosenPlaylist(sortedTracks);
-                      // setChosenIndex(index);
-                      // setPlaying(true);
-                    }}
+                  // css={cssWrapper}
                   >
                     <img
-                      src={image}
+                      className="image swiper-lazy"
+                      data-src={image}
                       alt={name}
                       width="100%"
                       height="width"
                       css={cssImg}
                     />
+                    <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                     <h2 css={cssHeading2_2}>{name}</h2>
                   </div>
                 </SwiperSlide>
