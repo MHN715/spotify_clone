@@ -1,9 +1,13 @@
 import { css } from "@emotion/react";
+import "../../../variables.css";
+
 const cssWrapper = css`
+  border: 2px solid blue;
   background: #ffffff7b;
-  height: 4.3rem;
+  /* background: black; */
+  height: var(--playerHeight);
   width: 100vw;
-  position: sticky;
+  /* position: sticky; */
   position: fixed;
   bottom: 4rem;
   z-index: 600;

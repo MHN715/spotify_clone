@@ -6,9 +6,7 @@ import Nav from "../../components/Nav/Nav";
 import SpotifyWebApi from "spotify-web-api-node";
 import CompCarousel from "./components/CompCarousel";
 import Player from "../../components/Player/Player";
-import axios from "axios";
 import { cssWrapper, cssMain, cssHeading1 } from "./styles/cssHome";
-import ComponentPlaylsits from "./components/ComponentPlaylists";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "84a9b541a3dc46038b865300f1d671e4",
@@ -18,10 +16,9 @@ export default function Home() {
   const accessToken = useContext(AccessTokenContext)[0];
   const [recentTracks, setRecentTracks] = useState([]);
   const [savedTracks, setSavedTracks] = useState([]);
-  const [featuredPlaylist, setFeaturedPlaylist] = useState([]);
+  const [featuredPlaylists, setFeaturedPlaylists] = useState([]);
+  const [newReleases, setNewReleases] = useState([]);
   const [newLimit, setNewLimit] = useState(0);
-
-  console.log(featuredPlaylist);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -31,29 +28,49 @@ export default function Home() {
   useEffect(() => {
     if (!accessToken) return;
 
-    recentTracksFunc(20, 0);
-    savedTracksFunc(20, 0);
-    featuredPlaylistFunc(20, 0);
+    getRecentTracks(20, 0);
+    getSavedTracks(20, 0);
+    getFeaturedPlaylists(20, 0);
+    getNewReleases(20, 0);
   }, [accessToken]);
 
   return (
     <div css={cssWrapper}>
       <main css={cssMain}>
         <h1 css={cssHeading1}>Spotify decluttered</h1>
-        <CompCarousel tracks={recentTracks} title="Recently Played" />
-        <CompCarousel tracks={savedTracks} title="Saved Tracks" />
-        <ComponentPlaylsits
+        <CompCarousel
+          items={recentTracks}
+          title="Recently Played"
+          isItPlaylists={false}
+          isItAlbums={false}
+        />
+        <CompCarousel
+          items={featuredPlaylists}
+          title="Featured Playlists"
+          isItPlaylists={true}
+          isItAlbums={false}
           spotifyApi={spotifyApi}
-          playlists={featuredPlaylist}
-          accessToken={accessToken}
+        />
+        <CompCarousel
+          items={newReleases}
+          title="New Releases"
+          isItPlaylists={false}
+          isItAlbums={true}
+          spotifyApi={spotifyApi}
+        />
+        <CompCarousel
+          items={savedTracks}
+          title="Saved Tracks"
+          isItPlaylists={false}
+          isItAlbums={false}
         />
       </main>
       <Player spotifyApi={spotifyApi} accessToken={accessToken} />
-      ; <Nav />
+      <Nav />
     </div>
   );
 
-  function recentTracksFunc(limit, offset) {
+  function getRecentTracks(limit, offset) {
     spotifyApi
       .getMyRecentlyPlayedTracks({
         limit: limit,
@@ -69,7 +86,7 @@ export default function Home() {
       );
   }
 
-  function savedTracksFunc(limit, offset) {
+  function getSavedTracks(limit, offset) {
     spotifyApi
       .getMySavedTracks({
         limit: newLimit + limit,
@@ -77,7 +94,7 @@ export default function Home() {
       })
       .then(
         function (savedTracks) {
-          console.log("savedtracks:", savedTracks.body.items);
+          // console.log("savedtracks:", savedTracks.body.items);
           setSavedTracks(savedTracks.body.items);
         },
         function (err) {
@@ -86,23 +103,31 @@ export default function Home() {
       );
   }
 
-  function featuredPlaylistFunc(limit, offset) {
+  function getFeaturedPlaylists(limit, offset) {
     spotifyApi
       .getFeaturedPlaylists({
         limit: limit,
         offset: offset,
-        country: "SE",
-        locale: "sv_SE",
-        timestamp: "2014-10-23T09:00:00",
       })
       .then(
         function (data) {
-          console.log("featured playlist:", data.body.playlists.items);
-          setFeaturedPlaylist(data.body.playlists.items);
+          setFeaturedPlaylists(data.body.playlists.items);
         },
         function (err) {
           console.log("Something went wrong!", err);
         }
       );
+  }
+
+  function getNewReleases() {
+    spotifyApi.getNewReleases({ limit: 5, offset: 0 }).then(
+      function (data) {
+        console.log(data.body);
+        setNewReleases(data.body.albums.items);
+      },
+      function (err) {
+        console.log("Something went wrong!", err);
+      }
+    );
   }
 }

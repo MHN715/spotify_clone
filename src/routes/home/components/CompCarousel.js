@@ -14,7 +14,14 @@ import {
 } from "../styles/cssCompCarpusel";
 import WhatsPlayingContext from "../../../Context/WhatsPlayingContext";
 
-export default function CompCarousel({ tracks, title }) {
+export default function CompCarousel({
+  items,
+  title,
+  isItPlaylists,
+  isItAlbums,
+  spotifyApi,
+  accessToken,
+}) {
   const [sortedTracks, setSortedTracks] = useState([]);
   const {
     chosenTrack,
@@ -27,8 +34,11 @@ export default function CompCarousel({ tracks, title }) {
     setPlaying,
   } = useContext(WhatsPlayingContext);
 
+  console.log(isItAlbums);
+
   useEffect(() => {
-    const result = tracks?.reduce((sortedArray, currentObj) => {
+    if (isItPlaylists || isItAlbums) return;
+    const result = items?.reduce((sortedArray, currentObj) => {
       let dublicateObj = sortedArray.find(
         (item) => item.track.id === currentObj.track.id
       );
@@ -38,7 +48,22 @@ export default function CompCarousel({ tracks, title }) {
     }, []);
 
     setSortedTracks(result);
-  }, [tracks]);
+  }, [items]);
+
+  useEffect(() => {
+    if (!isItPlaylists || isItAlbums) return;
+    items.map((item) => {
+      // console.log(item.id);
+      spotifyApi.getPlaylist(item.id).then(
+        function (data) {
+          // console.log("Some information about this playlist", data.body);
+        },
+        function (err) {
+          console.log("Something went wrong!", err);
+        }
+      );
+    });
+  }, [items]);
 
   return (
     <div>
@@ -58,36 +83,74 @@ export default function CompCarousel({ tracks, title }) {
         }
         css={cssCostumSwiper}
       >
-        {sortedTracks?.map((item, index) => {
-          // console.log(item.track.uri);
-          const { id, name, uri } = item.track;
-          const image = item.track.album.images[1];
-          return (
-            <SwiperSlide key={id}>
-              <div
-                css={cssWrapper}
-                onClick={() => {
-                  console.log(index, item);
-                  console.log(sortedTracks[index]);
-                  console.log(sortedTracks);
-                  setChosenTrack(uri);
-                  setChosenPlaylist(sortedTracks);
-                  setChosenIndex(index);
-                  setPlaying(true);
-                }}
-              >
-                <img
-                  src={image.url}
-                  alt={name}
-                  width="100%"
-                  height="width"
-                  css={cssImg}
-                />
-                <h2 css={cssHeading2_2}>{name}</h2>
-              </div>
-            </SwiperSlide>
-          );
-        })}
+        {(() => {
+          if (!isItPlaylists && !isItAlbums) {
+            return sortedTracks?.map((item, index) => {
+              // console.log(item.track.uri);
+              const { id, name, uri } = item.track;
+              const image = item.track.album.images[1].url;
+              return (
+                <SwiperSlide key={id}>
+                  <div
+                    css={cssWrapper}
+                    onClick={() => {
+                      console.log(index, item);
+                      console.log(sortedTracks[index]);
+                      console.log(sortedTracks);
+                      setChosenTrack(uri);
+                      setChosenPlaylist(sortedTracks);
+                      setChosenIndex(index);
+                      setPlaying(true);
+                    }}
+                  >
+                    <img
+                      src={image}
+                      alt={name}
+                      width="100%"
+                      height="width"
+                      css={cssImg}
+                    />
+                    <h2 css={cssHeading2_2}>{name}</h2>
+                  </div>
+                </SwiperSlide>
+              );
+            });
+          } else if (isItPlaylists && !isItAlbums) {
+            return items?.map((item, index) => {
+              const { id, name, uri } = item;
+              const image = item.images[0].url;
+
+              return (
+                <SwiperSlide key={id}>
+                  <div
+                    css={cssWrapper}
+                    onClick={() => {
+                      console.log("playlists selected");
+                      // console.log(index, item);
+                      // console.log(sortedTracks[index]);
+                      // console.log(sortedTracks);
+                      // setChosenTrack(uri);
+                      // setChosenPlaylist(sortedTracks);
+                      // setChosenIndex(index);
+                      // setPlaying(true);
+                    }}
+                  >
+                    <img
+                      src={image}
+                      alt={name}
+                      width="100%"
+                      height="width"
+                      css={cssImg}
+                    />
+                    <h2 css={cssHeading2_2}>{name}</h2>
+                  </div>
+                </SwiperSlide>
+              );
+            });
+          } else if (isItAlbums) {
+            console.log("newReleases", items);
+          }
+        })()}
       </Swiper>
     </div>
   );

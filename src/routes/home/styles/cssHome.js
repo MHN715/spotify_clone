@@ -1,6 +1,8 @@
 import { css } from "@emotion/react";
+import "../../../variables.css";
 
 const cssWrapper = css`
+  background: black;
   height: 100vh;
   display: grid;
   grid-template-rows: repeat(12, 1fr);
@@ -8,11 +10,13 @@ const cssWrapper = css`
 `;
 
 const cssMain = css`
-  background: #000000;
-  height: 100vh;
+  border: 1px solid white;
+  flex-grow: 1;
+  height: calc(100vh - var(--navHeight) - var(--playerHeight));
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow-y: scroll;
 `;
 
 const cssHeading1 = css`

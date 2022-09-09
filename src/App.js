@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Login from "./routes/login/Login";
@@ -8,9 +8,7 @@ import Search from "./routes/search/Search";
 
 import AccessTokenContext from "./api/AccessTokenContext";
 import WhatsPlayingContext from "./Context/WhatsPlayingContext";
-
-import SpotifyPlayer from "react-spotify-web-playback";
-import { StylesOptions } from "./spotifyReactWebPlaybackInterface";
+import ReactSpotifyWebPlayback from "./components/ReactSpotifyWebPlayback/ReactSpotifyWebPlayback";
 
 const code = new URLSearchParams(window.location.search).get("code");
 
@@ -40,24 +38,7 @@ function App() {
       >
         {(() => {
           if (accessTokenState[0])
-            return (
-              <div style={{ display: "none" }}>
-                <SpotifyPlayer
-                  token={accessTokenState[0]}
-                  styles={StylesOptions}
-                  callback={(e) => {
-                    if (e.track.name === "") return;
-                    setCurrentlyPlayingName(
-                      e.track.name + " - " + e.track.artists[0].name
-                    );
-                    e.isPlaying && setPlaying(true);
-                    !e.isPlaying && setPlaying(false);
-                  }}
-                  uris={chosenTrack ? [chosenTrack] : []}
-                  play={playing}
-                />
-              </div>
-            );
+            return <ReactSpotifyWebPlayback accessToken={accessTokenState} />;
         })()}
 
         <Routes>
