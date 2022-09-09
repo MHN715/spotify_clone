@@ -17,6 +17,7 @@ const cssMain = css`
   flex-direction: column;
   position: relative;
   overflow-y: scroll;
+  overflow-x: hidden;
 `;
 
 const cssHeading1 = css`
