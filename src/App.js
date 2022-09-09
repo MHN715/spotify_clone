@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
-
-import Login from "./routes/login/Login";
-import Callback from "./routes/callback/Callback";
-import Home from "./routes/home/Home";
-import Search from "./routes/search/Search";
 
 import AccessTokenContext from "./api/AccessTokenContext";
 import WhatsPlayingContext from "./Context/WhatsPlayingContext";
 import ReactSpotifyWebPlayback from "./components/ReactSpotifyWebPlayback/ReactSpotifyWebPlayback";
+
+const Login = lazy(() => import("./routes/login/Login"));
+const Callback = lazy(() => import("./routes/callback/Callback"));
+const Home = lazy(() => import("./routes/home/Home"));
+const Search = lazy(() => import("./routes/search/Search"));
+const Playlist = lazy(() => import("./routes/Playlist/Playlist"));
 
 const code = new URLSearchParams(window.location.search).get("code");
 
@@ -48,6 +49,7 @@ function App() {
                 <>
                   <Route path="/" element={<Home />} />
                   <Route path="search" element={<Search />} />
+                  <Route path="playlist" element={<Playlist />} />
                 </>
               );
           })()}

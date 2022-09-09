@@ -3,7 +3,7 @@ import "../../../variables.css";
 
 const cssWrapper = css`
   border: 2px solid blue;
-  background: #ffffff7b;
+  background: #031328e1;
   /* background: black; */
   height: var(--playerHeight);
   width: 100vw;

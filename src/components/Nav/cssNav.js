@@ -2,13 +2,15 @@ import { css } from "@emotion/react";
 import "../../variables.css";
 
 const cssNav = css`
-  border: 2px solid black;
+  /* border: 2px solid red; */
+  background: #000000e1;
   /* grid-row: 10/11; */
   position: -webkit-sticky;
   height: var(--navHeight);
   width: 100vw;
   position: fixed;
   bottom: 0;
+  z-index: 500;
 `;
 const cssUl = css`
   border: 1px solid red;

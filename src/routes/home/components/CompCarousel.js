@@ -34,7 +34,7 @@ export default function CompCarousel({
     setPlaying,
   } = useContext(WhatsPlayingContext);
 
-  console.log(isItAlbums);
+  // console.log(isItAlbums);
 
   useEffect(() => {
     if (isItPlaylists || isItAlbums) return;
@@ -73,6 +73,10 @@ export default function CompCarousel({
         slidesPerView={3}
         freeMode={true}
         lazy={true}
+        // loadOnTransitionStart={true}
+        // checkInView={true}
+        // loadPrevNext={true}
+        // loadPrevNextAmount={3}
         modules={[Lazy, FreeMode]}
         onSlideChange={() => console.log("slide change")}
         // onSwiper={(swiper) => console.log(swiper)}
@@ -136,6 +140,41 @@ export default function CompCarousel({
                     }}
                   >
                     <img
+                      className="image swiper-lazy"
+                      data-src={image}
+                      alt={name}
+                      width="100%"
+                      height="width"
+                      css={cssImg}
+                    />
+                    <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                    <h2 css={cssHeading2_2}>{name}</h2>
+                  </div>
+                </SwiperSlide>
+              );
+            });
+          } else if (isItAlbums) {
+            return items.map((item) => {
+              console.log("newReleases", item);
+              const { id, name } = item;
+              const image = item.images[2].url;
+              console.log(image);
+              return (
+                <SwiperSlide key={id}>
+                  <div
+                    css={cssWrapper}
+                    onClick={() => {
+                      console.log("playlists selected");
+                      // console.log(index, item);
+                      // console.log(sortedTracks[index]);
+                      // console.log(sortedTracks);
+                      // setChosenTrack(uri);
+                      // setChosenPlaylist(sortedTracks);
+                      // setChosenIndex(index);
+                      // setPlaying(true);
+                    }}
+                  >
+                    <img
                       src={image}
                       alt={name}
                       width="100%"
@@ -147,8 +186,6 @@ export default function CompCarousel({
                 </SwiperSlide>
               );
             });
-          } else if (isItAlbums) {
-            console.log("newReleases", items);
           }
         })()}
       </Swiper>

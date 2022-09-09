@@ -14,7 +14,9 @@ const cssImg = css`
 `;
 
 const cssHeading2_1 = css`
+  /* border: 1px solid white; */
   color: white;
+  margin: 2rem 0 1rem 0.7rem;
 `;
 
 const cssHeading2_2 = css`
@@ -24,7 +26,7 @@ const cssHeading2_2 = css`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-top: 0.2rem;
+  padding-top: 0.5rem;
 `;
 
 const cssCostumSwiper = css`
