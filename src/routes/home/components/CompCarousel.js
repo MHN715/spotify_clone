@@ -29,7 +29,6 @@ export default function CompCarousel({
     setChosenTrack,
     chosenPlaylist,
     setChosenPlaylist,
-    cssImg,
     chosenIndex,
     setChosenIndex,
     playing,
@@ -68,7 +67,7 @@ export default function CompCarousel({
   }, [items]);
 
   return (
-    <div>
+    <div css={cssWrapper}>
       <h2 css={cssHeading2_1}>{title}</h2>{" "}
       <Swiper
         spaceBetween={13}
@@ -109,15 +108,17 @@ export default function CompCarousel({
                       setPlaying(true);
                     }}
                   >
-                    <img
-                      className="image swiper-lazy"
-                      data-src={image}
-                      alt={name}
-                      width="100%"
-                      height="width"
-                      css={cssImg}
-                    />
-                    <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                    <div>
+                      <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                      <img
+                        className="image swiper-lazy"
+                        data-src={image}
+                        alt={name}
+                        width="100%"
+                        height="width"
+                        css={cssImg}
+                      />
+                    </div>
                     <h2 css={cssHeading2_2}>{name}</h2>
                   </div>
                 </SwiperSlide>

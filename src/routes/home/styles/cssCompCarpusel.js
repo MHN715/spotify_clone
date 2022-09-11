@@ -1,19 +1,19 @@
 import { css } from "@emotion/react";
 
 const cssWrapper = css`
-  height: 10rem;
-  width: 100%;
+  /* width: 100%;
   display: grid;
   grid-template-rows: 1fr 1fr;
-  border: 1px solid blue;
+  border: 1px solid blue; */
+  border: 5px solid blue;
 `;
 
 const cssImg = css`
   border: 2px solid pink;
   border-radius: 20px;
   box-shadow: 1px 3px 7px 3px #00000045;
-  height: 8rem;
-  width: 8rem;
+  height: 6rem;
+  width: 6rem;
 `;
 
 const cssHeading2_1 = css`
