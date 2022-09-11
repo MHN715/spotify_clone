@@ -27,7 +27,7 @@ export default function Nav() {
         <li css={cssLi}>
           {" "}
           <FontAwesomeIcon icon={faBook} css={cssFontAwesome} />
-          <Link to="/library" css={cssLink}>
+          <Link to="/your_library" css={cssLink}>
             Your Library
           </Link>
         </li>

@@ -9,7 +9,7 @@ const cssWrapper = css`
 `;
 
 const cssImg = css`
-  /* border: 2px solid pink; */
+  border: 2px solid pink;
   border-radius: 20px;
   box-shadow: 1px 3px 7px 3px #00000045;
   height: 8rem;
@@ -19,7 +19,7 @@ const cssImg = css`
 const cssHeading2_1 = css`
   /* border: 1px solid white; */
   color: white;
-  margin: 2rem 0 1rem 0.7rem;
+  margin: 1rem 0 1rem 0.5rem;
 `;
 
 const cssHeading2_2 = css`

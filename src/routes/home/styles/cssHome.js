@@ -27,7 +27,8 @@ const cssHeading1 = css`
   color: white;
   font-size: 2rem;
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 0.4rem;
 `;
 
 export { cssWrapper, cssMain, cssHeading1 };

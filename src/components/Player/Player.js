@@ -11,10 +11,17 @@ import {
   faDisplay,
   faHeartCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import { cssWrapper, cssP, cssBtnWrapper, cssIcons } from "./style/cssPlayer";
+import {
+  cssWrapper,
+  cssP,
+  cssBtnWrapper,
+  cssIcons,
+  cssWrapperFull,
+} from "./style/cssPlayer";
 import WhatsPlayingContext from "../../Context/WhatsPlayingContext";
 
 export default function Player({ spotifyApi, accessToken }) {
+  const [playerFullScreen, setplayerFullScreen] = useState(false);
   const {
     chosenTrack,
     setChosenTrack,
@@ -29,6 +36,7 @@ export default function Player({ spotifyApi, accessToken }) {
   } = useContext(WhatsPlayingContext);
 
   function playPause(arg) {
+    if (!currentlyPlayingName) return;
     return arg === "play"
       ? setPlaying(true)
       : arg === "pause"
@@ -57,35 +65,72 @@ export default function Player({ spotifyApi, accessToken }) {
   }
 
   return (
-    <div css={cssWrapper}>
-      <p css={cssP}>{currentlyPlayingName}</p>
-      <div css={cssBtnWrapper}>
-        <FontAwesomeIcon
-          icon={faArrowAltCircleLeft}
-          css={cssIcons}
-          onClick={() => skipSong("prev")}
-        />
-        {(() => {
-          return playing ? (
-            <FontAwesomeIcon
-              icon={faPauseCircle}
-              css={cssIcons}
-              onClick={() => playPause("pause")}
-            />
-          ) : (
-            <FontAwesomeIcon
-              icon={faPlayCircle}
-              css={cssIcons}
-              onClick={() => playPause("play")}
-            />
-          );
-        })()}
-        <FontAwesomeIcon
-          icon={faArrowAltCircleRight}
-          css={cssIcons}
-          onClick={() => skipSong("next")}
-        />
+    <>
+      <div
+        css={
+          !playerFullScreen && currentlyPlayingName
+            ? cssWrapper
+            : css`
+                display: none;
+              `
+        }
+      >
+        <button
+          css={cssP}
+          onClick={(e) => {
+            console.log(e);
+            console.log("clicked");
+            setplayerFullScreen(!playerFullScreen);
+          }}
+        >
+          <p>{currentlyPlayingName}</p>
+        </button>
+        <div css={cssBtnWrapper}>
+          <FontAwesomeIcon
+            icon={faArrowAltCircleLeft}
+            css={cssIcons}
+            onClick={() => skipSong("prev")}
+          />
+          {(() => {
+            return playing ? (
+              <FontAwesomeIcon
+                icon={faPauseCircle}
+                css={cssIcons}
+                onClick={() => playPause("pause")}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faPlayCircle}
+                css={cssIcons}
+                onClick={() => playPause("play")}
+              />
+            );
+          })()}
+          <FontAwesomeIcon
+            icon={faArrowAltCircleRight}
+            css={cssIcons}
+            onClick={() => skipSong("next")}
+          />
+        </div>
       </div>
-    </div>
+      <div
+        css={
+          playerFullScreen && currentlyPlayingName
+            ? cssWrapperFull
+            : css`
+                display: none;
+              `
+        }
+      >
+        <button
+          css={cssP}
+          onClick={(e) => {
+            console.log(e);
+            console.log("clicked");
+            setplayerFullScreen(!playerFullScreen);
+          }}
+        ></button>
+      </div>
+    </>
   );
 }

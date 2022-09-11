@@ -87,7 +87,6 @@ export default function CompCarousel({
             ? console.log("carousel end reached")
             : null
         }
-        // css={cssCostumSwiper}
       >
         {(() => {
           if (!isItPlaylists && !isItAlbums) {
@@ -96,34 +95,32 @@ export default function CompCarousel({
               const { id, name, uri } = item.track;
               const image = item.track.album.images[1].url;
               return (
-                <>
-                  <SwiperSlide key={id}>
-                    <div
-                      // css={cssWrapper}
+                <SwiperSlide key={id}>
+                  <div
+                    // css={cssWrapper}
 
-                      onClick={() => {
-                        console.log(index, item);
-                        console.log(sortedTracks[index]);
-                        console.log(sortedTracks);
-                        setChosenTrack(uri);
-                        setChosenPlaylist(sortedTracks);
-                        setChosenIndex(index);
-                        setPlaying(true);
-                      }}
-                    >
-                      <img
-                        className="image swiper-lazy"
-                        data-src={image}
-                        alt={name}
-                        width="100%"
-                        height="width"
-                        css={cssImg}
-                      />
-                      <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-                      <h2 css={cssHeading2_2}>{name}</h2>
-                    </div>
-                  </SwiperSlide>
-                </>
+                    onClick={() => {
+                      console.log(index, item);
+                      console.log(sortedTracks[index]);
+                      console.log(sortedTracks);
+                      setChosenTrack(uri);
+                      setChosenPlaylist(sortedTracks);
+                      setChosenIndex(index);
+                      setPlaying(true);
+                    }}
+                  >
+                    <img
+                      className="image swiper-lazy"
+                      data-src={image}
+                      alt={name}
+                      width="100%"
+                      height="width"
+                      css={cssImg}
+                    />
+                    <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                    <h2 css={cssHeading2_2}>{name}</h2>
+                  </div>
+                </SwiperSlide>
               );
             });
           } else if (isItPlaylists && !isItAlbums) {

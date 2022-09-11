@@ -1,8 +1,27 @@
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 import "../../../variables.css";
 
+const bounce = keyframes`
+  from {
+    transform: translate3d(0, 100vh, 0);
+  }, to {
+    transform: translate3d(0,0,0);
+  }
+
+`;
+
+const cssWrapperFull = css`
+  background: #031328e1;
+  width: 100vw;
+  height: calc(100vh - var(--navHeight));
+  position: absolute;
+  /* top: 70vh; */
+  z-index: 1000;
+  animation: ${bounce} 0.1s ease;
+`;
+
 const cssWrapper = css`
-  border: 2px solid blue;
+  /* border: 2px solid blue; */
   background: #031328e1;
   /* background: black; */
   height: var(--playerHeight);
@@ -32,4 +51,4 @@ const cssIcons = css`
   border: 1px solid black;
 `;
 
-export { cssWrapper, cssP, cssBtnWrapper, cssIcons };
+export { cssWrapper, cssP, cssBtnWrapper, cssIcons, cssWrapperFull };
