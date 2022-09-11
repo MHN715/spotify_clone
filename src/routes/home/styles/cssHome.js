@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import "../../../variables.css";
 
 const cssWrapper = css`
-  background: black;
+  background: linear-gradient(#000000, #000000e0);
   height: 100vh;
   display: grid;
   grid-template-rows: repeat(12, 1fr);
@@ -24,7 +24,7 @@ const cssMain = css`
 `;
 
 const cssHeading1 = css`
-  color: white;
+  color: #ffffff;
   font-size: 2rem;
   text-align: center;
   margin-top: 1rem;

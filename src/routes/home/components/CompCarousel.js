@@ -109,13 +109,12 @@ export default function CompCarousel({
                     }}
                   >
                     <div>
-                      <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                       <img
                         className="image swiper-lazy"
                         data-src={image}
                         alt={name}
-                        width="100%"
-                        height="width"
+                        // width="100%"
+                        // height="width"
                         css={cssImg}
                       />
                     </div>
@@ -148,11 +147,11 @@ export default function CompCarousel({
                       className="image swiper-lazy"
                       data-src={image}
                       alt={name}
-                      width="100%"
-                      height="width"
+                      // width="100%"
+                      // height="width"
                       css={cssImg}
                     />
-                    <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+
                     <h2 css={cssHeading2_2}>{name}</h2>
                   </div>
                 </SwiperSlide>
@@ -186,11 +185,10 @@ export default function CompCarousel({
                       className="image swiper-lazy"
                       data-src={image}
                       alt={name}
-                      width="100%"
-                      height="width"
+                      // width="100%"
+                      // height="width"
                       css={cssImg}
                     />
-                    <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                     <h2 css={cssHeading2_2}>{name}</h2>
                   </div>
                 </SwiperSlide>

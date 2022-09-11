@@ -1,6 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useEffect, useState, useContext } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/lazy";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlayCircle,
@@ -13,7 +17,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {
   cssWrapper,
-  cssP,
+  cssSongInfoBtn,
   cssBtnWrapper,
   cssIcons,
   cssWrapperFull,
@@ -76,7 +80,7 @@ export default function Player({ spotifyApi, accessToken }) {
         }
       >
         <button
-          css={cssP}
+          css={cssSongInfoBtn}
           onClick={(e) => {
             console.log(e);
             console.log("clicked");
@@ -123,13 +127,35 @@ export default function Player({ spotifyApi, accessToken }) {
         }
       >
         <button
-          css={cssP}
+          css={cssSongInfoBtn}
           onClick={(e) => {
             console.log(e);
             console.log("clicked");
             setplayerFullScreen(!playerFullScreen);
           }}
-        ></button>
+        >
+          test
+        </button>
+        <main>
+          <Swiper
+            spaceBetween={13}
+            slidesPerView={3}
+            // freeMode={true}
+            // lazy={true}
+            // loadOnTransitionStart={true}
+            // checkInView={true}
+            // loadPrevNext={true}
+            // loadPrevNextAmount={3}
+            // modules={[Lazy, FreeMode]}
+            onSlideChange={() => console.log("slide change")}
+            onSwiper={(swiper) => console.log("onSwiper:", swiper)}
+            onReachEnd={(e) =>
+              e.progress > 0 && e.isEnd === true
+                ? console.log("carousel end reached")
+                : null
+            }
+          ></Swiper>
+        </main>
       </div>
     </>
   );

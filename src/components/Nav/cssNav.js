@@ -3,7 +3,7 @@ import "../../variables.css";
 
 const cssNav = css`
   /* border: 2px solid red; */
-  background: #000000e1;
+  background: #000000f2;
   /* grid-row: 10/11; */
   position: -webkit-sticky;
   height: var(--navHeight);
@@ -13,7 +13,7 @@ const cssNav = css`
   z-index: 500;
 `;
 const cssUl = css`
-  border: 1px solid red;
+  /* border: 1px solid red; */
   display: flex;
   justify-content: space-around;
   list-style: none;

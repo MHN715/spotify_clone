@@ -22,7 +22,7 @@ const cssWrapperFull = css`
 
 const cssWrapper = css`
   /* border: 2px solid blue; */
-  background: #031328e1;
+  background: #000000ea;
   /* background: black; */
   height: var(--playerHeight);
   width: 100vw;
@@ -33,16 +33,18 @@ const cssWrapper = css`
   display: grid;
   grid-template-columns: 5fr 4fr;
 `;
-const cssP = css`
+const cssSongInfoBtn = css`
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #ffffff17;
+  color: white;
 `;
 const cssBtnWrapper = css`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  border: 1px solid white;
+  /* border: 1px solid white; */
   position: relative;
 `;
 const cssIcons = css`
@@ -51,4 +53,4 @@ const cssIcons = css`
   border: 1px solid black;
 `;
 
-export { cssWrapper, cssP, cssBtnWrapper, cssIcons, cssWrapperFull };
+export { cssWrapper, cssSongInfoBtn, cssBtnWrapper, cssIcons, cssWrapperFull };
