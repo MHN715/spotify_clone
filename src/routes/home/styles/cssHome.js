@@ -10,7 +10,6 @@ const cssWrapper = css`
 `;
 
 const cssMain = css`
-  border: 1px solid white;
   flex-grow: 1;
   /* height: calc(100vh - var(--navHeight) - var(--playerHeight)); */
   height: 100vh;
@@ -25,7 +24,7 @@ const cssMain = css`
 
 const cssHeading1 = css`
   color: #ffffff;
-  font-size: 2rem;
+  font-size: 1.7rem;
   text-align: center;
   margin-top: 1rem;
   margin-bottom: 0.4rem;

@@ -23,6 +23,9 @@ import {
   cssWrapperFull,
 } from "./style/cssPlayer";
 import WhatsPlayingContext from "../../Context/WhatsPlayingContext";
+import PlayerSmallScreen from "./components/PlayerSmallScreen";
+import PlayerFullScreen from "./components/PlayerFullScreen";
+import { playPause, skipSong } from "./functions";
 
 export default function Player({ spotifyApi, accessToken }) {
   const [playerFullScreen, setplayerFullScreen] = useState(false);
@@ -39,34 +42,34 @@ export default function Player({ spotifyApi, accessToken }) {
     setCurrentlyPlayingName,
   } = useContext(WhatsPlayingContext);
 
-  function playPause(arg) {
-    if (!currentlyPlayingName) return;
-    return arg === "play"
-      ? setPlaying(true)
-      : arg === "pause"
-      ? setPlaying(false)
-      : null;
-  }
+  // function playPause(arg) {
+  //   if (!currentlyPlayingName) return;
+  //   return arg === "play"
+  //     ? setPlaying(true)
+  //     : arg === "pause"
+  //     ? setPlaying(false)
+  //     : null;
+  // }
 
-  function skipSong(arg) {
-    return arg === "next"
-      ? (setChosenTrack(chosenPlaylist[chosenIndex + 1].track.uri),
-        setChosenIndex(chosenIndex + 1),
-        setCurrentlyPlayingName(
-          chosenPlaylist[chosenIndex + 1].track.name +
-            " - " +
-            chosenPlaylist[chosenIndex + 1].track.artists[0].name
-        ))
-      : arg === "prev"
-      ? (setChosenTrack(chosenPlaylist[chosenIndex - 1].track.uri),
-        setChosenIndex(chosenIndex - 1),
-        setCurrentlyPlayingName(
-          chosenPlaylist[chosenIndex - 1].track.name +
-            " - " +
-            chosenPlaylist[chosenIndex - 1].track.artists[0].name
-        ))
-      : null;
-  }
+  // function skipSong(arg) {
+  //   return arg === "next"
+  //     ? (setChosenTrack(chosenPlaylist[chosenIndex + 1].track.uri),
+  //       setChosenIndex(chosenIndex + 1),
+  //       setCurrentlyPlayingName(
+  //         chosenPlaylist[chosenIndex + 1].track.name +
+  //           " - " +
+  //           chosenPlaylist[chosenIndex + 1].track.artists[0].name
+  //       ))
+  //     : arg === "prev"
+  //     ? (setChosenTrack(chosenPlaylist[chosenIndex - 1].track.uri),
+  //       setChosenIndex(chosenIndex - 1),
+  //       setCurrentlyPlayingName(
+  //         chosenPlaylist[chosenIndex - 1].track.name +
+  //           " - " +
+  //           chosenPlaylist[chosenIndex - 1].track.artists[0].name
+  //       ))
+  //     : null;
+  // }
 
   return (
     <>
@@ -79,43 +82,14 @@ export default function Player({ spotifyApi, accessToken }) {
               `
         }
       >
-        <button
-          css={cssSongInfoBtn}
-          onClick={(e) => {
-            console.log(e);
-            console.log("clicked");
-            setplayerFullScreen(!playerFullScreen);
-          }}
-        >
-          <p>{currentlyPlayingName}</p>
-        </button>
-        <div css={cssBtnWrapper}>
-          <FontAwesomeIcon
-            icon={faArrowAltCircleLeft}
-            css={cssIcons}
-            onClick={() => skipSong("prev")}
-          />
-          {(() => {
-            return playing ? (
-              <FontAwesomeIcon
-                icon={faPauseCircle}
-                css={cssIcons}
-                onClick={() => playPause("pause")}
-              />
-            ) : (
-              <FontAwesomeIcon
-                icon={faPlayCircle}
-                css={cssIcons}
-                onClick={() => playPause("play")}
-              />
-            );
-          })()}
-          <FontAwesomeIcon
-            icon={faArrowAltCircleRight}
-            css={cssIcons}
-            onClick={() => skipSong("next")}
-          />
-        </div>
+        <PlayerSmallScreen
+          setplayerFullScreen={setplayerFullScreen}
+          playerFullScreen={playerFullScreen}
+          currentlyPlayingName={currentlyPlayingName}
+          playing={playing}
+          skipSong={skipSong}
+          playPause={playPause}
+        />
       </div>
       <div
         css={
@@ -126,36 +100,10 @@ export default function Player({ spotifyApi, accessToken }) {
               `
         }
       >
-        <button
-          css={cssSongInfoBtn}
-          onClick={(e) => {
-            console.log(e);
-            console.log("clicked");
-            setplayerFullScreen(!playerFullScreen);
-          }}
-        >
-          test
-        </button>
-        <main>
-          <Swiper
-            spaceBetween={13}
-            slidesPerView={3}
-            // freeMode={true}
-            // lazy={true}
-            // loadOnTransitionStart={true}
-            // checkInView={true}
-            // loadPrevNext={true}
-            // loadPrevNextAmount={3}
-            // modules={[Lazy, FreeMode]}
-            onSlideChange={() => console.log("slide change")}
-            onSwiper={(swiper) => console.log("onSwiper:", swiper)}
-            onReachEnd={(e) =>
-              e.progress > 0 && e.isEnd === true
-                ? console.log("carousel end reached")
-                : null
-            }
-          ></Swiper>
-        </main>
+        <PlayerFullScreen
+          setplayerFullScreen={setplayerFullScreen}
+          playerFullScreen={playerFullScreen}
+        />
       </div>
     </>
   );

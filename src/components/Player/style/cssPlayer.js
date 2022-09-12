@@ -22,23 +22,26 @@ const cssWrapperFull = css`
 
 const cssWrapper = css`
   /* border: 2px solid blue; */
-  background: #000000ea;
+  background: rgba(1, 4, 15, 0.954);
   /* background: black; */
   height: var(--playerHeight);
-  width: 100vw;
+  width: 98vw;
+  left: 1vw;
   /* position: sticky; */
   position: fixed;
   bottom: 4rem;
   z-index: 600;
   display: grid;
   grid-template-columns: 5fr 4fr;
+  border-radius: 0.4rem;
 `;
 const cssSongInfoBtn = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ffffff17;
+  background: none;
   color: white;
+  border: none;
 `;
 const cssBtnWrapper = css`
   display: flex;

@@ -12,18 +12,20 @@ const cssImg = css`
   /* border: 2px solid pink; */
   border-radius: 23px;
   box-shadow: 3px 4px 7px 3px #00000031;
-  height: 6.3rem;
-  width: 6.2rem;
+  height: 7rem;
+  width: 7rem;
 `;
 
 const cssHeading2_1 = css`
   /* border: 1px solid white; */
   color: #ffffff;
-  margin: 1rem 0 1rem 0.5rem;
+  margin: 1.2rem 0 0.7rem 1rem;
+  font-size: 1.3rem;
+  letter-spacing: 0.1rem;
 `;
 
 const cssHeading2_2 = css`
-  font-size: 0.9rem;
+  font-size: 0.73rem;
   color: #ffffff;
   text-align: center;
   white-space: nowrap;
