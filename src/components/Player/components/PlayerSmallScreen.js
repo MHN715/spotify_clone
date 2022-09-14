@@ -1,5 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import { cssSongInfoBtn, cssIcons, cssBtnWrapper } from "../style/cssPlayer";
+import { css, keyframes } from "@emotion/react";
+import {
+  cssSongInfoBtn,
+  cssIcons,
+  cssBtnWrapper,
+} from "../style/cssPlayerSmallScreen";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlayCircle,
@@ -33,9 +38,9 @@ export default function PlayerSmallScreen({
       </button>
       <div css={cssBtnWrapper}>
         <FontAwesomeIcon
-          icon={faArrowAltCircleLeft}
+          icon={faHeart}
           css={cssIcons}
-          onClick={() => skipSong("prev")}
+          // onClick={() => skipSong("prev")}
         />
         {(() => {
           return playing ? (
@@ -52,11 +57,11 @@ export default function PlayerSmallScreen({
             />
           );
         })()}
-        <FontAwesomeIcon
+        {/* <FontAwesomeIcon
           icon={faArrowAltCircleRight}
           css={cssIcons}
           onClick={() => skipSong("next")}
-        />
+        /> */}
       </div>
     </>
   );

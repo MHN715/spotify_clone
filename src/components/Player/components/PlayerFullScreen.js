@@ -1,24 +1,45 @@
-import { cssSongInfoBtn } from "../style/cssPlayer";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+import { cssIcons, cssHeader } from "../style/cssFullScreen";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/lazy";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPlayCircle,
+  faArrowAltCircleLeft,
+  faArrowAltCircleRight,
+  faPauseCircle,
+  faHeart,
+  faDisplay,
+  faHeartCircleCheck,
+} from "@fortawesome/free-solid-svg-icons";
+import { cssBtnWrapper } from "../style/cssPlayerSmallScreen";
+
 export default function PlayerFullScreen({
   setplayerFullScreen,
   playerFullScreen,
+  chosenPlaylist,
+  playPause,
+  skipSong,
+  playing,
 }) {
+  console.log(chosenPlaylist);
   return (
     <>
-      <button
-        css={cssSongInfoBtn}
-        onClick={(e) => {
-          console.log(e);
-          console.log("clicked");
-          setplayerFullScreen(!playerFullScreen);
-        }}
-      >
-        test
-      </button>
+      <header css={cssHeader}>
+        <button
+          onClick={(e) => {
+            console.log(e);
+            console.log("clicked");
+            setplayerFullScreen(!playerFullScreen);
+          }}
+        >
+          test
+        </button>
+        <h1>name</h1>
+      </header>
       <main>
         <Swiper
           spaceBetween={13}
@@ -38,7 +59,43 @@ export default function PlayerFullScreen({
               : null
           }
         ></Swiper>
+        <div css={cssBtnWrapper}>
+          <FontAwesomeIcon icon={faHeart} css={cssIcons} />
+          <FontAwesomeIcon
+            icon={faArrowAltCircleLeft}
+            css={cssIcons}
+            onClick={() => skipSong("prev")}
+          />
+          {(() => {
+            return playing ? (
+              <FontAwesomeIcon
+                icon={faPauseCircle}
+                css={cssIcons}
+                onClick={() => playPause("pause")}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faPlayCircle}
+                css={cssIcons}
+                onClick={() => playPause("play")}
+              />
+            );
+          })()}
+          <FontAwesomeIcon
+            icon={faArrowAltCircleRight}
+            css={cssIcons}
+            onClick={() => skipSong("next")}
+          />
+          <FontAwesomeIcon icon={faHeart} css={cssIcons} />
+        </div>
       </main>
+      <footer
+        css={css`
+          border: 1px solid black;
+        `}
+      >
+        footer
+      </footer>
     </>
   );
 }

@@ -24,11 +24,13 @@ export default function CompCarousel({
   accessToken,
 }) {
   const [sortedTracks, setSortedTracks] = useState([]);
+  const [firstClick, setFirstClick] = useState(true);
   const {
     chosenTrack,
     setChosenTrack,
     chosenPlaylist,
     setChosenPlaylist,
+    setCurrentlyPlayingName,
     chosenIndex,
     setChosenIndex,
     playing,
@@ -74,10 +76,10 @@ export default function CompCarousel({
         slidesPerView={3}
         freeMode={true}
         lazy={true}
-        // loadOnTransitionStart={true}
-        // checkInView={true}
-        // loadPrevNext={true}
-        // loadPrevNextAmount={3}
+        loadOnTransitionStart={true}
+        checkInView={true}
+        loadPrevNext={true}
+        loadPrevNextAmount={3}
         modules={[Lazy, FreeMode]}
         onSlideChange={() => console.log("slide change")}
         onSwiper={(swiper) => console.log("onSwiper:", swiper)}
@@ -89,22 +91,25 @@ export default function CompCarousel({
       >
         {(() => {
           if (!isItPlaylists && !isItAlbums) {
-            return sortedTracks?.map((item, index) => {
-              // console.log(item.track.uri);
+            return sortedTracks.map((item, index) => {
               const { id, name, uri } = item.track;
               const image = item.track.album.images[1].url;
+              console.log(uri);
               return (
                 <SwiperSlide key={id}>
                   <div
                     // css={cssWrapper}
 
                     onClick={() => {
-                      console.log(index, item);
-                      console.log(sortedTracks[index]);
-                      console.log(sortedTracks);
+                      // console.log(index, item);
+                      // console.log(sortedTracks[index]);
+                      // console.log(sortedTracks);
+
                       setChosenTrack(uri);
                       setChosenPlaylist(sortedTracks);
                       setChosenIndex(index);
+                      // setChosenTrack(chosenPlaylist[index].track.uri);
+                      // setChosenIndex(chosenIndex + index);
                       setPlaying(true);
                     }}
                   >
@@ -124,7 +129,7 @@ export default function CompCarousel({
               );
             });
           } else if (isItPlaylists && !isItAlbums) {
-            return items?.map((item, index) => {
+            return items.map((item, index) => {
               const { id, name, uri } = item;
               const image = item.images[0].url;
 

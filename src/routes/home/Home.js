@@ -78,6 +78,7 @@ export default function Home() {
       })
       .then(
         function (recentTracks) {
+          console.log(recentTracks);
           setRecentTracks(recentTracks.body.items);
         },
         function (err) {

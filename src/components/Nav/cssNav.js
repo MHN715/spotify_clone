@@ -3,7 +3,7 @@ import "../../variables.css";
 
 const cssNav = css`
   /* border: 2px solid red; */
-  background: linear-gradient(#000000db, #000000f6);
+  background: linear-gradient(#000000b8, #000000e3, black, black);
   /* grid-row: 10/11; */
   position: -webkit-sticky;
   height: var(--navHeight);

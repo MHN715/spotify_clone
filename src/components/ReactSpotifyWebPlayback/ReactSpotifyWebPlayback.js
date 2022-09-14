@@ -25,6 +25,7 @@ export default function ReactSpotifyWebPlayback() {
         token={accessToken}
         styles={StylesOptions}
         callback={(e) => {
+          console.log(e.progressMs);
           if (e.track.name === "") return;
           setCurrentlyPlayingName(
             e.track.name + " - " + e.track.artists[0].name
