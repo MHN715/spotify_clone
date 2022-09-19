@@ -100,15 +100,18 @@ export default function Player({ spotifyApi, accessToken }) {
               `
         }
       >
-        <PlayerFullScreen
-          setplayerFullScreen={setplayerFullScreen}
-          playerFullScreen={playerFullScreen}
-          currentlyPlayingName={currentlyPlayingName}
-          playing={playing}
-          skipSong={skipSong}
-          playPause={playPause}
-          chosenPlaylist={chosenPlaylist}
-        />
+        {(() => {
+          if (chosenIndex !== null && playerFullScreen) {
+            return (
+              <PlayerFullScreen
+                setplayerFullScreen={setplayerFullScreen}
+                playerFullScreen={playerFullScreen}
+                skipSong={skipSong}
+                playPause={playPause}
+              />
+            );
+          }
+        })()}
       </div>
     </>
   );

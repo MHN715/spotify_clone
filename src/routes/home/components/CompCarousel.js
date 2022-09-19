@@ -31,13 +31,42 @@ export default function CompCarousel({
     chosenPlaylist,
     setChosenPlaylist,
     setCurrentlyPlayingName,
+    currentlyPlayingName,
     chosenIndex,
     setChosenIndex,
     playing,
     setPlaying,
   } = useContext(WhatsPlayingContext);
 
+  console.log("chosenIndex,", chosenIndex);
+
   // console.log(isItAlbums);
+
+  //      function to use as refference:
+
+  // if (chosenTrack === uri && chosenIndex === index) {
+  //   setPlaying(true);
+  // }
+
+  function clicked(uri, index) {
+    console.log("clicked");
+    setChosenIndex(index);
+    setChosenPlaylist(sortedTracks);
+    setChosenTrack(uri);
+    setCurrentlyPlayingName(
+      sortedTracks[index].track.name +
+        " - " +
+        sortedTracks[index].track.artists[0].name
+    );
+    setTimeout(() => {
+      setPlaying(true);
+    }, 500);
+  }
+
+  // useEffect(() => {
+  //   console.log("playing set to true");
+  //   setPlaying(true);
+  // }, [setChosenTrack]);
 
   useEffect(() => {
     if (isItPlaylists || isItAlbums) return;
@@ -76,13 +105,13 @@ export default function CompCarousel({
         slidesPerView={3}
         freeMode={true}
         lazy={true}
-        loadOnTransitionStart={true}
-        checkInView={true}
-        loadPrevNext={true}
-        loadPrevNextAmount={3}
+        // loadOnTransitionStart={true}
+        // checkInView={true}
+        // loadPrevNext={true}
+        // loadPrevNextAmount={3}
         modules={[Lazy, FreeMode]}
         onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log("onSwiper:", swiper)}
+        // onSwiper={(swiper) => console.log("onSwiper:", swiper)}
         onReachEnd={(e) =>
           e.progress > 0 && e.isEnd === true
             ? console.log("carousel end reached")
@@ -94,25 +123,10 @@ export default function CompCarousel({
             return sortedTracks.map((item, index) => {
               const { id, name, uri } = item.track;
               const image = item.track.album.images[1].url;
-              console.log(uri);
+              // console.log(uri);
               return (
                 <SwiperSlide key={id}>
-                  <div
-                    // css={cssWrapper}
-
-                    onClick={() => {
-                      // console.log(index, item);
-                      // console.log(sortedTracks[index]);
-                      // console.log(sortedTracks);
-
-                      setChosenTrack(uri);
-                      setChosenPlaylist(sortedTracks);
-                      setChosenIndex(index);
-                      // setChosenTrack(chosenPlaylist[index].track.uri);
-                      // setChosenIndex(chosenIndex + index);
-                      setPlaying(true);
-                    }}
-                  >
+                  <div onClick={() => clicked(uri, index)}>
                     <div>
                       <img
                         className="image swiper-lazy"
@@ -137,16 +151,7 @@ export default function CompCarousel({
                 <SwiperSlide key={id}>
                   <div
                     // css={cssWrapper}
-                    onClick={() => {
-                      console.log("playlists selected");
-                      // console.log(index, item);
-                      // console.log(sortedTracks[index]);
-                      // console.log(sortedTracks);
-                      // setChosenTrack(uri);
-                      // setChosenPlaylist(sortedTracks);
-                      // setChosenIndex(index);
-                      // setPlaying(true);
-                    }}
+                    onClick={() => console.log("clicked")}
                   >
                     <img
                       className="image swiper-lazy"

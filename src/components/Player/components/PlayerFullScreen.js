@@ -1,10 +1,17 @@
 /** @jsxImportSource @emotion/react */
+import { useContext } from "react";
 import { css } from "@emotion/react";
-import { cssIcons, cssHeader } from "../style/cssFullScreen";
+import {
+  cssIcons,
+  cssHeader,
+  cssFooter,
+  cssBtnWrapper,
+} from "../style/cssFullScreen";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/lazy";
+import { FreeMode, Lazy } from "swiper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlayCircle,
@@ -15,24 +22,33 @@ import {
   faDisplay,
   faHeartCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import { cssBtnWrapper } from "../style/cssPlayerSmallScreen";
+import WhatsPlayingContext from "../../../Context/WhatsPlayingContext";
 
 export default function PlayerFullScreen({
-  setplayerFullScreen,
-  playerFullScreen,
-  chosenPlaylist,
   playPause,
   skipSong,
-  playing,
+  setplayerFullScreen,
+  playerFullScreen,
 }) {
-  console.log(chosenPlaylist);
+  const {
+    chosenPlaylist,
+    setChosenIndex,
+    chosenIndex,
+    setChosenTrack,
+    setCurrentlyPlayingName,
+    currentlyPlayingName,
+    playing,
+  } = useContext(WhatsPlayingContext);
+
+  console.log("chosenPlaylist", chosenPlaylist);
+  console.log("chosenIndex", chosenIndex);
+
   return (
     <>
       <header css={cssHeader}>
         <button
           onClick={(e) => {
-            console.log(e);
-            console.log("clicked");
+            console.log("clicked smallscreen");
             setplayerFullScreen(!playerFullScreen);
           }}
         >
@@ -40,10 +56,18 @@ export default function PlayerFullScreen({
         </button>
         <h1>name</h1>
       </header>
-      <main>
+      <main
+        css={css`
+          border: 2px solid black;
+          width: 100vw;
+          display: grid;
+          grid-template-rows: 4fr 1fr;
+        `}
+      >
         <Swiper
-          spaceBetween={13}
-          slidesPerView={3}
+          // spaceBetween={13}
+          slidesPerView={1}
+          initialSlide={chosenIndex ? chosenIndex : 0}
           // freeMode={true}
           // lazy={true}
           // loadOnTransitionStart={true}
@@ -51,14 +75,66 @@ export default function PlayerFullScreen({
           // loadPrevNext={true}
           // loadPrevNextAmount={3}
           // modules={[Lazy, FreeMode]}
-          onSlideChange={() => console.log("slide change")}
+          onSlideChange={(e) => {
+            console.log("slide change", e);
+            setChosenIndex(e.realIndex);
+            setChosenTrack(chosenPlaylist[e.realIndex].track.uri);
+            setCurrentlyPlayingName(
+              chosenPlaylist[e.realIndex].track.name +
+                " - " +
+                chosenPlaylist[e.realIndex].track.artists[0].name
+            );
+          }}
           onSwiper={(swiper) => console.log("onSwiper:", swiper)}
           onReachEnd={(e) =>
             e.progress > 0 && e.isEnd === true
               ? console.log("carousel end reached")
               : null
           }
-        ></Swiper>
+          css={css`
+            border: 2px solid blue;
+            width: 100vw;
+          `}
+        >
+          {chosenPlaylist?.map((item, index) => {
+            const imgUlr = item.track.album.images[1].url;
+            console.log(item.track.uri);
+            // console.log(item.track.album.images[1].url);
+            // console.log(chosenPlaylist[index].track.album.images[1].url);
+
+            return (
+              <SwiperSlide key={imgUlr} data-url={item.track.uri}>
+                <div
+                  css={css`
+                    border: 2px solid green;
+                    display: grid;
+                    /* justify-content: center; */
+                    height: 100%;
+                  `}
+                >
+                  <img
+                    src={imgUlr}
+                    alt=""
+                    css={css`
+                      border: 2px solid blue;
+                      margin-top: 1.3rem;
+                      justify-self: center;
+                    `}
+                  />
+                  <h2
+                    css={css`
+                      border: 1px solid pink;
+                      font-size: 1.4rem;
+                      text-align: center;
+                    `}
+                  >
+                    {currentlyPlayingName}
+                  </h2>
+                </div>{" "}
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
         <div css={cssBtnWrapper}>
           <FontAwesomeIcon icon={faHeart} css={cssIcons} />
           <FontAwesomeIcon
@@ -89,13 +165,7 @@ export default function PlayerFullScreen({
           <FontAwesomeIcon icon={faHeart} css={cssIcons} />
         </div>
       </main>
-      <footer
-        css={css`
-          border: 1px solid black;
-        `}
-      >
-        footer
-      </footer>
+      <footer css={cssFooter}>footer</footer>
     </>
   );
 }

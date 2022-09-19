@@ -18,14 +18,15 @@ export default function ReactSpotifyWebPlayback() {
     currentlyPlayingName,
     setCurrentlyPlayingName,
   } = useContext(WhatsPlayingContext);
+  // console.log("hello from ReactSpotifyWebPlayback");
 
   return (
-    <div style={{ display: "none" }}>
+    <div style={{display: "none"}}>
       <SpotifyPlayer
         token={accessToken}
         styles={StylesOptions}
         callback={(e) => {
-          console.log(e.progressMs);
+          console.log("spotify callback", e);
           if (e.track.name === "") return;
           setCurrentlyPlayingName(
             e.track.name + " - " + e.track.artists[0].name

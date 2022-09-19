@@ -30,7 +30,7 @@ export default function PlayerSmallScreen({
         css={cssSongInfoBtn}
         onClick={(e) => {
           console.log(e);
-          console.log("clicked");
+          console.log("clicked fullscreen");
           setplayerFullScreen(!playerFullScreen);
         }}
       >
