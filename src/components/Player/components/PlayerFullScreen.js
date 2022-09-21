@@ -24,6 +24,7 @@ import {
   faHeartCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import WhatsPlayingContext from "../../../Context/WhatsPlayingContext";
+import { ReactComponent as PlayCircle_svg } from "../../../icons/PlayCircle.svg";
 
 export default function PlayerFullScreen({
   playPause,
@@ -45,6 +46,7 @@ export default function PlayerFullScreen({
   console.log("chosenPlaylist", chosenPlaylist);
   console.log("chosenIndex", chosenIndex);
   console.log(useSwiper);
+  console.log(playCircle_svg);
 
   return (
     <>
@@ -108,28 +110,27 @@ export default function PlayerFullScreen({
             // console.log(chosenPlaylist[index].track.album.images[1].url);
 
             return (
-              <>
-                <SwiperSlide key={id + index} data-url={item.track.uri}>
-                  <div
+              <SwiperSlide data-url={item.track.uri}>
+                <div
+                  key={id + index}
+                  css={css`
+                    border: 2px solid green;
+                    display: grid;
+                    /* justify-content: center; */
+                    height: 100%;
+                  `}
+                >
+                  <img
+                    src={imgUrl}
+                    alt=""
                     css={css`
-                      border: 2px solid green;
-                      display: grid;
-                      /* justify-content: center; */
-                      height: 100%;
+                      border: 2px solid blue;
+                      margin-top: 1.3rem;
+                      justify-self: center;
                     `}
-                  >
-                    <img
-                      src={imgUrl}
-                      alt=""
-                      css={css`
-                        border: 2px solid blue;
-                        margin-top: 1.3rem;
-                        justify-self: center;
-                      `}
-                    />
-                  </div>{" "}
-                </SwiperSlide>
-              </>
+                  />
+                </div>{" "}
+              </SwiperSlide>
             );
           })}
         </Swiper>
@@ -175,6 +176,7 @@ export default function PlayerFullScreen({
               swiper.slideNext();
             }}
           />
+          {/* <PlayCircle_svg /> */}
           <FontAwesomeIcon icon={faHeart} css={cssIcons} />
         </div>
       </main>

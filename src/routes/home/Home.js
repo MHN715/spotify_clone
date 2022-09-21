@@ -95,7 +95,7 @@ export default function Home() {
       })
       .then(
         function (savedTracks) {
-          // console.log("savedtracks:", savedTracks.body.items);
+          console.log("savedtracks:", savedTracks);
           setSavedTracks(savedTracks.body.items);
         },
         function (err) {
