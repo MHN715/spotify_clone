@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css, keyframes } from "@emotion/react";
+import { useContext, useState, useEffect } from "react";
 import {
   cssSongInfoBtn,
   cssIcons,
@@ -21,9 +22,17 @@ export default function PlayerSmallScreen({
   playerFullScreen,
   currentlyPlayingName,
   playing,
+  setPlaying,
   skipSong,
   playPause,
+  repeatSong,
+  chosenPlaylist,
+  chosenIndex,
 }) {
+  const [resetPlaying, setResetPlaying] = useState(false);
+
+  console.log(chosenPlaylist[chosenIndex]?.track.id);
+
   return (
     <>
       <button
@@ -62,6 +71,13 @@ export default function PlayerSmallScreen({
           css={cssIcons}
           onClick={() => skipSong("next")}
         /> */}
+        <button
+          onClick={() => {
+            repeatSong();
+          }}
+        >
+          repeat
+        </button>
       </div>
     </>
   );

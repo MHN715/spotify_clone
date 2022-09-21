@@ -21,7 +21,7 @@ export default function ReactSpotifyWebPlayback() {
   // console.log("hello from ReactSpotifyWebPlayback");
 
   return (
-    <div style={{display: "none"}}>
+    <div style={{ display: "none" }}>
       <SpotifyPlayer
         token={accessToken}
         styles={StylesOptions}

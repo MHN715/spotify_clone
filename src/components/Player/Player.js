@@ -71,6 +71,18 @@ export default function Player({ spotifyApi, accessToken }) {
       : null;
   }
 
+  function repeatSong() {
+    spotifyApi.setRepeat("track").then(
+      function () {
+        console.log("Repeat track.");
+      },
+      function (err) {
+        //if the user making the request is non-premium, a 403 FORBIDDEN response code will be returned
+        console.log("Something went wrong!", err);
+      }
+    );
+  }
+
   return (
     <>
       <div
@@ -89,6 +101,11 @@ export default function Player({ spotifyApi, accessToken }) {
           playing={playing}
           skipSong={skipSong}
           playPause={playPause}
+          setPlaying={setPlaying}
+          repeatSong={repeatSong}
+          chosenTrack={chosenTrack}
+          chosenPlaylist={chosenPlaylist}
+          chosenIndex={chosenIndex}
         />
       </div>
       <div

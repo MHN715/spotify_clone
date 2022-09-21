@@ -53,6 +53,7 @@ function App() {
                     <Route path="search" element={<Search />} />
                     <Route path="playlist" element={<Playlist />} />
                     <Route path="your_library" element={<YourLibrary />} />
+                    <Route path="playlist/:id" element={<Playlist />} />
                   </>
                 );
             })()}

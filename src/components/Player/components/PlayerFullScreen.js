@@ -7,11 +7,12 @@ import {
   cssFooter,
   cssBtnWrapper,
 } from "../style/cssFullScreen";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/lazy";
-import { FreeMode, Lazy } from "swiper";
+import "swiper/css/navigation";
+import { FreeMode, Lazy, Navigation } from "swiper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlayCircle,
@@ -39,9 +40,11 @@ export default function PlayerFullScreen({
     currentlyPlayingName,
     playing,
   } = useContext(WhatsPlayingContext);
+  const swiper = useSwiper();
 
   console.log("chosenPlaylist", chosenPlaylist);
   console.log("chosenIndex", chosenIndex);
+  console.log(useSwiper);
 
   return (
     <>
@@ -61,7 +64,7 @@ export default function PlayerFullScreen({
           border: 2px solid black;
           width: 100vw;
           display: grid;
-          grid-template-rows: 4fr 1fr;
+          grid-template-rows: 10fr 3fr 3fr;
         `}
       >
         <Swiper
@@ -74,7 +77,8 @@ export default function PlayerFullScreen({
           // checkInView={true}
           // loadPrevNext={true}
           // loadPrevNextAmount={3}
-          // modules={[Lazy, FreeMode]}
+          modules={[Navigation]}
+          navigation={true}
           onSlideChange={(e) => {
             console.log("slide change", e);
             setChosenIndex(e.realIndex);
@@ -97,50 +101,56 @@ export default function PlayerFullScreen({
           `}
         >
           {chosenPlaylist?.map((item, index) => {
-            const imgUlr = item.track.album.images[1].url;
-            console.log(item.track.uri);
+            const imgUrl = item.track.album.images[1].url;
+            const { id } = item;
+            console.log(item.track.name);
             // console.log(item.track.album.images[1].url);
             // console.log(chosenPlaylist[index].track.album.images[1].url);
 
             return (
-              <SwiperSlide key={imgUlr} data-url={item.track.uri}>
-                <div
-                  css={css`
-                    border: 2px solid green;
-                    display: grid;
-                    /* justify-content: center; */
-                    height: 100%;
-                  `}
-                >
-                  <img
-                    src={imgUlr}
-                    alt=""
+              <>
+                <SwiperSlide key={id + index} data-url={item.track.uri}>
+                  <div
                     css={css`
-                      border: 2px solid blue;
-                      margin-top: 1.3rem;
-                      justify-self: center;
-                    `}
-                  />
-                  <h2
-                    css={css`
-                      border: 1px solid pink;
-                      font-size: 1.4rem;
-                      text-align: center;
+                      border: 2px solid green;
+                      display: grid;
+                      /* justify-content: center; */
+                      height: 100%;
                     `}
                   >
-                    {currentlyPlayingName}
-                  </h2>
-                </div>{" "}
-              </SwiperSlide>
+                    <img
+                      src={imgUrl}
+                      alt=""
+                      css={css`
+                        border: 2px solid blue;
+                        margin-top: 1.3rem;
+                        justify-self: center;
+                      `}
+                    />
+                  </div>{" "}
+                </SwiperSlide>
+              </>
             );
           })}
         </Swiper>
+        <h2
+          css={css`
+            border: 1px solid pink;
+            font-size: 1.4rem;
+            text-align: center;
+          `}
+        >
+          {currentlyPlayingName}
+        </h2>
         <div css={cssBtnWrapper}>
           <FontAwesomeIcon icon={faHeart} css={cssIcons} />
           <FontAwesomeIcon
             icon={faArrowAltCircleLeft}
             css={cssIcons}
-            onClick={() => skipSong("prev")}
+            onClick={() => {
+              skipSong("prev");
+              swiper.slidePrev();
+            }}
           />
           {(() => {
             return playing ? (
@@ -160,7 +170,10 @@ export default function PlayerFullScreen({
           <FontAwesomeIcon
             icon={faArrowAltCircleRight}
             css={cssIcons}
-            onClick={() => skipSong("next")}
+            onClick={() => {
+              skipSong("next");
+              swiper.slideNext();
+            }}
           />
           <FontAwesomeIcon icon={faHeart} css={cssIcons} />
         </div>

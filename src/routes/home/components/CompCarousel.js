@@ -38,7 +38,7 @@ export default function CompCarousel({
     setPlaying,
   } = useContext(WhatsPlayingContext);
 
-  console.log("chosenIndex,", chosenIndex);
+  // console.log("chosenIndex,", chosenIndex);
 
   // console.log(isItAlbums);
 

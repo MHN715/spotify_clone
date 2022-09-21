@@ -6,13 +6,13 @@ from {
 }, to {
   transform: translate3d(0,0,0);
 }
-
 `;
 
 const cssWrapperFull = css`
   background: #ffffff;
   width: 100vw;
   height: 100vh;
+  top: 0;
   position: absolute;
   /* top: 70vh; */
   z-index: 1000;
