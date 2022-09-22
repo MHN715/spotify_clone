@@ -13,7 +13,7 @@ const cssWrapper = css`
   bottom: 4rem;
   z-index: 600;
   display: grid;
-  grid-template-columns: 7fr 3fr;
+  grid-template-columns: 7fr 4fr;
   border-radius: 0.7rem;
 `;
 

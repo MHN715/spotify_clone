@@ -137,8 +137,11 @@ export default function CompCarousel({
                         css={cssImg}
                       />
                     </div>
-                    <h2 css={cssHeading2_2}>{name}</h2>
+                    <h2 className="swiper-lazy" css={cssHeading2_2}>
+                      {name}
+                    </h2>
                   </div>
+                  <div className="swiper-lazy-loading">loading</div>
                 </SwiperSlide>
               );
             });

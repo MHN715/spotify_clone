@@ -22,6 +22,8 @@ const cssIcons = css`
   color: #a12727;
   font-size: 1.6rem;
   border: 1px solid black;
+  width: 1.5rem;
+  height: 1.5rem;
 `;
 
 export { cssSongInfoBtn, cssBtnWrapper, cssIcons };

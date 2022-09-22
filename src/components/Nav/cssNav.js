@@ -27,14 +27,14 @@ const cssLi = css`
   flex-direction: column;
   justify-content: center;
 `;
-const cssFontAwesome = css`
-  width: 100%;
+const cssIcons = css`
   font-size: 1.3rem;
-  color: #f9f9f9;
+  width: 2rem;
+  height: 2rem;
 `;
 const cssLink = css`
   align-items: center;
   font-size: 0.8rem;
 `;
 
-export { cssNav, cssUl, cssLi, cssFontAwesome, cssLink };
+export { cssNav, cssUl, cssLi, cssIcons, cssLink };

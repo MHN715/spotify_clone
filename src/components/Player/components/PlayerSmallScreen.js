@@ -6,16 +6,11 @@ import {
   cssIcons,
   cssBtnWrapper,
 } from "../style/cssPlayerSmallScreen";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlayCircle,
-  faArrowAltCircleLeft,
-  faArrowAltCircleRight,
-  faPauseCircle,
-  faHeart,
-  faDisplay,
-  faHeartCircleCheck,
-} from "@fortawesome/free-solid-svg-icons";
+import { ReactComponent as PlayCircle_svg } from "../../../icons/PlayCircle.svg";
+import { ReactComponent as PauseCircle_svg } from "../../../icons/PauseCircle.svg";
+
+import { ReactComponent as Heart_svg } from "../../../icons/Heart.svg";
+import { ReactComponent as Repeat_svg } from "../../../icons/Repeat.svg";
 
 export default function PlayerSmallScreen({
   setplayerFullScreen,
@@ -46,38 +41,26 @@ export default function PlayerSmallScreen({
         <p>{currentlyPlayingName}</p>
       </button>
       <div css={cssBtnWrapper}>
-        <FontAwesomeIcon
-          icon={faHeart}
+        <Repeat_svg
+          onClick={() => {
+            repeatSong();
+          }}
+          css={cssIcons}
+        />
+        <Heart_svg
           css={cssIcons}
           // onClick={() => skipSong("prev")}
         />
         {(() => {
           return playing ? (
-            <FontAwesomeIcon
-              icon={faPauseCircle}
+            <PauseCircle_svg
               css={cssIcons}
               onClick={() => playPause("pause")}
             />
           ) : (
-            <FontAwesomeIcon
-              icon={faPlayCircle}
-              css={cssIcons}
-              onClick={() => playPause("play")}
-            />
+            <PlayCircle_svg css={cssIcons} onClick={() => playPause("play")} />
           );
         })()}
-        {/* <FontAwesomeIcon
-          icon={faArrowAltCircleRight}
-          css={cssIcons}
-          onClick={() => skipSong("next")}
-        /> */}
-        <button
-          onClick={() => {
-            repeatSong();
-          }}
-        >
-          repeat
-        </button>
       </div>
     </>
   );

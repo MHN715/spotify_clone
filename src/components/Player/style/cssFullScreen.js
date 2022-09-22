@@ -18,7 +18,7 @@ const cssWrapperFull = css`
   z-index: 1000;
   animation: ${bounce} 0.1s ease;
   display: grid;
-  grid-template-rows: 1.5fr 10fr 1fr;
+  grid-template-rows: 1fr 10fr 1fr;
   overflow-x: hidden;
 `;
 
@@ -30,10 +30,35 @@ const cssBtnWrapper = css`
   /* height: 10rem; */
 `;
 
+const cssMain = css`
+  border: 2px solid black;
+  width: 100vw;
+  display: grid;
+  grid-template-rows: 10fr 2fr 4fr;
+`;
+
 const cssIcons = css`
   color: #a12727;
   font-size: 1.6rem;
-  border: 1px solid black;
+  /* border: 1px solid black; */
+  height: 2rem;
+  width: 2rem;
+`;
+
+const cssIconHeart = css`
+  color: #a12727;
+  /* font-size: 1.6rem; */
+  /* border: 1px solid black; */
+  height: 1.5rem;
+  width: 1.5rem;
+`;
+
+const cssPlayPauseIcons = css`
+  color: #a12727;
+  font-size: 1.6rem;
+  /* border: 1px solid black; */
+  height: 3.5rem;
+  width: 3.5rem;
 `;
 
 const cssHeader = css`
@@ -41,10 +66,34 @@ const cssHeader = css`
   border: 4px solid black;
   width: 100vw;
   /* height: 5rem; */
+  display: flex;
+  justify-content: space-between;
+  align-items: top;
+  padding: 0 0.5rem;
+  padding-top: 0.5rem;
 `;
 
 const cssFooter = css`
   border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
 `;
 
-export { cssBtnWrapper, cssIcons, cssHeader, cssWrapperFull, cssFooter };
+const cssFooterIcons = css`
+  width: 1.7rem;
+  height: 1.7rem;
+`;
+
+export {
+  cssBtnWrapper,
+  cssIcons,
+  cssHeader,
+  cssWrapperFull,
+  cssFooter,
+  cssPlayPauseIcons,
+  cssMain,
+  cssIconHeart,
+  cssFooterIcons,
+};
