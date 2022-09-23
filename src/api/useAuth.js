@@ -12,7 +12,7 @@ export default function useAuth(code) {
 
   useEffect(() => {
     axios
-      .post(`${process.env.REACT_APP_SERVERURI}/login`, {
+      .post(`${process.env.REACT_APP_SERVERURI}login`, {
         code,
       })
       .then((res) => {
@@ -30,7 +30,7 @@ export default function useAuth(code) {
     if (!refreshToken || !expiresIn) return;
     setInterval(() => {
       axios
-        .post(`${process.env.REACT_APP_SERVERURI}/refresh`, {
+        .post(`${process.env.REACT_APP_SERVERURI}refresh`, {
           refreshToken,
         })
         .then((res) => {
