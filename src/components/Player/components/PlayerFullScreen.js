@@ -10,25 +10,25 @@ import {
   cssMain,
   cssIconHeart,
   cssFooterIcons,
-} from "../style/cssFullScreen";
+} from "../style/cssPlayerFullScreen";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/lazy";
 import { FreeMode, Lazy, Navigation } from "swiper";
 import WhatsPlayingContext from "../../../Context/WhatsPlayingContext";
-import { ReactComponent as PlayCircle_svg } from "../../../icons/PlayCircle.svg";
-import { ReactComponent as PauseCircle_svg } from "../../../icons/PauseCircle.svg";
 
-import { ReactComponent as Heart_svg } from "../../../icons/Heart.svg";
-import { ReactComponent as Mix_svg } from "../../../icons/Mix.svg";
-import { ReactComponent as Next_svg } from "../../../icons/Next.svg";
-import { ReactComponent as Prev_svg } from "../../../icons/Prev.svg";
-import { ReactComponent as Repeat_svg } from "../../../icons/Repeat.svg";
-import { ReactComponent as DownArrow_svg } from "../../../icons/DownArrow.svg";
-import { ReactComponent as DotsSettings_svg } from "../../../icons/DotsSettings.svg";
-import { ReactComponent as Devices_svg } from "../../../icons/Devices.svg";
-import { ReactComponent as List_svg } from "../../../icons/List.svg";
+import { ReactComponent as PlayCircleSvg } from "../../../icons/PlayCircle.svg";
+import { ReactComponent as PauseCircleSvg } from "../../../icons/PauseCircle.svg";
+import { ReactComponent as HeartSvg } from "../../../icons/Heart.svg";
+import { ReactComponent as MixSvg } from "../../../icons/Mix.svg";
+import { ReactComponent as NextSvg } from "../../../icons/Next.svg";
+import { ReactComponent as PrevSvg } from "../../../icons/Prev.svg";
+import { ReactComponent as RepeatSvg } from "../../../icons/Repeat.svg";
+import { ReactComponent as DownArrowSvg } from "../../../icons/DownArrow.svg";
+import { ReactComponent as DotsSettingsSvg } from "../../../icons/DotsSettings.svg";
+import { ReactComponent as DevicesSvg } from "../../../icons/Devices.svg";
+import { ReactComponent as ListSvg } from "../../../icons/List.svg";
 
 export default function PlayerFullScreen({
   playPause,
@@ -53,7 +53,7 @@ export default function PlayerFullScreen({
   return (
     <>
       <header css={cssHeader}>
-        <DownArrow_svg
+        <DownArrowSvg
           onClick={(e) => {
             console.log("clicked smallscreen");
             setplayerFullScreen(!playerFullScreen);
@@ -62,7 +62,7 @@ export default function PlayerFullScreen({
             height: 1.5rem;
             width: 1.5rem;
           `}
-        ></DownArrow_svg>
+        />
         <h1
           css={css`
             /* border: 2px solid black; */
@@ -72,7 +72,7 @@ export default function PlayerFullScreen({
         >
           name
         </h1>
-        <DotsSettings_svg />
+        <DotsSettingsSvg />
       </header>
       <main css={cssMain}>
         <Swiper
@@ -164,11 +164,11 @@ export default function PlayerFullScreen({
           >
             {currentlyPlayingName}
           </h2>
-          <Heart_svg css={cssIconHeart} />
+          <HeartSvg css={cssIconHeart} />
         </div>
         <div css={cssBtnWrapper}>
-          <Mix_svg height="1.5rem" width="1.5rem" />
-          <Prev_svg
+          <MixSvg height="1.5rem" width="1.5rem" />
+          <PrevSvg
             css={cssIcons}
             onClick={() => {
               skipSong("prev");
@@ -179,14 +179,14 @@ export default function PlayerFullScreen({
           />
           {(() => {
             return playing ? (
-              <PauseCircle_svg
+              <PauseCircleSvg
                 css={cssPlayPauseIcons}
                 onClick={() => playPause("pause")}
                 // width="3.3rem"
                 // height="3.3rem"
               />
             ) : (
-              <PlayCircle_svg
+              <PlayCircleSvg
                 css={cssPlayPauseIcons}
                 onClick={() => playPause("play")}
                 width="3.3rem"
@@ -194,7 +194,7 @@ export default function PlayerFullScreen({
               />
             );
           })()}
-          <Next_svg
+          <NextSvg
             css={cssIcons}
             onClick={() => {
               skipSong("next");
@@ -203,12 +203,12 @@ export default function PlayerFullScreen({
             // height="1.5rem"
             // width="1.5rem"
           />
-          <Repeat_svg css={cssIcons} />
+          <RepeatSvg css={cssIcons} />
         </div>
       </main>
       <footer css={cssFooter}>
-        <Devices_svg css={cssFooterIcons} />
-        <List_svg css={cssFooterIcons} />
+        <DevicesSvg css={cssFooterIcons} />
+        <ListSvg css={cssFooterIcons} />
       </footer>
     </>
   );

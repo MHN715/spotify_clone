@@ -1,27 +1,27 @@
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import AccessTokenContext from "../api/AccessTokenContext";
+import { useNavigate } from "react-router-dom";
 
 export default function useAuth(code) {
   const [accessToken, setAccessToken] = useState();
   const [refreshToken, setRefreshToken] = useState();
   const [expiresIn, setExpiresIn] = useState();
   const setToken = useContext(AccessTokenContext)[1];
-  console.log(expiresIn);
+  let navigate = useNavigate();
+
   useEffect(() => {
     axios
       .post(`${process.env.REACT_APP_SERVERURI}/login`, {
         code,
       })
       .then((res) => {
-        // window.history.pushState({}, null, "/");
-        console.log(res);
         setAccessToken(res.data.accessToken);
         setRefreshToken(res.data.refreshToken);
         setExpiresIn(res.data.expiresIn);
       })
       .catch((err) => {
-        // window.location = "/";
+        navigate("/");
         console.log(err);
       });
   }, [code]);
@@ -40,12 +40,10 @@ export default function useAuth(code) {
           setToken(res.data.accessToken);
         })
         .catch((err) => {
-          // window.location = "/";
+          navigate("/");
           console.log(err);
         });
     }, (expiresIn - 60) * 1000);
-
-    // return () => clearInterval(interval);
   }, [refreshToken, expiresIn]);
 
   return accessToken;

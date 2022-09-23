@@ -6,11 +6,11 @@ import {
   cssIcons,
   cssBtnWrapper,
 } from "../style/cssPlayerSmallScreen";
-import { ReactComponent as PlayCircle_svg } from "../../../icons/PlayCircle.svg";
-import { ReactComponent as PauseCircle_svg } from "../../../icons/PauseCircle.svg";
+import { ReactComponent as PlayCircleSvg } from "../../../icons/PlayCircle.svg";
+import { ReactComponent as PauseCircleSvg } from "../../../icons/PauseCircle.svg";
 
-import { ReactComponent as Heart_svg } from "../../../icons/Heart.svg";
-import { ReactComponent as Repeat_svg } from "../../../icons/Repeat.svg";
+import { ReactComponent as HeartSvg } from "../../../icons/Heart.svg";
+import { ReactComponent as RepeatSvg } from "../../../icons/Repeat.svg";
 
 export default function PlayerSmallScreen({
   setplayerFullScreen,
@@ -41,24 +41,21 @@ export default function PlayerSmallScreen({
         <p>{currentlyPlayingName}</p>
       </button>
       <div css={cssBtnWrapper}>
-        <Repeat_svg
+        <RepeatSvg
           onClick={() => {
             repeatSong();
           }}
           css={cssIcons}
         />
-        <Heart_svg
+        <HeartSvg
           css={cssIcons}
           // onClick={() => skipSong("prev")}
         />
         {(() => {
           return playing ? (
-            <PauseCircle_svg
-              css={cssIcons}
-              onClick={() => playPause("pause")}
-            />
+            <PauseCircleSvg css={cssIcons} onClick={() => playPause("pause")} />
           ) : (
-            <PlayCircle_svg css={cssIcons} onClick={() => playPause("play")} />
+            <PlayCircleSvg css={cssIcons} onClick={() => playPause("play")} />
           );
         })()}
       </div>

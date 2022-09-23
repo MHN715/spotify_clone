@@ -6,7 +6,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/lazy";
 import { cssWrapper } from "./style/cssPlayerSmallScreen";
-import { cssWrapperFull } from "./style/cssFullScreen";
+import { cssWrapperFull } from "./style/cssPlayerFullScreen";
 import WhatsPlayingContext from "../../Context/WhatsPlayingContext";
 import PlayerSmallScreen from "./components/PlayerSmallScreen";
 import PlayerFullScreen from "./components/PlayerFullScreen";
