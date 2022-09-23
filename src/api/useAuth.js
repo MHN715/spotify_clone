@@ -28,12 +28,13 @@ export default function useAuth(code) {
 
   useEffect(() => {
     if (!refreshToken || !expiresIn) return;
-    const interval = setInterval(() => {
+    setInterval(() => {
       axios
         .post(`${process.env.REACT_APP_SERVERURI}/refresh`, {
           refreshToken,
         })
         .then((res) => {
+          console.log("new token:", res.data.accessToken);
           setAccessToken(res.data.accessToken);
           setExpiresIn(res.data.expiresIn);
           setToken(res.data.accessToken);
@@ -42,10 +43,10 @@ export default function useAuth(code) {
           // window.location = "/";
           console.log(err);
         });
-    }, (expiresIn - 3600) * 1000);
+    }, (expiresIn - 60) * 1000);
 
-    return () => clearInterval(interval);
-  }, [refreshToken, expiresIn, setToken]);
+    // return () => clearInterval(interval);
+  }, [refreshToken, expiresIn]);
 
   return accessToken;
 }
