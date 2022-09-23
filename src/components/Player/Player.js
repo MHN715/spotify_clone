@@ -1,125 +1,120 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlayCircle,
-  faArrowAltCircleLeft,
-  faArrowAltCircleRight,
-  faPauseCircle,
-  faHeart,
-  faDisplay,
-  faHeartCircleCheck,
-} from "@fortawesome/free-solid-svg-icons";
-import { cssWrapper, cssP, cssBtnWrapper, cssIcons } from "./style/cssPlayer";
+import { useEffect, useState, useContext } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/lazy";
+import { cssWrapper } from "./style/cssPlayerSmallScreen";
+import { cssWrapperFull } from "./style/cssPlayerFullScreen";
+import WhatsPlayingContext from "../../Context/WhatsPlayingContext";
+import PlayerSmallScreen from "./components/PlayerSmallScreen";
+import PlayerFullScreen from "./components/PlayerFullScreen";
+// import { playPause, skipSong } from "./functions";
 
-export default function Player({ spotifyApi }) {
-  const [playing, setPlaying] = useState(false);
-  const [songSkip, setSongSkip] = useState(false);
-  const [currentlyPlaying, setCurrentlyPlaying] = useState("");
-
-  useEffect(() => {
-    setTimeout(() => {
-      spotifyApi.getMyCurrentPlayingTrack().then((data) => {
-        setCurrentlyPlaying(
-          data.body?.item.name + " " + data.body?.item.artists[0].name
-        );
-      });
-    }, 100);
-
-    return () => {
-      setSongSkip(false);
-    };
-  }, [spotifyApi, songSkip, playing]);
-
-  useEffect(() => {
-    spotifyApi.getMyCurrentPlaybackState().then(
-      function (data) {
-        console.log(data.body.item.name);
-        // Output items
-        if (data.body && data.body.is_playing) {
-          setPlaying(true);
-        } else {
-          setPlaying(false);
-        }
-      },
-      function (err) {
-        console.log("Something went wrong!", err);
-      }
-    );
-  }, [spotifyApi, playing]);
-
-  useEffect(() => {
-    spotifyApi.getMyCurrentPlayingTrack().then(
-      function (data) {
-        console.log("Now playing:", data.body.item);
-        setCurrentlyPlaying(
-          data.body?.item.name + " " + data.body?.item.artists[0].name
-        );
-      },
-      function (err) {
-        console.log("Something went wrong!", err);
-      }
-    );
-  }, [spotifyApi, playing]);
-
-  return (
-    <div
-    // css={cssWrapper}
-    >
-      <p css={cssP}>{currentlyPlaying}</p>
-      <div css={cssBtnWrapper}>
-        <FontAwesomeIcon
-          icon={faArrowAltCircleLeft}
-          css={cssIcons}
-          onClick={() => skipSong("prev")}
-        />
-        {(() => {
-          return playing ? (
-            <FontAwesomeIcon
-              icon={faPauseCircle}
-              css={cssIcons}
-              onClick={() => playPause("pause")}
-            />
-          ) : (
-            <FontAwesomeIcon
-              icon={faPlayCircle}
-              css={cssIcons}
-              onClick={() => playPause("play")}
-            />
-          );
-        })()}
-        <FontAwesomeIcon
-          icon={faArrowAltCircleRight}
-          css={cssIcons}
-          onClick={() => skipSong("next")}
-        />
-      </div>
-    </div>
-  );
+export default function Player({ spotifyApi, accessToken }) {
+  const [playerFullScreen, setplayerFullScreen] = useState(false);
+  const {
+    chosenTrack,
+    setChosenTrack,
+    chosenPlaylist,
+    setChosenPlaylist,
+    chosenIndex,
+    setChosenIndex,
+    playing,
+    setPlaying,
+    currentlyPlayingName,
+    setCurrentlyPlayingName,
+  } = useContext(WhatsPlayingContext);
 
   function playPause(arg) {
-    const btnPressedOnOtherDevice = (err) => setPlaying(!playing);
+    if (!currentlyPlayingName) return;
     return arg === "play"
-      ? spotifyApi.play().then(() => setPlaying(true), btnPressedOnOtherDevice)
+      ? setPlaying(true)
       : arg === "pause"
-      ? spotifyApi
-          .pause()
-          .then(() => setPlaying(false), btnPressedOnOtherDevice)
+      ? setPlaying(false)
       : null;
   }
 
   function skipSong(arg) {
     return arg === "next"
-      ? spotifyApi.skipToNext().then(() => {
-          setSongSkip(true);
-          setPlaying(true);
-        })
+      ? (setChosenTrack(chosenPlaylist[chosenIndex + 1].track.uri),
+        setChosenIndex(chosenIndex + 1),
+        setCurrentlyPlayingName(
+          chosenPlaylist[chosenIndex + 1].track.name +
+            " - " +
+            chosenPlaylist[chosenIndex + 1].track.artists[0].name
+        ))
       : arg === "prev"
-      ? spotifyApi.skipToPrevious().then(() => {
-          setSongSkip(true);
-          setPlaying(true);
-        })
+      ? (setChosenTrack(chosenPlaylist[chosenIndex - 1].track.uri),
+        setChosenIndex(chosenIndex - 1),
+        setCurrentlyPlayingName(
+          chosenPlaylist[chosenIndex - 1].track.name +
+            " - " +
+            chosenPlaylist[chosenIndex - 1].track.artists[0].name
+        ))
       : null;
   }
+
+  function repeatSong() {
+    spotifyApi.setRepeat("track").then(
+      function () {
+        console.log("Repeat track.");
+      },
+      function (err) {
+        //if the user making the request is non-premium, a 403 FORBIDDEN response code will be returned
+        console.log("Something went wrong!", err);
+      }
+    );
+  }
+
+  return (
+    <>
+      <div
+        css={
+          !playerFullScreen && currentlyPlayingName
+            ? cssWrapper
+            : css`
+                display: none;
+              `
+        }
+      >
+        <PlayerSmallScreen
+          setplayerFullScreen={setplayerFullScreen}
+          playerFullScreen={playerFullScreen}
+          currentlyPlayingName={currentlyPlayingName}
+          playing={playing}
+          skipSong={skipSong}
+          playPause={playPause}
+          setPlaying={setPlaying}
+          repeatSong={repeatSong}
+          chosenTrack={chosenTrack}
+          chosenPlaylist={chosenPlaylist}
+          chosenIndex={chosenIndex}
+        />
+      </div>
+      <div
+        css={
+          playerFullScreen && currentlyPlayingName
+            ? cssWrapperFull
+            : css`
+                display: none;
+              `
+        }
+      >
+        {(() => {
+          if (chosenIndex !== null && playerFullScreen) {
+            return (
+              <PlayerFullScreen
+                setplayerFullScreen={setplayerFullScreen}
+                playerFullScreen={playerFullScreen}
+                skipSong={skipSong}
+                playPause={playPause}
+              />
+            );
+          }
+        })()}
+      </div>
+    </>
+  );
 }
