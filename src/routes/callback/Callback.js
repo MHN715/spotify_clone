@@ -14,5 +14,5 @@ export default function Callback({ code }) {
     navigate("/");
   }, [accessToken, navigate, setToken]);
 
-  return null;
+  return <div>callback, loading site</div>;
 }
