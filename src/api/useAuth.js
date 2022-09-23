@@ -42,7 +42,7 @@ export default function useAuth(code) {
           // window.location = "/";
           console.log(err);
         });
-    }, (expiresIn - 60) * 1000);
+    }, (expiresIn - 3600) * 1000);
 
     return () => clearInterval(interval);
   }, [refreshToken, expiresIn, setToken]);

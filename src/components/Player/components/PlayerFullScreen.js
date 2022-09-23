@@ -59,8 +59,8 @@ export default function PlayerFullScreen({
             setplayerFullScreen(!playerFullScreen);
           }}
           css={css`
-            height: 2rem;
-            width: 2rem;
+            height: 1.5rem;
+            width: 1.5rem;
           `}
         ></DownArrow_svg>
         <h1

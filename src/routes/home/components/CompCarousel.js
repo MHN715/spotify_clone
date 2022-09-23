@@ -141,14 +141,13 @@ export default function CompCarousel({
                       {name}
                     </h2>
                   </div>
-                  <div className="swiper-lazy-loading">loading</div>
                 </SwiperSlide>
               );
             });
           } else if (isItPlaylists && !isItAlbums) {
             return items.map((item, index) => {
               const { id, name, uri } = item;
-              const image = item.images[0].url;
+              const image = item.images[0]?.url;
 
               return (
                 <SwiperSlide key={id}>

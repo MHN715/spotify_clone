@@ -21,6 +21,8 @@ function App() {
   var [chosenIndex, setChosenIndex] = useState(null);
   var [playing, setPlaying] = useState(false);
   var [currentlyPlayingName, setCurrentlyPlayingName] = useState("");
+  var [reactSpotifyWebPlaybackStatus, setReactSpotifyWebPlaybackStatus] =
+    useState(null);
 
   return (
     <AccessTokenContext.Provider value={accessTokenState}>
@@ -36,6 +38,8 @@ function App() {
           setPlaying,
           currentlyPlayingName,
           setCurrentlyPlayingName,
+          reactSpotifyWebPlaybackStatus,
+          setReactSpotifyWebPlaybackStatus,
         }}
       >
         {(() => {

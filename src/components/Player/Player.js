@@ -5,22 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/lazy";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlayCircle,
-  faArrowAltCircleLeft,
-  faArrowAltCircleRight,
-  faPauseCircle,
-  faHeart,
-  faDisplay,
-  faHeartCircleCheck,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  cssWrapper,
-  cssSongInfoBtn,
-  cssBtnWrapper,
-  cssIcons,
-} from "./style/cssPlayer";
+import { cssWrapper } from "./style/cssPlayerSmallScreen";
 import { cssWrapperFull } from "./style/cssFullScreen";
 import WhatsPlayingContext from "../../Context/WhatsPlayingContext";
 import PlayerSmallScreen from "./components/PlayerSmallScreen";
