@@ -17,12 +17,13 @@ const code = new URLSearchParams(window.location.search).get("code");
 function App() {
   var accessTokenState = useState(null);
   var [chosenTrack, setChosenTrack] = useState(null);
+  var [chosenId, setChosenId] = useState("");
   var [chosenPlaylist, setChosenPlaylist] = useState([]);
   var [chosenIndex, setChosenIndex] = useState(null);
   var [playing, setPlaying] = useState(false);
   var [currentlyPlayingName, setCurrentlyPlayingName] = useState("");
-  var [reactSpotifyWebPlaybackStatus, setReactSpotifyWebPlaybackStatus] =
-    useState(null);
+  var [spotifyWebPlaybackStatus, setSpotifyWebPlaybackStatus] = useState(null);
+  var [playerSDK, setPlayerSDK] = useState({});
 
   return (
     <AccessTokenContext.Provider value={accessTokenState}>
@@ -38,8 +39,12 @@ function App() {
           setPlaying,
           currentlyPlayingName,
           setCurrentlyPlayingName,
-          reactSpotifyWebPlaybackStatus,
-          setReactSpotifyWebPlaybackStatus,
+          spotifyWebPlaybackStatus,
+          setSpotifyWebPlaybackStatus,
+          playerSDK,
+          setPlayerSDK,
+          chosenId,
+          setChosenId,
         }}
       >
         {(() => {

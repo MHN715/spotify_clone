@@ -33,6 +33,7 @@ import { ReactComponent as ListSvg } from "../../../icons/List.svg";
 export default function PlayerFullScreen({
   playPause,
   skipSong,
+  repeatSong,
   setplayerFullScreen,
   playerFullScreen,
 }) {
@@ -44,6 +45,7 @@ export default function PlayerFullScreen({
     setCurrentlyPlayingName,
     currentlyPlayingName,
     playing,
+    playerSDK,
   } = useContext(WhatsPlayingContext);
   const swiperRef = useRef();
 
@@ -189,8 +191,8 @@ export default function PlayerFullScreen({
               <PlayCircleSvg
                 css={cssPlayPauseIcons}
                 onClick={() => playPause("play")}
-                width="3.3rem"
-                height="3.3rem"
+                // width="3.3rem"
+                // height="3.3rem"
               />
             );
           })()}
@@ -198,12 +200,15 @@ export default function PlayerFullScreen({
             css={cssIcons}
             onClick={() => {
               skipSong("next");
+              // playerSDK.nextTrack().then(() => {
+              //   console.log("Skipped to next track!");
+              // });
               swiperRef.current.slideNext();
             }}
             // height="1.5rem"
             // width="1.5rem"
           />
-          <RepeatSvg css={cssIcons} />
+          <RepeatSvg css={cssIcons} onClick={() => repeatSong()} />
         </div>
       </main>
       <footer css={cssFooter}>

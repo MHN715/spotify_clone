@@ -36,6 +36,8 @@ export default function CompCarousel({
     setChosenIndex,
     playing,
     setPlaying,
+    playerSDK,
+    setChosenId,
   } = useContext(WhatsPlayingContext);
 
   // console.log("chosenIndex,", chosenIndex);
@@ -126,7 +128,14 @@ export default function CompCarousel({
               // console.log(uri);
               return (
                 <SwiperSlide key={id}>
-                  <div onClick={() => clicked(uri, index)}>
+                  <div
+                    onClick={() => {
+                      clicked(uri, index);
+                      setChosenId(id);
+
+                      // playerSDK.play({ uri });
+                    }}
+                  >
                     <div>
                       <img
                         className="image swiper-lazy"

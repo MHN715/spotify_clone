@@ -25,14 +25,15 @@ export default function Player({ spotifyApi, accessToken }) {
     setPlaying,
     currentlyPlayingName,
     setCurrentlyPlayingName,
+    playerSDK,
   } = useContext(WhatsPlayingContext);
 
   function playPause(arg) {
     if (!currentlyPlayingName) return;
     return arg === "play"
-      ? setPlaying(true)
+      ? playerSDK.resume() && setPlaying(true)
       : arg === "pause"
-      ? setPlaying(false)
+      ? playerSDK.pause() && setPlaying(false)
       : null;
   }
 
@@ -110,6 +111,7 @@ export default function Player({ spotifyApi, accessToken }) {
                 playerFullScreen={playerFullScreen}
                 skipSong={skipSong}
                 playPause={playPause}
+                repeatSong={repeatSong}
               />
             );
           }

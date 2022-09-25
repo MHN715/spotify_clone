@@ -27,7 +27,7 @@ export default function Home() {
   const [isLoadingNewReleases, setIsLoadingNewReleases] = useState(true);
   const [isLoadingSavedTracks, setIsLoadingSavedTracks] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const { reactSpotifyWebPlaybackStatus } = useContext(WhatsPlayingContext);
+  const { spotifyWebPlaybackStatus } = useContext(WhatsPlayingContext);
   const [firstRender, setFirstRender] = useState(true);
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function Home() {
 
   useEffect(() => {
     if (
-      reactSpotifyWebPlaybackStatus === "READY" &&
+      spotifyWebPlaybackStatus &&
       !isLoadingRecentTracks &&
       !isLoadingFeaturedPlaylists &&
       !isLoadingNewReleases &&
@@ -56,7 +56,7 @@ export default function Home() {
         setIsLoading(false);
       }, 100);
   }, [
-    reactSpotifyWebPlaybackStatus,
+    spotifyWebPlaybackStatus,
     isLoadingRecentTracks,
     isLoadingFeaturedPlaylists,
     isLoadingNewReleases,
