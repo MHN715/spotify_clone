@@ -13,7 +13,7 @@ import PlayerFullScreen from "./components/PlayerFullScreen";
 // import { playPause, skipSong } from "./functions";
 
 export default function Player({ spotifyApi, accessToken }) {
-  const [playerFullScreen, setplayerFullScreen] = useState(false);
+  // const [playerFullScreen, setplayerFullScreen] = useState(false);
   const {
     chosenTrack,
     setChosenTrack,
@@ -26,7 +26,12 @@ export default function Player({ spotifyApi, accessToken }) {
     currentlyPlayingName,
     setCurrentlyPlayingName,
     playerSDK,
+    setDuration,
+    setCurrentDuration,
+    playerFullScreen,
+    setplayerFullScreen,
   } = useContext(WhatsPlayingContext);
+  console.log(playerFullScreen);
 
   function playPause(arg) {
     if (!currentlyPlayingName) return;
@@ -36,6 +41,9 @@ export default function Player({ spotifyApi, accessToken }) {
       ? playerSDK.pause() && setPlaying(false)
       : null;
   }
+
+  // console.log("player");
+  // console.log(playerSDK);
 
   function skipSong(arg) {
     return arg === "next"

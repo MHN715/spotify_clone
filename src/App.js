@@ -24,8 +24,9 @@ function App() {
   var [currentlyPlayingName, setCurrentlyPlayingName] = useState("");
   var [spotifyWebPlaybackStatus, setSpotifyWebPlaybackStatus] = useState(null);
   var [playerSDK, setPlayerSDK] = useState({});
-  var [duration, setDuration] = useState(0);
-  var [currentDuration, setCurrentDuration] = useState(0);
+  var [duration, setDuration] = useState(1);
+  var [currentDuration, setCurrentDuration] = useState(1);
+  var [playerFullScreen, setplayerFullScreen] = useState(false);
 
   return (
     <AccessTokenContext.Provider value={accessTokenState}>
@@ -51,6 +52,8 @@ function App() {
           setDuration,
           currentDuration,
           setCurrentDuration,
+          playerFullScreen,
+          setplayerFullScreen,
         }}
       >
         {(() => {

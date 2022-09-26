@@ -8,7 +8,7 @@ const timeTest = 10;
 export default function PlayerSlider() {
   const { duration, currentDuration, playing } =
     useContext(WhatsPlayingContext);
-  console.log(duration / 1000);
+  console.log("duration: ", duration / 1000);
   console.log("currentDuration: ", currentDuration);
 
   const sliderAnim = keyframes`
@@ -35,56 +35,63 @@ to {
       {/* slider bar */}
       <div
         css={css`
-          height: 0.4rem;
+          height: 0.3rem;
           width: 95%;
-          border-radius: 10rem;
-          border: 1px solid black;
+          border-radius: 100rem;
+          /* border: 1px solid black; */
+          background: #00000030;
           display: flex;
           align-items: center;
         `}
       >
         {/* slider button */}
-        <div
-          css={
-            playing
-              ? css`
-                  height: 100%;
-                  background: green;
-                  border-radius: 100rem;
-                  position: relative;
-                  /* width: 10%; */
-                  display: flex;
-                  align-items: center;
-                  justify-content: flex-end;
-                  padding-left: 1rem;
-                  animation-name: ${sliderAnim};
-                  animation-duration: ${duration / 1000}s;
-                  animation-timing-function: linear;
-                  /* animation-fill-mode: forwards; */
-                `
-              : css`
-                  height: 100%;
-                  background: green;
-                  border-radius: 100rem;
-                  position: relative;
-                  display: flex;
-                  align-items: center;
-                  justify-content: flex-end;
-                  padding-left: 1rem;
-                  width: ${(currentDuration / duration) * 100}%;
-                `
-          }
-        >
-          <div
-            css={css`
-              width: 1rem;
-              height: 1rem;
-              border-radius: 100%;
-              background: blue;
-              position: absolute;
-            `}
-          ></div>
-        </div>
+        {(() => {
+          if (duration && currentDuration)
+            return (
+              <div
+                css={
+                  playing
+                    ? css`
+                        height: 100%;
+                        background: green;
+                        border-radius: 100rem;
+                        position: relative;
+                        /* width: 10%; */
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-end;
+                        padding-left: 1rem;
+                        animation-name: ${sliderAnim};
+                        animation-duration: ${duration / 1000}s;
+                        animation-timing-function: linear;
+                        /* animation-fill-mode: forwards; */
+                      `
+                    : css`
+                        height: 100%;
+                        background: green;
+                        border-radius: 100rem;
+                        position: relative;
+                        /* width: 10%; */
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-end;
+                        padding-left: 1rem;
+                        width: ${(currentDuration / duration) * 100}%;
+                      `
+                }
+              >
+                <div
+                  css={css`
+                    width: 0.7rem;
+                    height: 0.7rem;
+                    border-radius: 100%;
+                    background: blue;
+                    position: absolute;
+                  `}
+                ></div>
+              </div>
+            );
+        })()}
       </div>
     </div>
   );

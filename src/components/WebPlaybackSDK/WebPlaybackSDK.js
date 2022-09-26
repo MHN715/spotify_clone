@@ -21,6 +21,7 @@ export default function WebPlaybackSDK() {
     chosenId,
     setDuration,
     setCurrentDuration,
+    playerFullScreen,
   } = useContext(WhatsPlayingContext);
   const [player, setPlayer] = useState(undefined);
   const [is_paused, setPaused] = useState(false);
@@ -28,10 +29,8 @@ export default function WebPlaybackSDK() {
   const [deviceId, setDeviceId] = useState("");
   // const [current_track, setTrack] = useState(track);
 
-  console.log(player);
-  console.log(chosenId);
-
   useEffect(() => {
+    console.log("spotify SDK init!!!!!!!!!!!!!!!!!!!!!!!!");
     const script = document.createElement("script");
     script.src = "https://sdk.scdn.co/spotify-player.js";
     script.async = true;
@@ -79,6 +78,15 @@ export default function WebPlaybackSDK() {
       });
     };
   }, []);
+
+  useEffect(() => {
+    player?.getCurrentState().then((state) => {
+      // !state ? setActive(false) : setActive(true);
+      console.log("currentstate: ", state);
+      setDuration(state.duration);
+      setCurrentDuration(state.position);
+    });
+  }, [playing, playerFullScreen]);
 
   useEffect(() => {
     if (!deviceId || !chosenTrack) return;
