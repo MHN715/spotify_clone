@@ -1,17 +1,8 @@
 import { useState, useEffect, useContext } from "react";
-import SpotifyPlayer from "react-spotify-web-playback";
 import WhatsPlayingContext from "../../Context/WhatsPlayingContext";
 import AccessTokenContext from "../../api/AccessTokenContext";
 
-// const track = {
-//   name: "",
-//   album: {
-//     images: [{ url: "" }],
-//   },
-//   artists: [{ name: "" }],
-// };
-
-export default function ReactSpotifyWebPlayback() {
+export default function WebPlaybackSDK() {
   const accessToken = useContext(AccessTokenContext)[0];
   const {
     chosenTrack,
@@ -28,6 +19,8 @@ export default function ReactSpotifyWebPlayback() {
     setPlayerSDK,
     playerSDK,
     chosenId,
+    setDuration,
+    setCurrentDuration,
   } = useContext(WhatsPlayingContext);
   const [player, setPlayer] = useState(undefined);
   const [is_paused, setPaused] = useState(false);
@@ -79,6 +72,9 @@ export default function ReactSpotifyWebPlayback() {
 
         player.getCurrentState().then((state) => {
           !state ? setActive(false) : setActive(true);
+          // console.log("state: ", state);
+          setDuration(state.duration);
+          setCurrentDuration(state.position);
         });
       });
     };
@@ -97,27 +93,6 @@ export default function ReactSpotifyWebPlayback() {
       },
     });
   }, [deviceId, chosenTrack]);
-
-  // return (
-  //   <div style={{ display: "none" }}>
-  //     <SpotifyPlayer
-  //       token={accessToken}
-  //       styles={StylesOptions}
-  //       callback={(e) => {
-  //         console.log("spotify callback", e);
-  //         setReactSpotifyWebPlaybackStatus(e.status);
-  //         if (e.track.name === "") return;
-  //         setCurrentlyPlayingName(
-  //           e.track.name + " - " + e.track.artists[0].name
-  //         );
-  //         e.isPlaying && setPlaying(true);
-  //         !e.isPlaying && setPlaying(false);
-  //       }}
-  //       uris={chosenTrack ? [chosenTrack] : []}
-  //       play={playing}
-  //     />
-  //   </div>
-  // );
 
   return null;
 }

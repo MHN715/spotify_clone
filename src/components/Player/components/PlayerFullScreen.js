@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { useContext, useRef } from "react";
 import { css } from "@emotion/react";
+import { useContext, useRef } from "react";
 import {
   cssIcons,
   cssHeader,
@@ -29,6 +29,7 @@ import { ReactComponent as DownArrowSvg } from "../../../icons/DownArrow.svg";
 import { ReactComponent as DotsSettingsSvg } from "../../../icons/DotsSettings.svg";
 import { ReactComponent as DevicesSvg } from "../../../icons/Devices.svg";
 import { ReactComponent as ListSvg } from "../../../icons/List.svg";
+import PlayerSlider from "./PlayerSlider";
 
 export default function PlayerFullScreen({
   playPause,
@@ -46,11 +47,14 @@ export default function PlayerFullScreen({
     currentlyPlayingName,
     playing,
     playerSDK,
+    duration,
+    setDuration,
   } = useContext(WhatsPlayingContext);
   const swiperRef = useRef();
 
-  console.log("chosenPlaylist", chosenPlaylist);
-  console.log("chosenIndex", chosenIndex);
+  // console.log("chosenPlaylist", chosenPlaylist);
+  // console.log("chosenIndex", chosenIndex);
+  console.log("duration:", duration);
 
   return (
     <>
@@ -116,14 +120,14 @@ export default function PlayerFullScreen({
           {chosenPlaylist?.map((item, index) => {
             const imgUrl = item.track.album.images[1].url;
             const { id } = item;
-            console.log(item.track.name);
+            // console.log(item.track.name);
             // console.log(item.track.album.images[1].url);
             // console.log(chosenPlaylist[index].track.album.images[1].url);
 
             return (
-              <SwiperSlide data-url={item.track.uri}>
+              <SwiperSlide key={id} data-url={item.track.uri}>
                 <div
-                  key={id + index}
+                  key={id}
                   css={css`
                     border: 2px solid green;
                     display: grid;
@@ -132,6 +136,7 @@ export default function PlayerFullScreen({
                   `}
                 >
                   <img
+                    key={id}
                     src={imgUrl}
                     alt=""
                     css={css`
@@ -168,47 +173,54 @@ export default function PlayerFullScreen({
           </h2>
           <HeartSvg css={cssIconHeart} />
         </div>
-        <div css={cssBtnWrapper}>
-          <MixSvg height="1.5rem" width="1.5rem" />
-          <PrevSvg
-            css={cssIcons}
-            onClick={() => {
-              skipSong("prev");
-              swiperRef.current.slidePrev();
-            }}
-            // height="1.5rem"
-            // width="1.5rem"
-          />
-          {(() => {
-            return playing ? (
-              <PauseCircleSvg
-                css={cssPlayPauseIcons}
-                onClick={() => playPause("pause")}
-                // width="3.3rem"
-                // height="3.3rem"
-              />
-            ) : (
-              <PlayCircleSvg
-                css={cssPlayPauseIcons}
-                onClick={() => playPause("play")}
-                // width="3.3rem"
-                // height="3.3rem"
-              />
-            );
-          })()}
-          <NextSvg
-            css={cssIcons}
-            onClick={() => {
-              skipSong("next");
-              // playerSDK.nextTrack().then(() => {
-              //   console.log("Skipped to next track!");
-              // });
-              swiperRef.current.slideNext();
-            }}
-            // height="1.5rem"
-            // width="1.5rem"
-          />
-          <RepeatSvg css={cssIcons} onClick={() => repeatSong()} />
+        <div
+          css={css`
+            display: grid;
+          `}
+        >
+          <PlayerSlider />
+          <div css={cssBtnWrapper}>
+            <MixSvg height="1.5rem" width="1.5rem" />
+            <PrevSvg
+              css={cssIcons}
+              onClick={() => {
+                skipSong("prev");
+                swiperRef.current.slidePrev();
+              }}
+              // height="1.5rem"
+              // width="1.5rem"
+            />
+            {(() => {
+              return playing ? (
+                <PauseCircleSvg
+                  css={cssPlayPauseIcons}
+                  onClick={() => playPause("pause")}
+                  // width="3.3rem"
+                  // height="3.3rem"
+                />
+              ) : (
+                <PlayCircleSvg
+                  css={cssPlayPauseIcons}
+                  onClick={() => playPause("play")}
+                  // width="3.3rem"
+                  // height="3.3rem"
+                />
+              );
+            })()}
+            <NextSvg
+              css={cssIcons}
+              onClick={() => {
+                skipSong("next");
+                // playerSDK.nextTrack().then(() => {
+                //   console.log("Skipped to next track!");
+                // });
+                swiperRef.current.slideNext();
+              }}
+              // height="1.5rem"
+              // width="1.5rem"
+            />
+            <RepeatSvg css={cssIcons} onClick={() => repeatSong()} />
+          </div>
         </div>
       </main>
       <footer css={cssFooter}>

@@ -27,7 +27,6 @@ const cssBtnWrapper = css`
   justify-content: space-around;
   align-items: center;
   border: 5px solid black;
-  /* height: 10rem; */
 `;
 
 const cssMain = css`

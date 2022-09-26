@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 import AccessTokenContext from "./api/AccessTokenContext";
 import WhatsPlayingContext from "./Context/WhatsPlayingContext";
-import ReactSpotifyWebPlayback from "./components/ReactSpotifyWebPlayback/ReactSpotifyWebPlayback";
+import WebPlaybackSDK from "./components/WebPlaybackSDK/WebPlaybackSDK";
 
 const Login = lazy(() => import("./routes/login/Login"));
 const Callback = lazy(() => import("./routes/callback/Callback"));
@@ -24,6 +24,8 @@ function App() {
   var [currentlyPlayingName, setCurrentlyPlayingName] = useState("");
   var [spotifyWebPlaybackStatus, setSpotifyWebPlaybackStatus] = useState(null);
   var [playerSDK, setPlayerSDK] = useState({});
+  var [duration, setDuration] = useState(0);
+  var [currentDuration, setCurrentDuration] = useState(0);
 
   return (
     <AccessTokenContext.Provider value={accessTokenState}>
@@ -45,11 +47,15 @@ function App() {
           setPlayerSDK,
           chosenId,
           setChosenId,
+          duration,
+          setDuration,
+          currentDuration,
+          setCurrentDuration,
         }}
       >
         {(() => {
           if (accessTokenState[0])
-            return <ReactSpotifyWebPlayback accessToken={accessTokenState} />;
+            return <WebPlaybackSDK accessToken={accessTokenState} />;
         })()}
 
         <Suspense fallback={<p>loading...</p>}>
