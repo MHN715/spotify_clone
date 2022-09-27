@@ -8,8 +8,8 @@ const timeTest = 10;
 export default function PlayerSlider() {
   const { duration, currentDuration, playing } =
     useContext(WhatsPlayingContext);
-  console.log("duration: ", duration / 1000);
-  console.log("currentDuration: ", currentDuration);
+  // console.log("duration: ", duration / 1000);
+  // console.log("currentDuration: ", currentDuration);
 
   const sliderAnim = keyframes`
 from {
@@ -20,7 +20,7 @@ to {
 }
 `;
 
-  console.log((currentDuration / duration) * 100);
+  // console.log((currentDuration / duration) * 100);
 
   return (
     // Slider wrapper

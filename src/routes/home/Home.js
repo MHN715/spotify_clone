@@ -157,7 +157,7 @@ export default function Home() {
       })
       .then(
         function (recentTracks) {
-          console.log(recentTracks);
+          // console.log(recentTracks);
           setRecentTracks(recentTracks.body.items);
 
           setIsLoadingRecentTracks(false);
@@ -176,7 +176,7 @@ export default function Home() {
       })
       .then(
         function (savedTracks) {
-          console.log("savedtracks:", savedTracks);
+          // console.log("savedtracks:", savedTracks);
           setSavedTracks(savedTracks.body.items);
 
           setIsLoadingSavedTracks(false);
@@ -208,7 +208,7 @@ export default function Home() {
   function getNewReleases() {
     spotifyApi.getNewReleases({ limit: 5, offset: 0 }).then(
       function (data) {
-        console.log(data.body);
+        // console.log(data.body);
         setNewReleases(data.body.albums.items);
 
         setIsLoadingNewReleases(false);

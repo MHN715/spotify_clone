@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import {
   cssIcons,
   cssHeader,
@@ -10,6 +10,7 @@ import {
   cssMain,
   cssIconHeart,
   cssFooterIcons,
+  cssSongRepeat,
 } from "../style/cssPlayerFullScreen";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -37,6 +38,8 @@ export default function PlayerFullScreen({
   repeatSong,
   setplayerFullScreen,
   playerFullScreen,
+  song,
+  accessToken,
 }) {
   const {
     chosenPlaylist,
@@ -49,19 +52,18 @@ export default function PlayerFullScreen({
     playerSDK,
     duration,
     setDuration,
+    repeatSongState,
+    setRepeatSongState,
   } = useContext(WhatsPlayingContext);
   const swiperRef = useRef();
-
-  // console.log("chosenPlaylist", chosenPlaylist);
-  // console.log("chosenIndex", chosenIndex);
-  console.log("duration:", duration);
-
+  // const [repeatSongState, setRepeatSongState] = useState(false);
+  // console.log("playerFullScreen, repeatSongstate: ", repeatSongState);
   return (
     <>
       <header css={cssHeader}>
         <DownArrowSvg
           onClick={(e) => {
-            console.log("clicked smallscreen");
+            // console.log("clicked smallscreen");
             setplayerFullScreen(!playerFullScreen);
           }}
           css={css`
@@ -94,7 +96,7 @@ export default function PlayerFullScreen({
           // modules={[Navigation]}
           navigation={true}
           onSlideChange={(e) => {
-            console.log("slide change", e);
+            // console.log("slide change", e);
             setChosenIndex(e.realIndex);
             setChosenTrack(chosenPlaylist[e.realIndex].track.uri);
             setCurrentlyPlayingName(
@@ -194,14 +196,28 @@ export default function PlayerFullScreen({
               return playing ? (
                 <PauseCircleSvg
                   css={cssPlayPauseIcons}
-                  onClick={() => playPause("pause")}
+                  onClick={() => {
+                    playPause("pause");
+                    // if (repeatSongState) {
+                    //   repeatSong("track");
+                    // } else if (!repeatSongState) {
+                    //   repeatSong("off");
+                    // }
+                  }}
                   // width="3.3rem"
                   // height="3.3rem"
                 />
               ) : (
                 <PlayCircleSvg
                   css={cssPlayPauseIcons}
-                  onClick={() => playPause("play")}
+                  onClick={() => {
+                    playPause("play");
+                    // if (repeatSongState) {
+                    //   repeatSong("track");
+                    // } else if (!repeatSongState) {
+                    //   repeatSong("off");
+                    // }
+                  }}
                   // width="3.3rem"
                   // height="3.3rem"
                 />
@@ -219,7 +235,32 @@ export default function PlayerFullScreen({
               // height="1.5rem"
               // width="1.5rem"
             />
-            <RepeatSvg css={cssIcons} onClick={() => repeatSong()} />
+            {(() => {
+              if (!repeatSongState) {
+                return (
+                  <RepeatSvg
+                    css={cssIcons}
+                    onClick={() => {
+                      repeatSong("track");
+                      setRepeatSongState(true);
+                    }}
+                  />
+                );
+              } else {
+                return (
+                  <>
+                    <RepeatSvg
+                      css={cssSongRepeat}
+                      onClick={() => {
+                        repeatSong("off");
+                        setRepeatSongState(false);
+                      }}
+                    />
+                    <p>1</p>
+                  </>
+                );
+              }
+            })()}
           </div>
         </div>
       </main>

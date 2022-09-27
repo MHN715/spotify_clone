@@ -26,15 +26,15 @@ export default function PlayerSmallScreen({
 }) {
   const [resetPlaying, setResetPlaying] = useState(false);
 
-  console.log(chosenPlaylist[chosenIndex]?.track.id);
+  // console.log(chosenPlaylist[chosenIndex]?.track.id);
 
   return (
     <>
       <button
         css={cssSongInfoBtn}
         onClick={(e) => {
-          console.log(e);
-          console.log("clicked fullscreen");
+          // console.log(e);
+          // console.log("clicked fullscreen");
           setplayerFullScreen(!playerFullScreen);
         }}
       >

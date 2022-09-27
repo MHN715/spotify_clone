@@ -22,6 +22,8 @@ export default function WebPlaybackSDK() {
     setDuration,
     setCurrentDuration,
     playerFullScreen,
+    repeatSongState,
+    setRepeatSongState,
   } = useContext(WhatsPlayingContext);
   const [player, setPlayer] = useState(undefined);
   const [is_paused, setPaused] = useState(false);
@@ -62,7 +64,7 @@ export default function WebPlaybackSDK() {
       player.connect();
 
       player.addListener("player_state_changed", (state) => {
-        console.log(state);
+        // console.log(state);
         if (!state) {
           return;
         }
@@ -82,11 +84,23 @@ export default function WebPlaybackSDK() {
   useEffect(() => {
     player?.getCurrentState().then((state) => {
       // !state ? setActive(false) : setActive(true);
-      console.log("currentstate: ", state);
+      // console.log("currentstate: ", state);
       setDuration(state.duration);
       setCurrentDuration(state.position);
     });
   }, [playing, playerFullScreen]);
+
+  // useEffect(() => {
+  //   player?.getCurrentState().then((state) => {
+  //     // !state ? setActive(false) : setActive(true);
+  //     console.log("currentstate of repeat: ", state.repeat_mode);
+  //     // if (state.repeat_mode === 1 || 2) {
+  //     //   setRepeatSongState(true);
+  //     // } else {
+  //     //   setRepeatSongState(false);
+  //     // }
+  //   });
+  // }, [repeatSongState, playing]);
 
   useEffect(() => {
     if (!deviceId || !chosenTrack) return;

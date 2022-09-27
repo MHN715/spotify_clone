@@ -27,6 +27,7 @@ function App() {
   var [duration, setDuration] = useState(1);
   var [currentDuration, setCurrentDuration] = useState(1);
   var [playerFullScreen, setplayerFullScreen] = useState(false);
+  const [repeatSongState, setRepeatSongState] = useState();
 
   return (
     <AccessTokenContext.Provider value={accessTokenState}>
@@ -54,6 +55,8 @@ function App() {
           setCurrentDuration,
           playerFullScreen,
           setplayerFullScreen,
+          repeatSongState,
+          setRepeatSongState,
         }}
       >
         {(() => {

@@ -42,6 +42,7 @@ const cssIcons = css`
   /* border: 1px solid black; */
   height: 2rem;
   width: 2rem;
+  stroke: black;
 `;
 
 const cssIconHeart = css`
@@ -58,6 +59,14 @@ const cssPlayPauseIcons = css`
   /* border: 1px solid black; */
   height: 3.5rem;
   width: 3.5rem;
+`;
+
+const cssSongRepeat = css`
+  color: #a12727;
+  font-size: 1.6rem;
+  height: 2rem;
+  width: 2rem;
+  stroke: #14b253;
 `;
 
 const cssHeader = css`
@@ -95,4 +104,5 @@ export {
   cssMain,
   cssIconHeart,
   cssFooterIcons,
+  cssSongRepeat,
 };

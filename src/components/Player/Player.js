@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -14,6 +14,7 @@ import PlayerFullScreen from "./components/PlayerFullScreen";
 
 export default function Player({ spotifyApi, accessToken }) {
   // const [playerFullScreen, setplayerFullScreen] = useState(false);
+
   const {
     chosenTrack,
     setChosenTrack,
@@ -27,19 +28,41 @@ export default function Player({ spotifyApi, accessToken }) {
     setCurrentlyPlayingName,
     playerSDK,
     setDuration,
+    duration,
     setCurrentDuration,
+    currentDuration,
     playerFullScreen,
     setplayerFullScreen,
+    repeatSongState,
   } = useContext(WhatsPlayingContext);
-  console.log(playerFullScreen);
+  const timerId = useRef(null);
+
+  // function playPause(arg) {
+  //   if (!currentlyPlayingName) return;
+  //   return arg === "play"
+  //     ? playerSDK.resume() && setPlaying(true)
+  //     : arg === "pause"
+  //     ? playerSDK.pause() && setPlaying(false)
+  //     : null;
+  // }
 
   function playPause(arg) {
     if (!currentlyPlayingName) return;
-    return arg === "play"
-      ? playerSDK.resume() && setPlaying(true)
-      : arg === "pause"
-      ? playerSDK.pause() && setPlaying(false)
-      : null;
+    if (arg === "play") {
+      playerSDK.resume();
+      setPlaying(true);
+      if (repeatSongState) {
+        repeatSong("track");
+      }
+      if (!repeatSongState) {
+        repeatSong("off");
+      }
+    }
+    if (arg === "pause") {
+      playerSDK.pause();
+      clearInterval(timerId.current);
+      setPlaying(false);
+    }
   }
 
   // console.log("player");
@@ -65,16 +88,37 @@ export default function Player({ spotifyApi, accessToken }) {
       : null;
   }
 
-  function repeatSong() {
-    spotifyApi.setRepeat("track").then(
-      function () {
-        console.log("Repeat track.");
-      },
-      function (err) {
-        //if the user making the request is non-premium, a 403 FORBIDDEN response code will be returned
-        console.log("Something went wrong!", err);
-      }
-    );
+  function repeatingTrack() {
+    playerSDK.seek(0).then(() => {
+      clearInterval(timerId.current);
+      playerSDK.resume();
+    });
+  }
+
+  function repeatSong(arg) {
+    if (!arg) return;
+
+    playerSDK?.getCurrentState().then((state) => {
+      setDuration(state.duration);
+      setCurrentDuration(state.position);
+    });
+
+    if (arg === "track") {
+      console.log("repeat track in", (duration - currentDuration) / 1000 + "s");
+      console.log(
+        "duration:",
+        duration,
+        " - ",
+        "currentDuration:",
+        currentDuration
+      );
+      timerId.current = setInterval(() => {
+        console.log(currentDuration);
+        repeatingTrack();
+      }, duration - currentDuration);
+    } else if (arg === "off") {
+      clearInterval(timerId.current);
+    }
   }
 
   return (
@@ -120,6 +164,7 @@ export default function Player({ spotifyApi, accessToken }) {
                 skipSong={skipSong}
                 playPause={playPause}
                 repeatSong={repeatSong}
+                accessToken={accessToken}
               />
             );
           }
