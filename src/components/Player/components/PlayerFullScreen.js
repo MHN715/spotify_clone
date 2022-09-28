@@ -120,7 +120,7 @@ export default function PlayerFullScreen({
           `}
         >
           {chosenPlaylist?.map((item, index) => {
-            const imgUrl = item.track.album.images[1].url;
+            const imgUrl = item.track.album.images[1]?.url;
             const { id } = item;
             // console.log(item.track.name);
             // console.log(item.track.album.images[1].url);

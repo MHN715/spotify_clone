@@ -10,21 +10,21 @@ export default function Nav() {
     <nav css={cssNav}>
       <ul css={cssUl}>
         <li css={cssLi}>
-          <HomeSvg css={cssIcons} />
           <Link to="/" css={cssLink}>
+            <HomeSvg css={cssIcons} />
             Home
           </Link>
         </li>
         <li css={cssLi}>
-          <SearchSvg css={cssIcons} />
           <Link to="/search" css={cssLink}>
+            <SearchSvg css={cssIcons} />
             Search
           </Link>
         </li>
         <li css={cssLi}>
           {" "}
-          <LibrarySvg css={cssIcons} />
           <Link to="/your_library" css={cssLink}>
+            <LibrarySvg css={cssIcons} />
             Your Library
           </Link>
         </li>

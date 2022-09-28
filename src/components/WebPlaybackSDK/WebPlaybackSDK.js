@@ -64,7 +64,7 @@ export default function WebPlaybackSDK() {
       player.connect();
 
       player.addListener("player_state_changed", (state) => {
-        // console.log(state);
+        console.log(state);
         if (!state) {
           return;
         }
@@ -73,7 +73,7 @@ export default function WebPlaybackSDK() {
 
         player.getCurrentState().then((state) => {
           !state ? setActive(false) : setActive(true);
-          // console.log("state: ", state);
+          console.log("state: ", state);
           setDuration(state.duration);
           setCurrentDuration(state.position);
         });

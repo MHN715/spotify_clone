@@ -15,7 +15,7 @@ const cssWrapperFull = css`
   top: 0;
   position: absolute;
   /* top: 70vh; */
-  z-index: 1000;
+  z-index: 3000;
   animation: ${bounce} 0.1s ease;
   display: grid;
   grid-template-rows: 1fr 10fr 1fr;

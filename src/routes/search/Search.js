@@ -1,8 +1,11 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import { useContext, useState, useEffect } from "react";
 import AccessTokenContext from "../../api/AccessTokenContext";
 import SpotifyWebApi from "spotify-web-api-node";
 import Nav from "../../components/Nav/Nav";
 import Player from "../../components/Player/Player";
+import PageLoadingScreenOverlay from "../../components/PageLoadingScreenOverlay/PageLoadingScreenOverlay";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "84a9b541a3dc46038b865300f1d671e4",
@@ -12,6 +15,7 @@ export default function Search() {
   const accessToken = useContext(AccessTokenContext)[0];
   const [search, setSearch] = useState("");
   const [searchRes, setSearchRes] = useState([]);
+  const [isMockLoading, setIsMockLoading] = useState(true);
 
   console.log(searchRes);
 
@@ -19,6 +23,12 @@ export default function Search() {
     if (!accessToken) return;
     spotifyApi.setAccessToken(accessToken);
   }, [accessToken]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsMockLoading(false);
+    }, 100);
+  }, []);
 
   useEffect(() => {
     if (!search) return setSearchRes([]);
@@ -53,6 +63,7 @@ export default function Search() {
 
   return (
     <div>
+      <PageLoadingScreenOverlay isLoading={isMockLoading} />
       <h1>Search</h1>
       <input
         type="text"

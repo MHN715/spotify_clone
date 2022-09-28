@@ -7,6 +7,7 @@ import AccessTokenContext from "../../api/AccessTokenContext";
 import WhatsPlayingContext from "../../Context/WhatsPlayingContext";
 import Nav from "../../components/Nav/Nav";
 import Player from "../../components/Player/Player";
+import PageLoadingScreenOverlay from "../../components/PageLoadingScreenOverlay/PageLoadingScreenOverlay";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "84a9b541a3dc46038b865300f1d671e4",
@@ -28,8 +29,10 @@ export default function Playlist() {
     setChosenIndex,
     playing,
     setPlaying,
+    spotifyWebPlaybackStatus,
   } = useContext(WhatsPlayingContext);
-  console.log(id);
+  const [isLoadingPlaylist, setIsLoadingPlaylist] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -40,6 +43,7 @@ export default function Playlist() {
     spotifyApi.getPlaylist(id).then(
       function (data) {
         setTracks(data.body.tracks.items);
+        setIsLoadingPlaylist(false);
         console.log("Some information about this playlist", data.body);
       },
       function (err) {
@@ -47,6 +51,14 @@ export default function Playlist() {
       }
     );
   }, []);
+
+  useEffect(() => {
+    console.log("test");
+    if (spotifyWebPlaybackStatus && !isLoadingPlaylist)
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 200);
+  }, [spotifyWebPlaybackStatus, isLoadingPlaylist]);
 
   function clicked(uri, index) {
     setChosenIndex(index);
@@ -63,12 +75,13 @@ export default function Playlist() {
   return (
     <div
       css={css`
-        border: 1px solid pink;
+        /* border: 1px solid pink; */
         height: 100vh;
         display: grid;
         grid-template-rows: 1fr 8fr;
       `}
     >
+      <PageLoadingScreenOverlay isLoading={isLoading} />
       <header
         css={css`
           border: 5px solid blue;

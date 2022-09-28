@@ -6,6 +6,8 @@ import Nav from "../../components/Nav/Nav";
 import Player from "../../components/Player/Player";
 import AccessTokenContext from "../../api/AccessTokenContext";
 import { Link } from "react-router-dom";
+import WhatsPlayingContext from "../../Context/WhatsPlayingContext";
+import PageLoadingScreenOverlay from "../../components/PageLoadingScreenOverlay/PageLoadingScreenOverlay";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "84a9b541a3dc46038b865300f1d671e4",
@@ -14,6 +16,9 @@ const spotifyApi = new SpotifyWebApi({
 export default function YourLibrary() {
   const accessToken = useContext(AccessTokenContext)[0];
   const [userPlaylists, setUserPlaylists] = useState([]);
+  const [isLoadingUserPlaylists, setIsLoadingUserPlaylsits] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const { spotifyWebPlaybackStatus } = useContext(WhatsPlayingContext);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -21,23 +26,24 @@ export default function YourLibrary() {
   }, [accessToken]);
 
   useEffect(() => {
+    console.log("test");
+    if (spotifyWebPlaybackStatus && !isLoadingUserPlaylists)
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 200);
+  }, [spotifyWebPlaybackStatus, isLoadingUserPlaylists]);
+
+  useEffect(() => {
     spotifyApi.getUserPlaylists("116591669").then(
       function (data) {
         setUserPlaylists(data.body.items);
+        setIsLoadingUserPlaylsits(false);
         // console.log("Retrieved playlists", data.body);
       },
       function (err) {
         console.log("Something went wrong!", err);
       }
     );
-    // spotifyApi.getMe().then(
-    //   function (data) {
-    //     console.log("Some information about the authenticated user", data.body);
-    //   },
-    //   function (err) {
-    //     console.log("Something went wrong!", err);
-    //   }
-    // );
   }, []);
 
   console.log(userPlaylists);
@@ -45,10 +51,12 @@ export default function YourLibrary() {
   return (
     <div
       css={css`
-        border: 2px solid blue;
+        /* border: 2px solid blue; */
         height: 100vh;
+        overflow: hidden;
       `}
     >
+      <PageLoadingScreenOverlay isLoading={isLoading} />
       <main
         css={css`
           border: 2px solid pink;

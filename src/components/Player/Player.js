@@ -34,6 +34,7 @@ export default function Player({ spotifyApi, accessToken }) {
     playerFullScreen,
     setplayerFullScreen,
     repeatSongState,
+    setRepeatSongState,
   } = useContext(WhatsPlayingContext);
   const timerId = useRef(null);
 
@@ -91,35 +92,38 @@ export default function Player({ spotifyApi, accessToken }) {
   function repeatingTrack() {
     playerSDK.seek(0).then(() => {
       clearInterval(timerId.current);
+      setCurrentDuration(0);
+      console.log("repeat track in", (duration - currentDuration) / 1000 + "s");
       playerSDK.resume();
+      // repeatSong("track");
     });
   }
 
   function repeatSong(arg) {
     if (!arg) return;
-
     playerSDK?.getCurrentState().then((state) => {
       setDuration(state.duration);
       setCurrentDuration(state.position);
+      console.log("test");
     });
 
     if (arg === "track") {
       console.log("repeat track in", (duration - currentDuration) / 1000 + "s");
-      console.log(
-        "duration:",
-        duration,
-        " - ",
-        "currentDuration:",
-        currentDuration
-      );
+
       timerId.current = setInterval(() => {
-        console.log(currentDuration);
+        // if (!playing) return;
         repeatingTrack();
       }, duration - currentDuration);
     } else if (arg === "off") {
       clearInterval(timerId.current);
     }
   }
+
+  useEffect(() => {
+    console.log("playing: ", playing);
+    console.log("currentDuration: ", currentDuration);
+    console.log("duration: ", duration);
+  }, [playing]);
 
   return (
     <>

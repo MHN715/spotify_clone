@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { css, keyframes } from "@emotion/react";
+import { css } from "@emotion/react";
 import { useContext, useEffect, useState } from "react";
 import AccessTokenContext from "../../api/AccessTokenContext";
 import Nav from "../../components/Nav/Nav";
@@ -9,6 +9,7 @@ import Player from "../../components/Player/Player";
 import { cssWrapper, cssMain, cssHeading1 } from "./styles/cssHome";
 import WhatsPlayingContext from "../../Context/WhatsPlayingContext";
 import "../../../src/variables.css";
+import PageLoadingScreenOverlay from "../../components/PageLoadingScreenOverlay/PageLoadingScreenOverlay";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "84a9b541a3dc46038b865300f1d671e4",
@@ -45,6 +46,7 @@ export default function Home() {
   }, [accessToken]);
 
   useEffect(() => {
+    console.log("test");
     if (
       spotifyWebPlaybackStatus &&
       !isLoadingRecentTracks &&
@@ -63,55 +65,9 @@ export default function Home() {
     isLoadingSavedTracks,
   ]);
 
-  const anim = keyframes`
-    0%{
-      background: black;
-    }
-    99%{
-      background: #00000000;
-    }
-    100%{
-      visibility: hidden;
-    }
-
-  `;
-
   return (
     <div css={cssWrapper}>
-      {(() => {
-        if (isLoading) {
-          return (
-            <div
-              css={css`
-                position: absolute;
-                height: calc(100vh - var(--navHeight));
-                width: 100vw;
-                z-index: 1000;
-                color: green;
-                font-size: 5rem;
-                background: black;
-                /* animation: ${anim} 6s ease; */
-              `}
-            ></div>
-          );
-        } else if (!isLoading) {
-          return (
-            <div
-              css={css`
-                position: absolute;
-                height: calc(100vh - var(--navHeight));
-                width: 100vw;
-                z-index: 1000;
-                color: green;
-                font-size: 5rem;
-                background: black;
-                animation: ${anim} 0.2s;
-                animation-fill-mode: forwards;
-              `}
-            ></div>
-          );
-        }
-      })()}
+      <PageLoadingScreenOverlay isLoading={isLoading} />
       <main css={cssMain}>
         <h1 css={cssHeading1}>Spotify decluttered</h1>
 
