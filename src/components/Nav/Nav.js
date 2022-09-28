@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { Link } from "react-router-dom";
 import { cssNav, cssUl, cssLi, cssIcons, cssLink } from "./cssNav";
-import { ReactComponent as HomeSvg } from "../../icons/Home.svg";
-import { ReactComponent as SearchSvg } from "../../icons/Search.svg";
-import { ReactComponent as LibrarySvg } from "../../icons/Library.svg";
+import { FiSearch } from "react-icons/fi";
+import { AiOutlineHome } from "react-icons/ai";
+import { VscLibrary } from "react-icons/vsc";
 
 export default function Nav() {
   return (
@@ -11,20 +11,20 @@ export default function Nav() {
       <ul css={cssUl}>
         <li css={cssLi}>
           <Link to="/" css={cssLink}>
-            <HomeSvg css={cssIcons} />
+            <AiOutlineHome css={cssIcons} />
             Home
           </Link>
         </li>
         <li css={cssLi}>
           <Link to="/search" css={cssLink}>
-            <SearchSvg css={cssIcons} />
+            <FiSearch css={cssIcons} />
             Search
           </Link>
         </li>
         <li css={cssLi}>
           {" "}
           <Link to="/your_library" css={cssLink}>
-            <LibrarySvg css={cssIcons} />
+            <VscLibrary css={cssIcons} />
             Your Library
           </Link>
         </li>

@@ -15,19 +15,21 @@ const YourLibrary = lazy(() => import("./routes/YourLibrary/YourLibrary"));
 const code = new URLSearchParams(window.location.search).get("code");
 
 function App() {
-  var accessTokenState = useState(null);
-  var [chosenTrack, setChosenTrack] = useState(null);
-  var [chosenId, setChosenId] = useState("");
-  var [chosenPlaylist, setChosenPlaylist] = useState([]);
-  var [chosenIndex, setChosenIndex] = useState(null);
-  var [playing, setPlaying] = useState(false);
-  var [currentlyPlayingName, setCurrentlyPlayingName] = useState("");
-  var [spotifyWebPlaybackStatus, setSpotifyWebPlaybackStatus] = useState(null);
-  var [playerSDK, setPlayerSDK] = useState({});
-  var [duration, setDuration] = useState(1);
-  var [currentDuration, setCurrentDuration] = useState(1);
-  var [playerFullScreen, setplayerFullScreen] = useState(false);
+  const accessTokenState = useState(null);
+  const [chosenTrack, setChosenTrack] = useState(null);
+  const [chosenId, setChosenId] = useState("");
+  const [chosenPlaylist, setChosenPlaylist] = useState([]);
+  const [chosenIndex, setChosenIndex] = useState(null);
+  const [playing, setPlaying] = useState(false);
+  const [currentlyPlayingName, setCurrentlyPlayingName] = useState("");
+  const [spotifyWebPlaybackStatus, setSpotifyWebPlaybackStatus] =
+    useState(null);
+  const [playerSDK, setPlayerSDK] = useState({});
+  const [duration, setDuration] = useState(1);
+  const [currentDuration, setCurrentDuration] = useState(1);
+  const [playerFullScreen, setplayerFullScreen] = useState(false);
   const [repeatSongState, setRepeatSongState] = useState();
+  const [imageUrl, setImageUrl] = useState("");
 
   return (
     <AccessTokenContext.Provider value={accessTokenState}>
@@ -57,6 +59,8 @@ function App() {
           setplayerFullScreen,
           repeatSongState,
           setRepeatSongState,
+          setImageUrl,
+          imageUrl,
         }}
       >
         {(() => {

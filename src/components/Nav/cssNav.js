@@ -30,12 +30,15 @@ const cssIcons = css`
   font-size: 1.3rem;
   width: 2rem;
   height: 2rem;
+  color: #dbdbdb;
 `;
 const cssLink = css`
   align-items: center;
   font-size: 0.8rem;
   display: flex;
   flex-direction: column;
+  color: #dbdbdb;
+  text-decoration: none;
 `;
 
 export { cssNav, cssUl, cssLi, cssIcons, cssLink };

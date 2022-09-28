@@ -11,6 +11,8 @@ import {
   cssIconHeart,
   cssFooterIcons,
   cssSongRepeat,
+  cssPrevNextIcons,
+  cssHeaderIcons,
 } from "../style/cssPlayerFullScreen";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -18,19 +20,21 @@ import "swiper/css/free-mode";
 import "swiper/css/lazy";
 import { FreeMode, Lazy, Navigation } from "swiper";
 import WhatsPlayingContext from "../../../Context/WhatsPlayingContext";
-
-import { ReactComponent as PlayCircleSvg } from "../../../icons/PlayCircle.svg";
-import { ReactComponent as PauseCircleSvg } from "../../../icons/PauseCircle.svg";
-import { ReactComponent as HeartSvg } from "../../../icons/Heart.svg";
-import { ReactComponent as MixSvg } from "../../../icons/Mix.svg";
-import { ReactComponent as NextSvg } from "../../../icons/Next.svg";
-import { ReactComponent as PrevSvg } from "../../../icons/Prev.svg";
-import { ReactComponent as RepeatSvg } from "../../../icons/Repeat.svg";
-import { ReactComponent as DownArrowSvg } from "../../../icons/DownArrow.svg";
-import { ReactComponent as DotsSettingsSvg } from "../../../icons/DotsSettings.svg";
-import { ReactComponent as DevicesSvg } from "../../../icons/Devices.svg";
-import { ReactComponent as ListSvg } from "../../../icons/List.svg";
 import PlayerSlider from "./PlayerSlider";
+
+import { BsChevronDown } from "react-icons/bs";
+import { TbDotsVertical } from "react-icons/tb";
+import { FaHeart } from "react-icons/fa";
+import { FiHeart } from "react-icons/fi";
+import { TbArrowsShuffle } from "react-icons/tb";
+import { TbRepeatOnce } from "react-icons/tb";
+import { TbRepeat } from "react-icons/tb";
+import { MdPlayCircleFilled } from "react-icons/md";
+import { MdOutlinePauseCircleFilled } from "react-icons/md";
+import { MdSkipNext } from "react-icons/md";
+import { MdSkipPrevious } from "react-icons/md";
+import { BiDevices } from "react-icons/bi";
+import { CgPlayList } from "react-icons/cg";
 
 export default function PlayerFullScreen({
   playPause,
@@ -54,6 +58,7 @@ export default function PlayerFullScreen({
     setDuration,
     repeatSongState,
     setRepeatSongState,
+    setImageUrl,
   } = useContext(WhatsPlayingContext);
   const swiperRef = useRef();
   // const [repeatSongState, setRepeatSongState] = useState(false);
@@ -61,26 +66,24 @@ export default function PlayerFullScreen({
   return (
     <>
       <header css={cssHeader}>
-        <DownArrowSvg
+        <BsChevronDown
+          css={cssHeaderIcons}
           onClick={(e) => {
             // console.log("clicked smallscreen");
             setplayerFullScreen(!playerFullScreen);
+            setImageUrl(chosenPlaylist[chosenIndex]?.track.album.images[1].url);
           }}
-          css={css`
-            height: 1.5rem;
-            width: 1.5rem;
-          `}
         />
-        <h1
+        {/* <h1
           css={css`
-            /* border: 2px solid black; */
             display: flex;
             font-size: 1rem;
+            color: #dbdbdb; ;
           `}
         >
           name
-        </h1>
-        <DotsSettingsSvg />
+        </h1> */}
+        <TbDotsVertical css={cssHeaderIcons} />
       </header>
       <main css={cssMain}>
         <Swiper
@@ -115,8 +118,9 @@ export default function PlayerFullScreen({
               : null
           }
           css={css`
-            border: 2px solid blue;
             width: 100vw;
+            position: relative;
+            bottom: 2.5rem;
           `}
         >
           {chosenPlaylist?.map((item, index) => {
@@ -131,7 +135,7 @@ export default function PlayerFullScreen({
                 <div
                   key={id}
                   css={css`
-                    border: 2px solid green;
+                    /* border: 2px solid green; */
                     display: grid;
                     /* justify-content: center; */
                     height: 100%;
@@ -142,9 +146,10 @@ export default function PlayerFullScreen({
                     src={imgUrl}
                     alt=""
                     css={css`
-                      border: 2px solid blue;
+                      /* border: 2px solid blue; */
                       margin-top: 1.3rem;
                       justify-self: center;
+                      width: 90vw;
                     `}
                   />
                 </div>{" "}
@@ -158,6 +163,8 @@ export default function PlayerFullScreen({
             align-items: center;
             padding: 0 1rem;
             justify-content: space-between;
+            position: relative;
+            top: rem;
           `}
         >
           <h2
@@ -169,11 +176,12 @@ export default function PlayerFullScreen({
               overflow: hidden;
               text-overflow: ellipsis;
               max-width: 80vw;
+              color: #dbdbdb;
             `}
           >
             {currentlyPlayingName}
           </h2>
-          <HeartSvg css={cssIconHeart} />
+          <FiHeart css={cssIconHeart} />
         </div>
         <div
           css={css`
@@ -182,9 +190,9 @@ export default function PlayerFullScreen({
         >
           <PlayerSlider />
           <div css={cssBtnWrapper}>
-            <MixSvg height="1.5rem" width="1.5rem" />
-            <PrevSvg
-              css={cssIcons}
+            <TbArrowsShuffle css={cssIcons} />
+            <MdSkipPrevious
+              css={cssPrevNextIcons}
               onClick={() => {
                 skipSong("prev");
                 swiperRef.current.slidePrev();
@@ -194,7 +202,7 @@ export default function PlayerFullScreen({
             />
             {(() => {
               return playing ? (
-                <PauseCircleSvg
+                <MdOutlinePauseCircleFilled
                   css={cssPlayPauseIcons}
                   onClick={() => {
                     playPause("pause");
@@ -208,7 +216,7 @@ export default function PlayerFullScreen({
                   // height="3.3rem"
                 />
               ) : (
-                <PlayCircleSvg
+                <MdPlayCircleFilled
                   css={cssPlayPauseIcons}
                   onClick={() => {
                     playPause("play");
@@ -223,8 +231,8 @@ export default function PlayerFullScreen({
                 />
               );
             })()}
-            <NextSvg
-              css={cssIcons}
+            <MdSkipNext
+              css={cssPrevNextIcons}
               onClick={() => {
                 skipSong("next");
                 // playerSDK.nextTrack().then(() => {
@@ -238,7 +246,7 @@ export default function PlayerFullScreen({
             {(() => {
               if (!repeatSongState) {
                 return (
-                  <RepeatSvg
+                  <TbRepeat
                     css={cssIcons}
                     onClick={() => {
                       repeatSong("track");
@@ -248,16 +256,13 @@ export default function PlayerFullScreen({
                 );
               } else {
                 return (
-                  <>
-                    <RepeatSvg
-                      css={cssSongRepeat}
-                      onClick={() => {
-                        repeatSong("off");
-                        setRepeatSongState(false);
-                      }}
-                    />
-                    <p>1</p>
-                  </>
+                  <TbRepeatOnce
+                    css={cssIcons}
+                    onClick={() => {
+                      repeatSong("off");
+                      setRepeatSongState(false);
+                    }}
+                  />
                 );
               }
             })()}
@@ -265,8 +270,8 @@ export default function PlayerFullScreen({
         </div>
       </main>
       <footer css={cssFooter}>
-        <DevicesSvg css={cssFooterIcons} />
-        <ListSvg css={cssFooterIcons} />
+        <BiDevices css={cssFooterIcons} />
+        <CgPlayList css={cssFooterIcons} />
       </footer>
     </>
   );

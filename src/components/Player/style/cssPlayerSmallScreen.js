@@ -13,14 +13,15 @@ const cssWrapper = css`
   bottom: var(--navHeight);
   z-index: 600;
   display: grid;
-  grid-template-columns: 7fr 4fr;
+  grid-template-columns: 2.5fr 7fr 5fr;
   border-radius: 0.7rem;
+  margin-bottom: -0.1rem;
 `;
 
 const cssSongInfoBtn = css`
   display: flex;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
   background: none;
   color: white;
   border: none;
@@ -36,11 +37,21 @@ const cssBtnWrapper = css`
 `;
 
 const cssIcons = css`
-  color: #a12727;
-  font-size: 1.6rem;
-  border: 1px solid black;
-  width: 1.5rem;
-  height: 1.5rem;
+  color: #dbdbdb;
+  /* border: 1px solid white; */
+  font-size: 1.5rem;
 `;
 
-export { cssWrapper, cssSongInfoBtn, cssBtnWrapper, cssIcons };
+const cssIconsPlayPause = css`
+  color: #dbdbdb;
+  /* border: 1px solid white; */
+  font-size: 2rem;
+`;
+
+export {
+  cssWrapper,
+  cssSongInfoBtn,
+  cssBtnWrapper,
+  cssIcons,
+  cssIconsPlayPause,
+};

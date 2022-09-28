@@ -38,6 +38,7 @@ export default function CompCarousel({
     setPlaying,
     playerSDK,
     setChosenId,
+    setImageUrl,
   } = useContext(WhatsPlayingContext);
 
   // console.log("chosenIndex,", chosenIndex);
@@ -49,12 +50,12 @@ export default function CompCarousel({
   // if (chosenTrack === uri && chosenIndex === index) {
   //   setPlaying(true);
   // }
-
   function clicked(uri, index) {
     console.log("clicked");
     setChosenIndex(index);
     setChosenPlaylist(sortedTracks);
     setChosenTrack(uri);
+    setImageUrl(chosenPlaylist[chosenIndex]?.track.album.images[1].url);
     setCurrentlyPlayingName(
       sortedTracks[index].track.name +
         " - " +

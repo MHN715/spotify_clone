@@ -26,10 +26,12 @@ to {
     // Slider wrapper
     <div
       css={css`
-        border: 2px solid yellow;
+        /* border: 1px solid yellow; */
         display: flex;
         justify-content: center;
         align-items: center;
+        position: relative;
+        top: 1rem;
       `}
     >
       {/* slider bar */}
@@ -39,7 +41,7 @@ to {
           width: 95%;
           border-radius: 100rem;
           /* border: 1px solid black; */
-          background: #00000030;
+          background: #ffffff14;
           display: flex;
           align-items: center;
         `}
@@ -53,7 +55,7 @@ to {
                   playing
                     ? css`
                         height: 100%;
-                        background: green;
+                        background: white;
                         border-radius: 100rem;
                         position: relative;
                         /* width: 10%; */
@@ -68,7 +70,7 @@ to {
                       `
                     : css`
                         height: 100%;
-                        background: green;
+                        background: white;
                         border-radius: 100rem;
                         position: relative;
                         /* width: 10%; */
@@ -85,7 +87,7 @@ to {
                     width: 0.7rem;
                     height: 0.7rem;
                     border-radius: 100%;
-                    background: blue;
+                    background: #bebebe;
                     position: absolute;
                   `}
                 ></div>
