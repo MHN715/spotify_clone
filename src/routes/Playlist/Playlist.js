@@ -30,6 +30,7 @@ export default function Playlist() {
     playing,
     setPlaying,
     spotifyWebPlaybackStatus,
+    setImageUrl,
   } = useContext(WhatsPlayingContext);
   const [isLoadingPlaylist, setIsLoadingPlaylist] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
@@ -64,6 +65,7 @@ export default function Playlist() {
     setChosenIndex(index);
     setChosenPlaylist(tracks);
     setChosenTrack(uri);
+    setImageUrl(chosenPlaylist[index].track.album.images[1].url);
     setCurrentlyPlayingName(
       tracks[index].track.name + " - " + tracks[index].track.artists[0].name
     );

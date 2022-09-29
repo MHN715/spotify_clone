@@ -55,7 +55,7 @@ export default function CompCarousel({
     setChosenIndex(index);
     setChosenPlaylist(sortedTracks);
     setChosenTrack(uri);
-    setImageUrl(chosenPlaylist[chosenIndex]?.track.album.images[1].url);
+    setImageUrl(chosenPlaylist[index].track.album.images[1].url);
     setCurrentlyPlayingName(
       sortedTracks[index].track.name +
         " - " +
