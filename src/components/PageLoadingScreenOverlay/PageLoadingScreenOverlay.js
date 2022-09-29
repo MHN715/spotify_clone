@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { css, keyframes } from "@emotion/react";
+import { css, keyframes, ClassNames, jsx } from "@emotion/react";
 export default function PageLoadingScreenOverlay({ isLoading }) {
   const anim = keyframes`
     0%{
@@ -13,45 +13,29 @@ export default function PageLoadingScreenOverlay({ isLoading }) {
     }
   `;
 
-  console.log("hello from overlay");
-
   return (
     <>
-      {(() => {
-        if (isLoading) {
-          return (
-            <div
-              css={css`
+      <ClassNames>
+        {({ css, cx }) => (
+          <div
+            className={cx(
+              css`
                 position: absolute;
-                /* height: calc(100vh - var(--navHeight)); */
                 height: 100vh;
                 width: 100vw;
                 z-index: 1000;
-                color: green;
-                font-size: 5rem;
                 background: black;
-                /* animation: ${anim} 6s ease; */
-              `}
-            ></div>
-          );
-        } else if (!isLoading) {
-          return (
-            <div
-              css={css`
-                position: absolute;
-                height: calc(100vh - var(--navHeight));
-                width: 100vw;
-                z-index: 1000;
-                color: green;
-                font-size: 5rem;
-                background: black;
-                animation: ${anim} 0.2s;
-                animation-fill-mode: forwards;
-              `}
-            ></div>
-          );
-        }
-      })()}
+              `,
+              !isLoading
+                ? css`
+                    animation: ${anim} 0.2s;
+                    animation-fill-mode: forwards;
+                  `
+                : null
+            )}
+          />
+        )}
+      </ClassNames>
     </>
   );
 }
