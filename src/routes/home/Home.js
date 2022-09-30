@@ -10,6 +10,12 @@ import { cssWrapper, cssMain, cssHeading1 } from "./styles/cssHome";
 import WhatsPlayingContext from "../../Context/WhatsPlayingContext";
 import "../../../src/variables.css";
 import PageLoadingScreenOverlay from "../../components/PageLoadingScreenOverlay/PageLoadingScreenOverlay";
+import {
+  getRecentTracks,
+  getSavedTracks,
+  getFeaturedPlaylists,
+  getNewReleases,
+} from "./functions/functions_home";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "84a9b541a3dc46038b865300f1d671e4",
@@ -39,10 +45,22 @@ export default function Home() {
   useEffect(() => {
     if (!accessToken) return;
 
-    getRecentTracks(20, 0);
-    getSavedTracks(20, 0);
-    getFeaturedPlaylists(20, 0);
-    getNewReleases(20, 0);
+    getRecentTracks(
+      20,
+      0,
+      spotifyApi,
+      setRecentTracks,
+      setIsLoadingRecentTracks
+    );
+    getSavedTracks(20, 0, spotifyApi, setSavedTracks, setIsLoadingSavedTracks);
+    getFeaturedPlaylists(
+      20,
+      0,
+      spotifyApi,
+      setFeaturedPlaylists,
+      setIsLoadingFeaturedPlaylists
+    );
+    getNewReleases(20, 0, spotifyApi, setNewReleases, setIsLoadingNewReleases);
   }, [accessToken]);
 
   useEffect(() => {
@@ -104,74 +122,4 @@ export default function Home() {
       <Nav />
     </div>
   );
-
-  function getRecentTracks(limit, offset) {
-    spotifyApi
-      .getMyRecentlyPlayedTracks({
-        limit: limit,
-        offset: offset,
-      })
-      .then(
-        function (recentTracks) {
-          // console.log(recentTracks);
-          setRecentTracks(recentTracks.body.items);
-
-          setIsLoadingRecentTracks(false);
-        },
-        function (err) {
-          console.log("Something went wrong!", err);
-        }
-      );
-  }
-
-  function getSavedTracks(limit, offset) {
-    spotifyApi
-      .getMySavedTracks({
-        limit: newLimit + limit,
-        offset: offset,
-      })
-      .then(
-        function (savedTracks) {
-          // console.log("savedtracks:", savedTracks);
-          setSavedTracks(savedTracks.body.items);
-
-          setIsLoadingSavedTracks(false);
-        },
-        function (err) {
-          console.log("Something went wrong!", err);
-        }
-      );
-  }
-
-  function getFeaturedPlaylists(limit, offset) {
-    spotifyApi
-      .getFeaturedPlaylists({
-        limit: limit,
-        offset: offset,
-      })
-      .then(
-        function (data) {
-          setFeaturedPlaylists(data.body.playlists.items);
-
-          setIsLoadingFeaturedPlaylists(false);
-        },
-        function (err) {
-          console.log("Something went wrong!", err);
-        }
-      );
-  }
-
-  function getNewReleases() {
-    spotifyApi.getNewReleases({ limit: 5, offset: 0 }).then(
-      function (data) {
-        // console.log(data.body);
-        setNewReleases(data.body.albums.items);
-
-        setIsLoadingNewReleases(false);
-      },
-      function (err) {
-        console.log("Something went wrong!", err);
-      }
-    );
-  }
 }

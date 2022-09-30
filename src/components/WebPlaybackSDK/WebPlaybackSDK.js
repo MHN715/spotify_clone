@@ -73,7 +73,7 @@ export default function WebPlaybackSDK() {
 
         player.getCurrentState().then((state) => {
           !state ? setActive(false) : setActive(true);
-          console.log("state: ", state);
+          // console.log("state: ", state);
           setDuration(state.duration);
           setCurrentDuration(state.position);
         });

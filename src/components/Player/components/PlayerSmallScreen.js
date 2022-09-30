@@ -11,8 +11,7 @@ import {
 import { FaHeart } from "react-icons/fa";
 import { FiHeart } from "react-icons/fi";
 import { BiDevices } from "react-icons/bi";
-import { BsPlayFill } from "react-icons/bs";
-import { BsPauseFill } from "react-icons/bs";
+import { BsPlayFill, BsPauseFill } from "react-icons/bs";
 import WhatsPlayingContext from "../../../Context/WhatsPlayingContext";
 
 export default function PlayerSmallScreen({

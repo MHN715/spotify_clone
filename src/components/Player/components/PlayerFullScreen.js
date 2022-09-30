@@ -21,18 +21,21 @@ import "swiper/css/lazy";
 import { FreeMode, Lazy, Navigation } from "swiper";
 import WhatsPlayingContext from "../../../Context/WhatsPlayingContext";
 import PlayerSlider from "./PlayerSlider";
-
+import {
+  TbDotsVertical,
+  TbArrowsShuffle,
+  TbRepeatOnce,
+  TbRepeat,
+} from "react-icons/tb";
+import {
+  MdPlayCircleFilled,
+  MdOutlinePauseCircleFilled,
+  MdSkipNext,
+  MdSkipPrevious,
+} from "react-icons/md";
 import { BsChevronDown } from "react-icons/bs";
-import { TbDotsVertical } from "react-icons/tb";
 import { FaHeart } from "react-icons/fa";
 import { FiHeart } from "react-icons/fi";
-import { TbArrowsShuffle } from "react-icons/tb";
-import { TbRepeatOnce } from "react-icons/tb";
-import { TbRepeat } from "react-icons/tb";
-import { MdPlayCircleFilled } from "react-icons/md";
-import { MdOutlinePauseCircleFilled } from "react-icons/md";
-import { MdSkipNext } from "react-icons/md";
-import { MdSkipPrevious } from "react-icons/md";
 import { BiDevices } from "react-icons/bi";
 import { CgPlayList } from "react-icons/cg";
 
@@ -100,8 +103,10 @@ export default function PlayerFullScreen({
           navigation={true}
           onSlideChange={(e) => {
             // console.log("slide change", e);
-            setChosenIndex(e.realIndex);
-            setChosenTrack(chosenPlaylist[e.realIndex].track.uri);
+            setTimeout(() => {
+              setChosenIndex(e.realIndex);
+              setChosenTrack(chosenPlaylist[e.realIndex].track.uri);
+            }, 700);
             setCurrentlyPlayingName(
               chosenPlaylist[e.realIndex].track.name +
                 " - " +
