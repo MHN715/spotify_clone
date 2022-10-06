@@ -52,6 +52,7 @@ export default function Player({ spotifyApi, accessToken }) {
     if (arg === "play") {
       playerSDK.resume();
       setPlaying(true);
+
       if (repeatSongState) {
         repeatSong("track");
       }

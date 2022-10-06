@@ -85,41 +85,37 @@ export default function CompCarousel({
     setSortedTracks(result);
   }, [items]);
 
-  useEffect(() => {
-    if (!isItPlaylists || isItAlbums) return;
-    items.map((item) => {
-      // console.log(item.id);
-      spotifyApi.getPlaylist(item.id).then(
-        function (data) {
-          // console.log("Some information about this playlist", data.body);
-        },
-        function (err) {
-          console.log("Something went wrong!", err);
-        }
-      );
-    });
-  }, [items]);
+  // useEffect(() => {
+  //   if (!isItPlaylists || isItAlbums) return;
+  //   items.map((item) => {
+  //     // console.log(item.id);
+  //     spotifyApi.getPlaylist(item.id).then(
+  //       function (data) {
+  //         // console.log("Some information about this playlist", data.body);
+  //       },
+  //       function (err) {
+  //         console.log("Something went wrong!", err);
+  //       }
+  //     );
+  //   });
+  // }, [items]);
 
   return (
     <div css={cssWrapper}>
       <h2 css={cssHeading2_1}>{title}</h2>{" "}
-      <Swiper
-        spaceBetween={13}
-        slidesPerView={3}
-        freeMode={true}
-        lazy={true}
-        // loadOnTransitionStart={true}
-        // checkInView={true}
-        // loadPrevNext={true}
-        // loadPrevNextAmount={3}
-        modules={[Lazy, FreeMode]}
-        onSlideChange={() => console.log("slide change")}
-        // onSwiper={(swiper) => console.log("onSwiper:", swiper)}
-        onReachEnd={(e) =>
-          e.progress > 0 && e.isEnd === true
-            ? console.log("carousel end reached")
-            : null
-        }
+      <div
+        css={css`
+          border: 4px solid blue;
+          display: flex;
+          overflow-x: scroll;
+          gap: 1rem;
+          -ms-overflow-style: none; /* IE and Edge */
+          scrollbar-width: none; /* Firefox */
+          /* Hide scrollbar for Chrome, Safari and Opera */
+          ::-webkit-scrollbar {
+            display: none;
+          }
+        `}
       >
         {(() => {
           if (!isItPlaylists && !isItAlbums) {
@@ -128,31 +124,29 @@ export default function CompCarousel({
               const image = item.track.album.images[1].url;
               // console.log(uri);
               return (
-                <SwiperSlide key={id}>
-                  <div
-                    onClick={() => {
-                      clicked(uri, index);
-                      setImageUrl(image);
-                      setChosenId(id);
+                <div
+                  css={css`
+                    border: 2px solid white;
+                    /* width: 35vw; */
+                  `}
+                  key={id}
+                  onClick={() => {
+                    clicked(uri, index);
+                    setImageUrl(image);
+                    setChosenId(id);
 
-                      // playerSDK.play({ uri });
-                    }}
-                  >
-                    <div>
-                      <img
-                        className="image swiper-lazy"
-                        data-src={image}
-                        alt={name}
-                        // width="100%"
-                        // height="width"
-                        css={cssImg}
-                      />
-                    </div>
-                    <h2 className="swiper-lazy" css={cssHeading2_2}>
-                      {name}
-                    </h2>
-                  </div>
-                </SwiperSlide>
+                    // playerSDK.play({ uri });
+                  }}
+                >
+                  <img
+                    src={image}
+                    alt={name}
+                    // width="100%"
+                    // height="width"
+                    css={cssImg}
+                  />
+                  <h2 css={cssHeading2_2}></h2>
+                </div>
               );
             });
           } else if (isItPlaylists && !isItAlbums) {
@@ -161,23 +155,22 @@ export default function CompCarousel({
               const image = item.images[0]?.url;
 
               return (
-                <SwiperSlide key={id}>
+                <div key={id}>
                   <div
                     // css={cssWrapper}
                     onClick={() => console.log("clicked")}
                   >
                     <img
-                      className="image swiper-lazy"
-                      data-src={image}
+                      src={image}
                       alt={name}
                       // width="100%"
                       // height="width"
                       css={cssImg}
                     />
 
-                    <h2 css={cssHeading2_2}>{name}</h2>
+                    <h2 css={cssHeading2_2}></h2>
                   </div>
-                </SwiperSlide>
+                </div>
               );
             });
           } else if (isItAlbums) {
@@ -187,7 +180,7 @@ export default function CompCarousel({
               const image = item.images[2].url;
               // console.log(image);
               return (
-                <SwiperSlide
+                <div
                   key={id}
                   onClick={() => {
                     console.log("playlists selected");
@@ -206,20 +199,20 @@ export default function CompCarousel({
                   >
                     <img
                       className="image swiper-lazy"
-                      data-src={image}
+                      src={image}
                       alt={name}
                       // width="100%"
                       // height="width"
                       css={cssImg}
                     />
-                    <h2 css={cssHeading2_2}>{name}</h2>
+                    <h2 css={cssHeading2_2}></h2>
                   </div>
-                </SwiperSlide>
+                </div>
               );
             });
           }
         })()}
-      </Swiper>
+      </div>
     </div>
   );
 }

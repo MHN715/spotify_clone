@@ -37,9 +37,8 @@ const getSavedTracks = (
     })
     .then(
       function (savedTracks) {
-        // console.log("savedtracks:", savedTracks);
+        console.log("savedtracks:", savedTracks);
         setSavedTracks(savedTracks.body.items);
-
         setIsLoadingSavedTracks(false);
       },
       function (err) {

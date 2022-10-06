@@ -24,7 +24,7 @@ const spotifyApi = new SpotifyWebApi({
 export default function Home() {
   const accessToken = useContext(AccessTokenContext)[0];
   const [recentTracks, setRecentTracks] = useState([]);
-  const [savedTracks, setSavedTracks] = useState([]);
+  let [savedTracks, setSavedTracks] = useState([]);
   const [featuredPlaylists, setFeaturedPlaylists] = useState([]);
   const [newReleases, setNewReleases] = useState([]);
   const [newLimit, setNewLimit] = useState(0);
@@ -83,6 +83,10 @@ export default function Home() {
     isLoadingSavedTracks,
   ]);
 
+  let testArray = ["1", "2", "3"];
+
+  const newTestArray = ["4", "5", "6"];
+
   return (
     <div css={cssWrapper}>
       <PageLoadingScreenOverlay isLoading={isLoading} />
@@ -90,6 +94,34 @@ export default function Home() {
         <h1 css={cssHeading1}>Spotify decluttered</h1>
 
         <>
+          {/* <button
+            onClick={() => {
+              testArray = testArray.concat(newTestArray);
+            }}
+          >
+            click here to concat
+          </button>
+          <button
+            onClick={() => {
+              console.log(testArray);
+            }}
+          >
+            click here to show concat
+          </button> */}
+          <button
+            onClick={() => {
+              savedTracks.push(...savedTracks);
+            }}
+          >
+            concat savedTracks
+          </button>
+          <button
+            onClick={() => {
+              console.log(savedTracks);
+            }}
+          >
+            show new savedTracks
+          </button>
           <CompCarousel
             items={recentTracks}
             title="Recently Played"
