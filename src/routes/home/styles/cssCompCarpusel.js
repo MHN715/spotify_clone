@@ -27,11 +27,24 @@ const cssHeading2_1 = css`
 const cssHeading2_2 = css`
   font-size: 0.73rem;
   color: #ffffff;
-  text-align: center;
+  /* text-align: center; */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   /* padding-top: 0.5rem; */
+  /* border: 2px solid green; */
+  max-width: 7rem;
+  margin-bottom: 0.1rem;
+`;
+
+const cssHeading3 = css`
+  /* border: 2px solid white; */
+  font-size: 0.65rem;
+  color: #bebebe;
+  max-width: 7rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const cssCostumSwiper = css`
@@ -40,4 +53,11 @@ const cssCostumSwiper = css`
   padding: 0 0.3rem;
 `;
 
-export { cssWrapper, cssImg, cssHeading2_1, cssHeading2_2, cssCostumSwiper };
+export {
+  cssWrapper,
+  cssImg,
+  cssHeading2_1,
+  cssHeading2_2,
+  cssCostumSwiper,
+  cssHeading3,
+};

@@ -59,18 +59,29 @@ export default function YourLibrary() {
       <PageLoadingScreenOverlay isLoading={isLoading} />
       <main
         css={css`
-          border: 2px solid pink;
+          /* border: 2px solid pink; */
           height: 100vh;
           overflow-y: scroll;
           display: grid;
+          background: black;
         `}
       >
-        <h1>Your Library</h1>
+        <h1
+          css={css`
+            color: white;
+            margin-top: 1rem;
+            margin-bottom: 1.3rem;
+            display: flex;
+            justify-content: center;
+          `}
+        >
+          Your Library
+        </h1>
         <div
           css={css`
             /* width: 100vw; */
             justify-self: center;
-            border: 3px solid yellow;
+            /* border: 3px solid yellow; */
             /* height: 100%; */
             display: grid;
             grid-template-columns: auto auto;
@@ -80,15 +91,23 @@ export default function YourLibrary() {
           `}
         >
           {userPlaylists.map((item) => {
-            console.log(item);
-            const imageUrl = item.images[0].url;
+            // console.log(item);
+            console.log(item.images[0]);
+            const imageUrl = item.images[0]?.url;
             const { id, name } = item;
             const { href } = item.tracks;
             return (
-              <Link to={`/playlist/`} state={{ id: id, name: name }}>
+              <Link
+                css={css`
+                  text-decoration: none;
+                `}
+                key={id}
+                to={`/playlist/`}
+                state={{ id: id, name: name }}
+              >
                 <div
                   css={css`
-                    border: 1px solid green;
+                    /* border: 1px solid green; */
                     width: 40vw;
                     height: 40vw;
                   `}
@@ -96,7 +115,31 @@ export default function YourLibrary() {
                     console.log("clicked");
                   }}
                 >
-                  <img src={imageUrl} alt="" style={{ width: "100%" }} />
+                  {!imageUrl ? (
+                    <p
+                      css={css`
+                        background: #1d1c31;
+                        height: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-size: 2rem;
+                        color: white;
+                        border-radius: 0.4rem;
+                      `}
+                    >
+                      {item.name}
+                    </p>
+                  ) : (
+                    <img
+                      src={imageUrl}
+                      alt=""
+                      style={{ width: "100%" }}
+                      css={css`
+                        border-radius: 0.4rem;
+                      `}
+                    />
+                  )}
                 </div>
               </Link>
             );

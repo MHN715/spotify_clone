@@ -94,34 +94,6 @@ export default function Home() {
         <h1 css={cssHeading1}>Spotify decluttered</h1>
 
         <>
-          {/* <button
-            onClick={() => {
-              testArray = testArray.concat(newTestArray);
-            }}
-          >
-            click here to concat
-          </button>
-          <button
-            onClick={() => {
-              console.log(testArray);
-            }}
-          >
-            click here to show concat
-          </button> */}
-          <button
-            onClick={() => {
-              savedTracks.push(...savedTracks);
-            }}
-          >
-            concat savedTracks
-          </button>
-          <button
-            onClick={() => {
-              console.log(savedTracks);
-            }}
-          >
-            show new savedTracks
-          </button>
           <CompCarousel
             items={recentTracks}
             title="Recently Played"

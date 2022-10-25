@@ -8,6 +8,8 @@ import WhatsPlayingContext from "../../Context/WhatsPlayingContext";
 import Nav from "../../components/Nav/Nav";
 import Player from "../../components/Player/Player";
 import PageLoadingScreenOverlay from "../../components/PageLoadingScreenOverlay/PageLoadingScreenOverlay";
+import { BiArrowBack } from "react-icons/bi";
+import { MdPlayCircleFilled, MdOutlinePauseCircleFilled } from "react-icons/md";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "84a9b541a3dc46038b865300f1d671e4",
@@ -81,43 +83,118 @@ export default function Playlist() {
         height: 100vh;
         display: grid;
         grid-template-rows: 1fr 8fr;
+        background: linear-gradient(
+          #003d38,
+          #000000,
+          #000000,
+          #000000,
+          #000000
+        );
       `}
     >
       <PageLoadingScreenOverlay isLoading={isLoading} />
       <header
         css={css`
-          border: 5px solid blue;
+          /* height: 1vh; */
+          color: white;
+          display: grid;
+          position: relative;
+          padding-left: 0.6rem;
         `}
       >
-        <h1>{name}</h1>
+        <BiArrowBack
+          css={css`
+            font-size: 1.5rem;
+            position: relative;
+            top: 0.4rem;
+          `}
+        />
+        <h1
+          css={css`
+            font-size: 1.2rem;
+          `}
+        >
+          {name}
+        </h1>
+        <MdPlayCircleFilled
+          css={css`
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            font-size: 3.2rem;
+            color: #1ed760;
+          `}
+        />
       </header>
       <main
         css={css`
-          border: 5px solid black;
+          /* border: 5px solid black; */
           overflow-y: scroll;
+          color: white;
+          padding-bottom: 11rem;
+          margin: 0 0.6rem;
         `}
       >
         <div
           css={css`
             display: grid;
-            gap: 0.4rem;
+            gap: 0.9rem;
           `}
         >
           {tracks.map((item, index) => {
             const { name, uri } = item.track;
             const artistName = item.track.album.name;
             const imgUrl = item.track.album.images[0]?.url;
-            console.log(item);
+            // console.log(item);
             return (
               <div
                 css={css`
-                  border: 1px solid green;
+                  /* border: 1px solid green; */
                   height: 4rem;
+                  display: flex;
+                  align-items: center;
                 `}
                 onClick={() => clicked(uri, index)}
               >
-                <img src={imgUrl} height="100%" alt="" />
-                {name} - {artistName}
+                <img
+                  src={imgUrl}
+                  height="100%"
+                  alt=""
+                  css={css`
+                    border-radius: 0.6rem;
+                  `}
+                />
+                <div
+                  css={css`
+                    margin-left: 0.7rem;
+                  `}
+                >
+                  {" "}
+                  <p
+                    css={css`
+                      font-size: 1;
+                      white-space: nowrap;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      max-width: 70vw;
+                    `}
+                  >
+                    {name}
+                  </p>
+                  <p
+                    css={css`
+                      color: #bebebe;
+                      font-size: 0.8rem;
+                      white-space: nowrap;
+                      overflow: hidden;
+                      max-width: 70vw;
+                      text-overflow: ellipsis;
+                    `}
+                  >
+                    {" "}
+                    {artistName}
+                  </p>
+                </div>
               </div>
             );
           })}

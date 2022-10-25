@@ -11,9 +11,11 @@ import {
   cssImg,
   cssHeading2_1,
   cssHeading2_2,
+  cssHeading3,
   cssCostumSwiper,
 } from "../styles/cssCompCarpusel";
 import WhatsPlayingContext from "../../../Context/WhatsPlayingContext";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function CompCarousel({
   items,
@@ -104,8 +106,9 @@ export default function CompCarousel({
     <div css={cssWrapper}>
       <h2 css={cssHeading2_1}>{title}</h2>{" "}
       <div
+        id="compCarouselScrollable"
         css={css`
-          border: 4px solid blue;
+          /* border: 4px solid blue; */
           display: flex;
           overflow-x: scroll;
           gap: 1rem;
@@ -122,40 +125,54 @@ export default function CompCarousel({
             return sortedTracks.map((item, index) => {
               const { id, name, uri } = item.track;
               const image = item.track.album.images[1].url;
-              // console.log(uri);
+              const artistName = item.track.artists[0]?.name;
+              // console.log(item.track.artists[0].name);
               return (
-                <div
-                  css={css`
-                    border: 2px solid white;
-                    /* width: 35vw; */
-                  `}
-                  key={id}
-                  onClick={() => {
-                    clicked(uri, index);
-                    setImageUrl(image);
-                    setChosenId(id);
-
-                    // playerSDK.play({ uri });
-                  }}
+                <InfiniteScroll
+                  dataLength={sortedTracks.length}
+                  next={sortedTracks}
+                  // hasMore={true}
+                  loader={<h4>Loading...</h4>}
+                  scrollableTarget="compCarouselScrollable"
                 >
-                  <img
-                    src={image}
-                    alt={name}
-                    // width="100%"
-                    // height="width"
-                    css={cssImg}
-                  />
-                  <h2 css={cssHeading2_2}></h2>
-                </div>
+                  <div
+                    css={css`
+                      /* border: 2px solid white; */
+                      /* width: 35vw; */
+                    `}
+                    key={id}
+                    onClick={() => {
+                      clicked(uri, index);
+                      setImageUrl(image);
+                      setChosenId(id);
+
+                      // playerSDK.play({ uri });
+                    }}
+                  >
+                    <img
+                      src={image}
+                      alt={name}
+                      // width="100%"
+                      // height="width"
+                      css={cssImg}
+                    />
+                    <h2 css={cssHeading2_2}>{name}</h2>
+                    <h3 css={cssHeading3}>{artistName}</h3>
+                  </div>
+                </InfiniteScroll>
               );
             });
           } else if (isItPlaylists && !isItAlbums) {
             return items.map((item, index) => {
-              const { id, name, uri } = item;
-              const image = item.images[0]?.url;
-
+              // const { id, name, uri } = item;
+              const id = item?.id;
+              const name = item?.name;
+              const image = item?.images[0]?.url;
+              const artistName = item?.type;
               return (
-                <div key={id}>
+                <div
+                //  key={id}
+                >
                   <div
                     // css={cssWrapper}
                     onClick={() => console.log("clicked")}
@@ -168,7 +185,8 @@ export default function CompCarousel({
                       css={cssImg}
                     />
 
-                    <h2 css={cssHeading2_2}></h2>
+                    <h2 css={cssHeading2_2}>{name}</h2>
+                    <h3 css={cssHeading3}>{artistName}</h3>
                   </div>
                 </div>
               );
@@ -178,6 +196,8 @@ export default function CompCarousel({
               // console.log("newReleases", item);
               const { id, name } = item;
               const image = item.images[2].url;
+              // console.log(item);
+              const artistName = item.artists[0]?.name;
               // console.log(image);
               return (
                 <div
@@ -205,7 +225,8 @@ export default function CompCarousel({
                       // height="width"
                       css={cssImg}
                     />
-                    <h2 css={cssHeading2_2}></h2>
+                    <h2 css={cssHeading2_2}>{name}</h2>
+                    <h3 css={cssHeading3}>{artistName}</h3>
                   </div>
                 </div>
               );

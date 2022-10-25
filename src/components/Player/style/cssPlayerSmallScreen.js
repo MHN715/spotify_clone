@@ -4,6 +4,7 @@ import "../../../variables.css";
 const cssWrapper = css`
   /* border: 2px solid blue; */
   background: rgba(1, 4, 15, 0.954);
+  background: #02385ce8;
   /* background: black; */
   height: var(--playerHeight);
   width: 96vw;
@@ -15,7 +16,7 @@ const cssWrapper = css`
   display: grid;
   grid-template-columns: 2.5fr 7fr 5fr;
   border-radius: 0.7rem;
-  margin-bottom: -0.1rem;
+  margin-bottom: -0.043rem;
 `;
 
 const cssSongInfoBtn = css`
